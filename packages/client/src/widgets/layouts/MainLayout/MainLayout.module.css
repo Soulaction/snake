@@ -1,0 +1,14 @@
+.layout {
+  height: 100vh;
+}
+
+.content {
+  padding: 38px 38px;
+}
+
+.card {
+  padding: 24px;
+  background: #fff;
+  border-radius: 20px;
+  height: 100%;
+}
