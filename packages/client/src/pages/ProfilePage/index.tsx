@@ -1,3 +1,9 @@
+import { MainLayout } from '@/widgets/layouts/MainLayout'
+
 export const ProfilePage = () => {
-  return <div>Profile Page</div>
+  return (
+    <MainLayout>
+      <div>Profile Page</div>
+    </MainLayout>
+  )
 }

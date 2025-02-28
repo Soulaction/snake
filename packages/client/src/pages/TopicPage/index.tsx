@@ -1,3 +1,9 @@
+import { MainLayout } from '@/widgets'
+
 export const TopicPage = () => {
-  return <div>Topic Page</div>
+  return (
+    <MainLayout>
+      <div>Topic Page</div>
+    </MainLayout>
+  )
 }

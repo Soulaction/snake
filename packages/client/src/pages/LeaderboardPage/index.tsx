@@ -1,3 +1,9 @@
+import { MainLayout } from '@/widgets'
+
 export const LeaderboardPage = () => {
-  return <div>Leaderboard Page</div>
+  return (
+    <MainLayout>
+      <div>Leaderboard Page</div>
+    </MainLayout>
+  )
 }
