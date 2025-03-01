@@ -1,4 +1,4 @@
-import type { RouteProps } from 'react-router'
+import type { RouteProps } from 'react-router-dom'
 
 import {
   NotFoundPage,

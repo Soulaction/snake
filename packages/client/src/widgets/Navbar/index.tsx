@@ -1,6 +1,6 @@
 import { Menu, MenuProps } from 'antd'
 import { NavbarItemsList } from './model/navbar-items'
-import { useLocation, useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const items = NavbarItemsList.map(navItem => ({
   key: navItem.path,

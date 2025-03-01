@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route } from 'react-router-dom'
 import { router } from '@/shared/router'
 
 export const AppRouter = () => (
