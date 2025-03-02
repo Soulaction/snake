@@ -1,18 +1,18 @@
-import type { PropsWithChildren } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 import { Layout } from 'antd'
 import { Header } from '@/widgets/Header'
 import styles from './MainLayout.module.css'
 
 const { Content } = Layout
 
-interface MainLayoutProps {
+interface IMainLayoutProps {
   isHeader?: boolean
 }
 
-export function MainLayout({
+export const MainLayout: FC<PropsWithChildren<IMainLayoutProps>> = ({
   isHeader = true,
   children,
-}: PropsWithChildren<MainLayoutProps>) {
+}) => {
   return (
     <Layout className={styles['layout']}>
       {isHeader && <Header />}
