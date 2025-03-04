@@ -1,23 +1,17 @@
-import type { FC, PropsWithChildren } from 'react'
+import type { FC } from 'react'
 import { Layout } from 'antd'
 import { Header } from '@/widgets/Header'
 import styles from './MainLayout.module.css'
+import { Outlet } from 'react-router-dom'
 
 const { Content } = Layout
 
-interface IMainLayoutProps {
-  isHeader?: boolean
-}
-
-export const MainLayout: FC<PropsWithChildren<IMainLayoutProps>> = ({
-  isHeader = true,
-  children,
-}) => {
+export const MainLayout: FC = () => {
   return (
     <Layout className={styles['layout']}>
-      {isHeader && <Header />}
+      <Header />
       <Content className={styles['content']}>
-        <div className={styles['card']}>{children}</div>
+        <div className={styles['card']}><Outlet /></div>
       </Content>
     </Layout>
   )
