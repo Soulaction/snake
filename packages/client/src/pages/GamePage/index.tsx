@@ -1,9 +1,9 @@
-import { MainLayout } from '@/widgets'
+import { MainLayout, Start } from '@/widgets'
 
 export const GamePage = () => {
   return (
     <MainLayout isHeader={false}>
-      <div>Game Page</div>
+      <Start />
     </MainLayout>
   )
 }
