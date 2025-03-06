@@ -1,3 +1,9 @@
+import { MainLayout } from '@/widgets'
+
 export const LoginPage = () => {
-  return <div>Login Page</div>
+  return (
+    <MainLayout isHeader={false}>
+      <div>Login Page</div>
+    </MainLayout>
+  )
 }

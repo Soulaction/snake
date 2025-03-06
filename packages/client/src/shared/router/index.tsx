@@ -1,4 +1,4 @@
-import type { RouteProps } from 'react-router'
+import type { RouteProps } from 'react-router-dom'
 
 import {
   NotFoundPage,
@@ -25,7 +25,7 @@ export const AppRoutes = {
 } as const
 
 type AppRoutesKeys = keyof typeof AppRoutes
-type AppRoutesValues = typeof AppRoutes[AppRoutesKeys]
+type AppRoutesValues = (typeof AppRoutes)[AppRoutesKeys]
 
 export const RouterPaths: Record<AppRoutesValues, string> = {
   [AppRoutes.MAIN]: '/',
