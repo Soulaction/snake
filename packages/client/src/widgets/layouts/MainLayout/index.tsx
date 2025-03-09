@@ -10,8 +10,6 @@ const { Content } = Layout
 export const MainLayout: FC = () => {
   const { pathname } = useLocation();
   const isShowHeader = pathname !== RouterPaths.login && pathname !== RouterPaths.registration;
-
-  console.log({location, isShowHeader});
   
   return (
     <Layout className={styles['layout']}>
