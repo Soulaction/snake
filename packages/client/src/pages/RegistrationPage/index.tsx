@@ -25,13 +25,13 @@ export const RegistrationPage: FC = () => {
           <Input name="second_name" />
         </Form.Item>
         <Form.Item name="login" label="Логин">
-          <Input name="login" />
+          <Input name="login" autoComplete="on" />
         </Form.Item>
         <Form.Item name="email" label="Почта">
-          <Input name="email" />
+          <Input name="email" autoComplete="on" />
         </Form.Item>
         <Form.Item name="phone" label="Телефон">
-          <Input name="phone" />
+          <Input name="phone" autoComplete="on" />
         </Form.Item>
         <Form.Item name="password" label="Пароль">
           <Input.Password name="password" />
