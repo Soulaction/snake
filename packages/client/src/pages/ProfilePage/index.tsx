@@ -36,7 +36,7 @@ export const ProfilePage: FC = () => {
           className={styles['avatar-container']}
           align="center"
           justify="center">
-          <FileInput imgUrl={`${apiYandex}/resources${user.avatar}`} />
+          <FileInput imgUrl={`${user.avatar}`} />
         </Flex>
         <Form
           className={styles['form']}
