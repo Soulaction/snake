@@ -1,9 +1,6 @@
-import { MainLayout, Start } from '@/widgets'
+import { Start } from '@/widgets'
+import { FC } from 'react'
 
-export const GamePage = () => {
-  return (
-    <MainLayout isHeader={false}>
-      <Start />
-    </MainLayout>
-  )
+export const GamePage: FC = () => {
+  return <Start />
 }

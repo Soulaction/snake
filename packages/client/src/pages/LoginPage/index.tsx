@@ -1,9 +1,5 @@
-import { MainLayout } from '@/widgets'
+import type { FC } from 'react'
 
-export const LoginPage = () => {
-  return (
-    <MainLayout isHeader={false}>
-      <div>Login Page</div>
-    </MainLayout>
-  )
+export const LoginPage: FC = () => {
+  return <div>Login Page</div>
 }
