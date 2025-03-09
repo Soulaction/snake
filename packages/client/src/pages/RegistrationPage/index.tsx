@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { FC } from 'react'
 import { Button, Form, Input, Flex, Typography } from 'antd'
 import { NavLink } from 'react-router-dom'
@@ -47,5 +48,12 @@ export const RegistrationPage: FC = () => {
         </Form.Item>
       </Form>
     </Flex>
+=======
+import type { FC } from "react"
+
+export const RegistrationPage: FC = () => {
+  return (
+      <div>Registration Page</div>
+>>>>>>> 039e0da86072dcd7380a9c7c515e2c5b6e98579a
   )
 }
