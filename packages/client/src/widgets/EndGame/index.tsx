@@ -1,5 +1,6 @@
 import type { FC } from 'react'
 import { Button, Flex, Typography } from 'antd'
+import styles from './EndGame.module.css'
 
 type IEndGame = {
   score: number
@@ -18,20 +19,20 @@ export const EndGame: FC<IEndGame> = ({
 
   return (
     <Flex
-      style={{ width: '100%', height: '100%' }}
+      className={styles['inlet']}
       gap="middle"
       vertical
       align="center"
       justify="center">
       <Title>Вы молодец!</Title>
       <Title level={3}>
-        Ваш результат: <span style={{ color: 'red' }}>{score}</span> яблок
+        Ваш результат: <span className={styles['red']}>{score}</span> яблок
       </Title>
       <Title level={3}>
-        Вы сейчас на <span style={{ color: 'green' }}>{rating}</span> месте в
+        Вы сейчас на <span className={styles['green']}>{rating}</span> месте в
         общем зачете
       </Title>
-      <Flex gap="middle" style={{ marginTop: '48px', marginBottom: '48px' }}>
+      <Flex gap="middle" className={styles['margins-48']}>
         <Button type="primary" onClick={startNewGame}>
           Начать заново
         </Button>

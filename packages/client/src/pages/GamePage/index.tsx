@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import type { FC } from 'react'
 import { Button } from 'antd'
-import { EndGame } from './components/EndGame'
+import { EndGame } from '@/widgets'
 import { useNavigate } from 'react-router-dom'
 
 export enum GameState {
@@ -31,10 +31,7 @@ export const GamePage: FC = () => {
       {step === GameState.START && (
         <>
           <h1>Game Page</h1>
-          <Button
-            type="primary"
-            onClick={finishGame}
-            style={{ marginTop: '64px' }}>
+          <Button type="primary" onClick={finishGame}>
             Game over
           </Button>
         </>
