@@ -1,9 +1,5 @@
-import { MainLayout } from '@/widgets'
+import type { FC } from 'react'
 
-export const GamePage = () => {
-  return (
-    <MainLayout isHeader={false}>
-      <div>Game Page</div>
-    </MainLayout>
-  )
+export const GamePage: FC = () => {
+  return <div>Game Page</div>
 }
