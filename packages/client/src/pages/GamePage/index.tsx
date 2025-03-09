@@ -1,7 +1,5 @@
-import type { FC } from "react"
+import type { FC } from 'react'
 
 export const GamePage: FC = () => {
-  return (
-      <div>Game Page</div>
-  )
+  return <div>Game Page</div>
 }
