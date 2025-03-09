@@ -1,7 +1,5 @@
-import { FC } from "react"
+import { FC } from 'react'
 
 export const LeaderboardPage: FC = () => {
-  return (
-      <div>Leaderboard Page</div>
-  )
+  return <div>Leaderboard Page</div>
 }
