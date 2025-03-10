@@ -7,17 +7,19 @@ const { Content } = Layout
 
 interface MainLayoutProps {
   isHeader?: boolean
+  className?: string
 }
 
 export function MainLayout({
   isHeader = true,
+  className,
   children,
 }: PropsWithChildren<MainLayoutProps>) {
   return (
     <Layout className={styles['layout']}>
       {isHeader && <Header />}
       <Content className={styles['content']}>
-        <div className={styles['card']}>{children}</div>
+        <div className={`${styles['card']} ${className}`}>{children}</div>
       </Content>
     </Layout>
   )
