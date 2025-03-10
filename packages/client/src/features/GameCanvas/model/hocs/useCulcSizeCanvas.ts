@@ -1,17 +1,5 @@
 import { RefObject, useCallback, useEffect, useState } from 'react'
-
-export type ConfigCanvas = {
-  center: { x: number; y: number }
-  ctx: CanvasRenderingContext2D | null
-  sizeCanvas: SizeCanvas
-}
-
-export type SizeCanvas = {
-  width: number
-  height: number
-  countCellWidth: number
-  countCellHeight: number
-}
+import { ConfigCanvas } from '@/features/GameCanvas/model/types'
 
 export const useConfigurateCanvas = <T extends HTMLCanvasElement | null>(
   canvasRef: RefObject<T>,
