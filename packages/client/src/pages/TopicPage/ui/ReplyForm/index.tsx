@@ -1,6 +1,7 @@
 import { SmileOutlined } from '@ant-design/icons'
-import { Button, Flex, Input, Form } from 'antd'
+import { Button, Flex, Input, Form, Popover } from 'antd'
 import { FC, useState, ChangeEvent } from 'react'
+import { EmojiPicker } from '../EmojiPicker'
 
 export const ReplyForm: FC = () => {
   const [value, setValue] = useState<string>('')
@@ -16,9 +17,11 @@ export const ReplyForm: FC = () => {
             setValue(target?.value)
           }}
         />
-        <Button shape="circle" variant="text">
-          <SmileOutlined />
-        </Button>
+        <Popover content={<EmojiPicker />} trigger="click">
+          <Button shape="circle" variant="text">
+            <SmileOutlined />
+          </Button>
+        </Popover>
       </Flex>
     </Form>
   )
