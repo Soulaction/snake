@@ -1,25 +1,59 @@
-import React, { FC, useEffect, useRef, useState } from 'react'
-import { Button, Card, Flex } from 'antd'
-import { GameInfoProps } from '@/features/GameInfo/model/gameInfoTypes'
-import { formatTimeFromMS } from '@/features/GameInfo/lib'
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import { Button, Card, Flex, Popconfirm, PopconfirmProps } from 'antd'
 import s from './GameInfo.module.css'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
+import { StatusGame } from '@/widgets/Game/model/types'
+import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
+import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
+import { useNavigate } from 'react-router-dom'
+import { RouterPaths } from '@/shared/router'
 
-export const GameInfo: FC<GameInfoProps> = ({ scope }) => {
-  const startTime = useRef<number>(performance.now())
-  const [timeGame, setTimeGame] = useState<string>(formatTimeFromMS(0))
+export const GameInfo: FC = () => {
+  const timeGameSecond = useRef<number>(0)
+  const intervalId = useRef<ReturnType<typeof setInterval>>()
+  const [timeGame, setTimeGame] = useState<string>(formatTimeFromSecond(0))
+  const [isPause, setIsPause] = useState<boolean>(false)
+  const navigate = useNavigate()
+
+  const scope = useAppSelector(state => state.game.scope)
+  const statusGame = useAppSelector(state => state.game.statusGame)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    let animationFrameId: number
+    if (statusGame === StatusGame.Process) {
+      const updateTimer = () => {
+        timeGameSecond.current += 1
+        setTimeGame(formatTimeFromSecond(timeGameSecond.current))
+      }
 
-    const updateTimer = () => {
-      const milliseconds = performance.now() - startTime.current
-
-      setTimeGame(formatTimeFromMS(milliseconds))
-      animationFrameId = requestAnimationFrame(updateTimer)
+      intervalId.current = setInterval(updateTimer, 1000)
+      return () => {
+        updateTimer()
+        clearInterval(intervalId.current)
+      }
     }
-    animationFrameId = requestAnimationFrame(updateTimer)
+  }, [statusGame])
 
-    return () => cancelAnimationFrame(animationFrameId)
+  const togglePause = useCallback(() => {
+    if (statusGame === StatusGame.Pause) {
+      setIsPause(false)
+      dispatch(setStatusGame(StatusGame.Process))
+    } else {
+      setIsPause(true)
+      dispatch(setStatusGame(StatusGame.Pause))
+    }
+  }, [isPause])
+
+  const handleOpenChange = useCallback((isOpen: boolean): void => {
+    if (isOpen) {
+      dispatch(setStatusGame(StatusGame.Pause))
+    } else {
+      dispatch(setStatusGame(StatusGame.Process))
+    }
+  }, [])
+
+  const confirm: PopconfirmProps['onConfirm'] = useCallback(() => {
+    navigate(RouterPaths.main)
   }, [])
 
   return (
@@ -71,12 +105,19 @@ export const GameInfo: FC<GameInfoProps> = ({ scope }) => {
         </Flex>
       </Card>
       <Flex justify="space-between">
-        <Button color="primary" variant="outlined">
-          Пауза
+        <Button color="primary" variant="outlined" onClick={togglePause}>
+          {isPause ? 'Продолжить' : 'Пауза'}
         </Button>
-        <Button color="default" variant="outlined">
-          Выйти
-        </Button>
+        <Popconfirm
+          title="Вы действительно хотите покинуть игру?"
+          onConfirm={confirm}
+          onOpenChange={handleOpenChange}
+          okText="Выйти"
+          cancelText="Продолжить игру">
+          <Button color="default" variant="outlined">
+            Выйти
+          </Button>
+        </Popconfirm>
       </Flex>
     </Flex>
   )

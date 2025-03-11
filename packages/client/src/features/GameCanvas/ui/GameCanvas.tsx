@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Flex } from 'antd'
+import { Flex, notification } from 'antd'
 import { Direction, GameItem, Snake } from '@/features/GameCanvas/model/types'
 import {
   useConfigurateCanvas,
@@ -9,6 +9,9 @@ import { SIZE_OBJECT } from '@/features/GameCanvas/model/gameConstant'
 import { drawGame } from '@/features/GameCanvas/lib/drawGame'
 import { getRandomInt } from '@/features/GameCanvas/lib'
 import s from './GameCanvas.module.css'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
+import { setScope, setStatusGame } from '@/widgets/Game/model/gemeSlice'
+import { StatusGame } from '@/widgets/Game/model/types'
 
 export const GameCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -16,8 +19,10 @@ export const GameCanvas = () => {
   const requestAnimationId = useRef<number>(0)
 
   const [snake, setSnake] = useState<Snake>([])
-  const [endGame, setEndGame] = useState<boolean>(false)
   const [apple, setApple] = useState<GameItem>()
+
+  const statusGame = useAppSelector(state => state.game.statusGame)
+  const dispatch = useAppDispatch()
 
   const configCanvas = useConfigurateCanvas<HTMLCanvasElement>(
     canvasRef,
@@ -26,15 +31,15 @@ export const GameCanvas = () => {
   const { direction, speed } = useGameControls()
 
   useEffect(() => {
-    if (endGame) {
-      console.log('end')
-    } else {
+    if (statusGame === StatusGame.Process) {
       requestAnimationId.current = requestAnimationFrame(gameLoop)
       return () => {
         cancelAnimationFrame(requestAnimationId.current)
       }
+    } else if (statusGame === StatusGame.End) {
+      console.log('end')
     }
-  }, [snake, apple, direction, endGame])
+  }, [snake, apple, direction, statusGame])
 
   useEffect(() => {
     const {
@@ -81,10 +86,17 @@ export const GameCanvas = () => {
       widthCanvas < newHeadNode.x ||
       heightCanvas < newHeadNode.y
     ) {
-      setEndGame(true)
+      dispatch(setStatusGame(StatusGame.End))
+      notification.error({
+        message: 'Игра окончена',
+        placement: 'topRight',
+        duration: 3,
+        showProgress: true,
+      })
     } else {
       drawGame(configCanvas, newSnake, apple)
       setSnake(newSnake)
+      dispatch(setScope(newSnake.length - 1))
     }
   }, [configCanvas, snake, direction])
 

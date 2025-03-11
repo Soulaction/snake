@@ -1,5 +1,4 @@
-export const formatTimeFromMS = (ms: number) => {
-  const second = Math.floor(ms / 1000)
+export const formatTimeFromSecond = (second: number) => {
   const minute = Math.floor(second / 60)
   const hour = Math.floor(minute / 60)
 

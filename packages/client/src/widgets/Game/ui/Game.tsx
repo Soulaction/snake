@@ -11,7 +11,7 @@ export const Game = () => {
         <GameCanvas />
       </Col>
       <Col flex={2}>
-        <GameInfo scope={0} />
+        <GameInfo />
       </Col>
     </Row>
   )

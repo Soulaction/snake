@@ -30,49 +30,47 @@ export const ProfilePage: FC = () => {
   }
 
   return (
-    <MainLayout>
-      <div>
-        <Flex
-          className={styles['avatar-container']}
-          align="center"
-          justify="center">
-          <FileInput imgUrl={`${user.avatar}`} />
-        </Flex>
-        <Form
-          className={styles['form']}
-          labelCol={{ span: 6 }}
-          wrapperCol={{ span: 16 }}
-          layout="horizontal"
-          initialValues={{ ...user }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}>
-          <Form.Item name="first_name" label="Имя">
-            <Input />
-          </Form.Item>
-          <Form.Item name="second_name" label="Фамилия">
-            <Input />
-          </Form.Item>
-          <Form.Item name="login" label="Логин">
-            <Input />
-          </Form.Item>
-          <Form.Item name="email" label="Почта">
-            <Input />
-          </Form.Item>
-          <Form.Item name="phone" label="Телефон">
-            <Input />
-          </Form.Item>
-          <Form.Item name="display_name" label="Имя в чате">
-            <Input />
-          </Form.Item>
-          <Form.Item name="display_name" label={null}>
-            <Flex align="end" justify="end">
-              <Button type="primary" htmlType="submit" loading={isLoading}>
-                Сохранить
-              </Button>
-            </Flex>
-          </Form.Item>
-        </Form>
-      </div>
-    </MainLayout>
+    <div>
+      <Flex
+        className={styles['avatar-container']}
+        align="center"
+        justify="center">
+        <FileInput imgUrl={`${user.avatar}`} />
+      </Flex>
+      <Form
+        className={styles['form']}
+        labelCol={{ span: 6 }}
+        wrapperCol={{ span: 16 }}
+        layout="horizontal"
+        initialValues={{ ...user }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}>
+        <Form.Item name="first_name" label="Имя">
+          <Input />
+        </Form.Item>
+        <Form.Item name="second_name" label="Фамилия">
+          <Input />
+        </Form.Item>
+        <Form.Item name="login" label="Логин">
+          <Input />
+        </Form.Item>
+        <Form.Item name="email" label="Почта">
+          <Input />
+        </Form.Item>
+        <Form.Item name="phone" label="Телефон">
+          <Input />
+        </Form.Item>
+        <Form.Item name="display_name" label="Имя в чате">
+          <Input />
+        </Form.Item>
+        <Form.Item name="display_name" label={null}>
+          <Flex align="end" justify="end">
+            <Button type="primary" htmlType="submit" loading={isLoading}>
+              Сохранить
+            </Button>
+          </Flex>
+        </Form.Item>
+      </Form>
+    </div>
   )
 }
