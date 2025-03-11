@@ -1,5 +1,9 @@
 import { RefObject, useCallback, useEffect, useState } from 'react'
 import { ConfigCanvas } from '@/features/GameCanvas/model/types'
+import {
+  HEIGHT_GAME,
+  WIDTH_GAME,
+} from '@/features/GameCanvas/model/gameConstant'
 
 export const useConfigurateCanvas = <T extends HTMLCanvasElement | null>(
   canvasRef: RefObject<T>,
@@ -40,12 +44,12 @@ export const useConfigurateCanvas = <T extends HTMLCanvasElement | null>(
       const { paddingTop, paddingBottom, paddingLeft, paddingRight } =
         getComputedStyle(parentHTMLElement)
 
-      // делаем не больше определённого размера (уравниваем условия с широкоформатными мониторы)
-      if (widthParent > 1000) {
-        widthParent = 1000
+      // делаем не больше определённого размера (уравниваем условия с широкоформатными мониторами)
+      if (widthParent > WIDTH_GAME) {
+        widthParent = WIDTH_GAME
       }
-      if (heightParent > 900) {
-        heightParent = 900
+      if (heightParent > HEIGHT_GAME) {
+        heightParent = HEIGHT_GAME
       }
       // делаем размер равным точному кол-ву ячеек, без обрывов (шахматное поле)
       const countCellWidth = Math.floor(

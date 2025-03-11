@@ -8,6 +8,7 @@ import {
 import { SIZE_OBJECT } from '@/features/GameCanvas/model/gameConstant'
 import { drawGame } from '@/features/GameCanvas/lib/drawGame'
 import { getRandomInt } from '@/features/GameCanvas/lib'
+import s from './GameCanvas.module.css'
 
 export const GameCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -148,12 +149,12 @@ export const GameCanvas = () => {
   )
 
   return (
-    <Flex>
-      <canvas
-        style={{
-          border: '1px solid black',
-        }}
-        ref={canvasRef}></canvas>
+    <Flex
+      flex="flex"
+      align="center"
+      justify="center"
+      className={s.canvasWrapper}>
+      <canvas className={s.canvas} ref={canvasRef}></canvas>
     </Flex>
   )
 }
