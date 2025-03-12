@@ -5,7 +5,7 @@ import { GameStore } from '@/widgets/Game/model/types'
 const initialState: GameStore = {
   // @TODO заменить на StatusGame.Start, когда будет функционал по началу игры
   statusGame: StatusGame.Process,
-  scope: 0,
+  score: 0,
 }
 
 const gameSlice = createSlice({
@@ -15,12 +15,12 @@ const gameSlice = createSlice({
     setStatusGame: (state: GameStore, action: PayloadAction<StatusGame>) => {
       state.statusGame = action.payload
     },
-    setScope: (state: GameStore, action: PayloadAction<number>) => {
-      state.scope = action.payload
+    setScore: (state: GameStore, action: PayloadAction<number>) => {
+      state.score = action.payload
     },
   },
 })
 
 export const gameReducer = gameSlice.reducer
 export const setStatusGame = gameSlice.actions.setStatusGame
-export const setScope = gameSlice.actions.setScope
+export const setScore = gameSlice.actions.setScore

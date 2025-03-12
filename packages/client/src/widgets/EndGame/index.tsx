@@ -1,21 +1,21 @@
 import type { FC } from 'react'
 import { Button, Flex, Typography } from 'antd'
 import styles from './EndGame.module.css'
+import { useNavigate } from 'react-router-dom'
 
 type IEndGame = {
   score: number
   rating: number
   startNewGame: () => void
-  gotoMainMenu: () => void
 }
 
-export const EndGame: FC<IEndGame> = ({
-  score,
-  rating,
-  startNewGame,
-  gotoMainMenu,
-}) => {
+export const EndGame: FC<IEndGame> = ({ score, rating, startNewGame }) => {
   const { Title } = Typography
+
+  const navigate = useNavigate()
+  const gotoMainMenu = () => {
+    navigate('/')
+  }
 
   return (
     <Flex

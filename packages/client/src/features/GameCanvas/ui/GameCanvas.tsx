@@ -10,7 +10,7 @@ import { drawGame } from '@/features/GameCanvas/lib/drawGame'
 import { getRandomInt } from '@/features/GameCanvas/lib'
 import s from './GameCanvas.module.css'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
-import { setScope, setStatusGame } from '@/widgets/Game/model/gemeSlice'
+import { setScore, setStatusGame } from '@/widgets/Game/model/gemeSlice'
 import { StatusGame } from '@/widgets/Game/model/types'
 
 export const GameCanvas = () => {
@@ -36,8 +36,6 @@ export const GameCanvas = () => {
       return () => {
         cancelAnimationFrame(requestAnimationId.current)
       }
-    } else if (statusGame === StatusGame.End) {
-      console.log('end')
     }
   }, [snake, apple, direction, statusGame])
 
@@ -87,16 +85,10 @@ export const GameCanvas = () => {
       heightCanvas < newHeadNode.y
     ) {
       dispatch(setStatusGame(StatusGame.End))
-      notification.error({
-        message: 'Игра окончена',
-        placement: 'topRight',
-        duration: 3,
-        showProgress: true,
-      })
     } else {
       drawGame(configCanvas, newSnake, apple)
       setSnake(newSnake)
-      dispatch(setScope(newSnake.length - 1))
+      dispatch(setScore(newSnake.length - 1))
     }
   }, [configCanvas, snake, direction])
 

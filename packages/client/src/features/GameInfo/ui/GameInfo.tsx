@@ -15,7 +15,7 @@ export const GameInfo: FC = () => {
   const [isPause, setIsPause] = useState<boolean>(false)
   const navigate = useNavigate()
 
-  const scope = useAppSelector(state => state.game.scope)
+  const score = useAppSelector(state => state.game.score)
   const statusGame = useAppSelector(state => state.game.statusGame)
   const dispatch = useAppDispatch()
 
@@ -62,7 +62,7 @@ export const GameInfo: FC = () => {
       <Flex vertical>
         <p>
           <span className={s.gameDescriptionTitle}>Съедено яблок: </span>
-          {scope}
+          {score}
         </p>
         <p>
           <span className={s.gameDescriptionTitle}>Время с начала игры: </span>
