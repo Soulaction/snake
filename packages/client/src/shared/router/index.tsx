@@ -10,6 +10,7 @@ import {
   RegistrationPage,
   LeaderboardPage,
   MainPage,
+  ErrorPage,
 } from '@/pages'
 
 export const AppRoutes = {
@@ -22,10 +23,11 @@ export const AppRoutes = {
   FORUM: 'forum',
   TOPIC: 'topic',
   NOTFOUND: 'not-found',
+  ERROR: 'error',
 } as const
 
 type AppRoutesKeys = keyof typeof AppRoutes
-type AppRoutesValues = typeof AppRoutes[AppRoutesKeys]
+type AppRoutesValues = (typeof AppRoutes)[AppRoutesKeys]
 
 export const RouterPaths: Record<AppRoutesValues, string> = {
   [AppRoutes.MAIN]: '/',
@@ -37,6 +39,7 @@ export const RouterPaths: Record<AppRoutesValues, string> = {
   [AppRoutes.FORUM]: '/forum',
   [AppRoutes.NOTFOUND]: '*',
   [AppRoutes.TOPIC]: '/topic/:topicId',
+  [AppRoutes.ERROR]: '/error',
 }
 
 export const router: Record<AppRoutesValues, RouteProps> = {
@@ -75,5 +78,9 @@ export const router: Record<AppRoutesValues, RouteProps> = {
   [AppRoutes.NOTFOUND]: {
     path: RouterPaths['not-found'],
     element: <NotFoundPage />,
+  },
+  [AppRoutes.ERROR]: {
+    path: RouterPaths['error'],
+    element: <ErrorPage />,
   },
 }
