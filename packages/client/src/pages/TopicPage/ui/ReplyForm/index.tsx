@@ -31,7 +31,7 @@ export const ReplyForm: FC = () => {
 
   const watchCursor = () => {
     if (inputRef.current) {
-      const position = inputRef.current.selectionStart // Получаем позицию курсора
+      const position = inputRef.current.selectionStart
       setCursorPosition(position)
     }
   }
