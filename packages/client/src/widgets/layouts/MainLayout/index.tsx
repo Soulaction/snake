@@ -1,23 +1,21 @@
-import type { FC, PropsWithChildren } from 'react'
+import type { FC } from 'react'
 import { Layout } from 'antd'
 import { Header } from '@/widgets/Header'
 import styles from './MainLayout.module.css'
+import { Outlet, useLocation } from 'react-router-dom'
+import { RouterPaths } from '@/shared/router'
 
 const { Content } = Layout
 
-interface IMainLayoutProps {
-  isHeader?: boolean
-}
-
-export const MainLayout: FC<PropsWithChildren<IMainLayoutProps>> = ({
-  isHeader = true,
-  children,
-}) => {
+export const MainLayout: FC = () => {
+  const { pathname } = useLocation();
+  const isShowHeader = pathname !== RouterPaths.login && pathname !== RouterPaths.registration;
+  
   return (
     <Layout className={styles['layout']}>
-      {isHeader && <Header />}
+      {isShowHeader && <Header />}
       <Content className={styles['content']}>
-        <div className={styles['card']}>{children}</div>
+        <div className={styles['card']}><Outlet /></div>
       </Content>
     </Layout>
   )
