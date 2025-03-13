@@ -1,4 +1,3 @@
-import { MainLayout } from '@/widgets'
 import { Avatar, Divider, Flex, Skeleton, Space, Typography } from 'antd'
 import { CSSProperties, FC, useEffect, useState } from 'react'
 import { Comment } from './ui/Comment'
@@ -85,7 +84,7 @@ export const TopicPage: FC = () => {
   )
 
   return (
-    <MainLayout>
+    <>
       <Space direction="vertical" size="small">
         <Flex gap={30} align="center" wrap justify="space-between">
           <Flex gap={30} align="center">
@@ -126,6 +125,6 @@ export const TopicPage: FC = () => {
         <Text>Оставить комментарий</Text>
         <ReplyForm />
       </Space>
-    </MainLayout>
+    </>
   )
 }

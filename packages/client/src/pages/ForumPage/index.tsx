@@ -1,4 +1,3 @@
-import { MainLayout } from '@/widgets'
 import {
   Button,
   Flex,
@@ -128,7 +127,7 @@ export const ForumPage: FC = () => {
   )
 
   return (
-    <MainLayout>
+    <>
       <Flex justify="space-between" align="center">
         <Title>Форум</Title>
         <Button
@@ -175,6 +174,6 @@ export const ForumPage: FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-    </MainLayout>
+    </>
   )
 }
