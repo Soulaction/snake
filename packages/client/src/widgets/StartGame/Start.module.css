@@ -1,3 +1,7 @@
+.container {
+  height: 100%;
+}
+
 .button-text {
   position: relative;
 }
@@ -18,10 +22,4 @@
   &:hover::before {
     opacity: 0;
   }
-}
-
-.button-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
 }

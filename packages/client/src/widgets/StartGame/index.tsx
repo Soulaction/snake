@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { Button } from 'antd'
+import { Button, Flex } from 'antd'
 import styles from './Start.module.css'
 import { CounterAnimation } from '@/shared/ui'
 
@@ -27,20 +27,20 @@ export const StartGame: FC<IStartGameProps> = ({ onStartClick, playGame }) => {
 
   return (
     <>
-      {!started && (
-        <div className={styles['button-container']}>
+      <Flex className={styles.container} justify="center" align="center">
+        {!started && (
           <Button
-            className={styles['button']}
+            className={styles.button}
             type="primary"
             size="large"
             onClick={startAnimation}>
             <span className={styles['button-text']}>Старт</span>
           </Button>
-        </div>
-      )}
-      {started && !isAnimationComplete && (
-        <CounterAnimation handleAnimationEnd={handleAnimationEnd} />
-      )}
+        )}
+        {started && !isAnimationComplete && (
+          <CounterAnimation handleAnimationEnd={handleAnimationEnd} />
+        )}
+      </Flex>
     </>
   )
 }
