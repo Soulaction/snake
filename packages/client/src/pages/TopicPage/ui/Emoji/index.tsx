@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 interface IEmoji {
   name: string
-  onClick?: () => void
+  onClick: (emoji: string) => void
 }
 
 const emojiHexCodes: Record<string, string> = {
@@ -48,11 +48,21 @@ const emojiHexCodes: Record<string, string> = {
 }
 
 export const Emoji: FC<IEmoji> = props => {
-  const { name } = props
+  const { name, onClick } = props
 
   const parseEmoji = (hexCode: string) => {
     return String.fromCodePoint(parseInt(hexCode, 16))
   }
 
-  return <span>{parseEmoji(emojiHexCodes[name])}</span>
+  const emoji = parseEmoji(emojiHexCodes[name])
+
+  return (
+    <span
+      style={{ cursor: 'pointer' }}
+      onClick={() => {
+        onClick(emoji)
+      }}>
+      {emoji}
+    </span>
+  )
 }

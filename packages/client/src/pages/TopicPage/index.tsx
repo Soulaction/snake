@@ -3,7 +3,6 @@ import { Avatar, Divider, Flex, Skeleton, Space, Typography } from 'antd'
 import { CSSProperties, FC, useEffect, useState } from 'react'
 import { Comment } from './ui/Comment'
 import { ReplyForm } from './ui/ReplyForm'
-import { Emoji } from './ui/Emoji'
 
 const { Text, Title } = Typography
 
@@ -88,7 +87,7 @@ export const TopicPage: FC = () => {
   return (
     <MainLayout>
       <Space direction="vertical" size="small">
-        <Flex gap={30} align="center" justify="space-between">
+        <Flex gap={30} align="center" wrap justify="space-between">
           <Flex gap={30} align="center">
             <Title level={3} style={titleStyles}>
               Some Topics Title
@@ -115,30 +114,8 @@ export const TopicPage: FC = () => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </Text>
-        <Divider variant="solid" style={dividerStyles} orientation="start">
-          <Flex gap={15}>
-            <Flex gap={5} align="center">
-              <Text type="secondary">100</Text>
-              <Emoji name="face_with_tears_of_joy" />
-            </Flex>
-            <Flex gap={5} align="center">
-              <Text type="secondary">30</Text>
-              <Emoji name="grinning_face" />
-            </Flex>
-            <Flex gap={5} align="center">
-              <Text type="secondary">20</Text>
-              <Emoji name="neutral_face" />
-            </Flex>
-            <Flex gap={5} align="center">
-              <Text type="secondary">10</Text>
-              <Emoji name="angry_face" />
-            </Flex>
-            <Flex gap={5} align="center">
-              <Text type="secondary">0</Text>
-              <Emoji name="face_with_symbols_on_mouth" />
-            </Flex>
-          </Flex>
-        </Divider>
+        <Divider variant="solid" style={dividerStyles} />
+
         <Title level={4}>Комментарии</Title>
         {commentsList ? commentsList : skeleton}
 
