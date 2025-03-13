@@ -34,7 +34,7 @@ export const ReplyForm: FC = () => {
     <Form name="comment_form">
       <Flex gap={20}>
         <textarea
-          className={styles['textarea']}
+          className={styles.textarea}
           name="comment"
           value={value}
           ref={inputRef}

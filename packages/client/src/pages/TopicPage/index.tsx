@@ -54,7 +54,7 @@ export const TopicPage: FC = () => {
       <Space direction="vertical" size="small">
         <Flex gap={30} align="center" wrap justify="space-between">
           <Flex gap={30} align="center">
-            <Title level={3} className={styles['title']}>
+            <Title level={3} className={styles.title}>
               Some Topics Title
             </Title>
           </Flex>
@@ -79,14 +79,14 @@ export const TopicPage: FC = () => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </Text>
-        <Divider variant="solid" className={styles['divider']} />
+        <Divider variant="solid" className={styles.divider} />
 
         <Title level={4}>Комментарии</Title>
         {commentsList ? commentsList : skeleton}
 
         <Divider
           variant="solid"
-          className={styles['divider']}
+          className={styles.divider}
           orientation="start"></Divider>
         <Text>Оставить комментарий</Text>
         <ReplyForm />

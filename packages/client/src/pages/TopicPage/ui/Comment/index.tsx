@@ -17,7 +17,7 @@ export const Comment: FC<IComment> = props => {
         title={author.name}
         description={content}
       />
-      <Flex justify="flex-end" className={styles['footer']} gap={20}>
+      <Flex justify="flex-end" className={styles.footer} gap={20}>
         <Text type="secondary">
           <CalendarOutlined /> {date}
         </Text>

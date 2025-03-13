@@ -6,7 +6,7 @@ export const ForumPagination: FC = () => {
   return (
     <Pagination
       align="center"
-      className={styles['pagination']}
+      className={styles.pagination}
       defaultCurrent={1}
       total={50}
     />

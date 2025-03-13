@@ -25,7 +25,7 @@ export const TopicCard: FC<ITopics> = props => {
           description={content}
         />
 
-        <Flex justify="flex-end" className={styles['footer']} wrap gap={20}>
+        <Flex justify="flex-end" className={styles.footer} wrap gap={20}>
           <Text type="secondary">
             <UserOutlined /> {author.name}
           </Text>

@@ -10,7 +10,7 @@ export interface IEmojiPicker {
 export const EmojiPicker: FC<IEmojiPicker> = props => {
   const { onChooseEmoji } = props
   return (
-    <Flex gap={10} wrap className={styles['picker']}>
+    <Flex gap={10} wrap className={styles.picker}>
       <Emoji onClick={onChooseEmoji} name="grinning_face" />
       <Emoji onClick={onChooseEmoji} name="smiling_face_with_sunglasses" />
       <Emoji onClick={onChooseEmoji} name="face_with_tears_of_joy" />

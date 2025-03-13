@@ -95,7 +95,7 @@ export const ForumPage: FC = () => {
       </Flex>
 
       <Flex>
-        <Space direction="vertical" size="middle" className={styles['space']}>
+        <Space direction="vertical" size="middle" className={styles.space}>
           {topicsList ? topicsList : skeleton}
         </Space>
       </Flex>
@@ -113,7 +113,7 @@ export const ForumPage: FC = () => {
         confirmLoading={isSending}
         destroyOnClose={true}>
         <Title level={4}>Создать топик</Title>
-        <Form name="create_topic" className={styles['form']} preserve={false}>
+        <Form name="create_topic" className={styles.form} preserve={false}>
           <Form.Item
             name="topic_name"
             label="Название топика"
