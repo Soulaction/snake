@@ -1,9 +1,7 @@
-import { MainLayout } from '@/widgets'
+import type { FC } from "react"
 
-export const MainPage = () => {
+export const MainPage: FC = () => {
   return (
-    <MainLayout>
       <div>Main Page</div>
-    </MainLayout>
   )
 }
