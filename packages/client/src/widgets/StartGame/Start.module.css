@@ -1,0 +1,27 @@
+.button-text {
+  position: relative;
+}
+
+.button {
+  position: relative;
+
+  &::before {
+    content: '';
+    background: linear-gradient(135deg, #6253e1, #04befe);
+    position: absolute;
+    inset: -1px;
+    opacity: 1;
+    transition: all 0.3s;
+    border-radius: inherit;
+  }
+
+  &:hover::before {
+    opacity: 0;
+  }
+}
+
+.button-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
