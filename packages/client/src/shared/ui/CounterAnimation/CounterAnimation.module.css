@@ -1,11 +1,9 @@
 .container {
+  position: relative;
   width: 350px;
   height: 350px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -175px;
-  margin-left: -175px;
+  font-size: 15em;
+  color: #096dd9;
 }
 
 @keyframes number-anim {
@@ -17,18 +15,6 @@
     transform: scale(1.3);
     opacity: 1;
   }
-}
-
-.wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 350px;
-  height: 350px;
-  top: 50%;
-  margin: 0 auto 0 auto;
-  font-size: 15em;
-  color: #096dd9;
 }
 
 .five {

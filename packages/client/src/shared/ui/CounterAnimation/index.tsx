@@ -1,27 +1,26 @@
 import { FC } from 'react'
 import styles from './CounterAnimation.module.css'
+import { Flex } from 'antd'
 
-interface ICounterAnimation {
+interface ICounterAnimationProps {
   handleAnimationEnd: () => void
 }
 
-export const CounterAnimation: FC<ICounterAnimation> = ({
+export const CounterAnimation: FC<ICounterAnimationProps> = ({
   handleAnimationEnd,
 }) => {
   return (
     <>
-      <div className={styles['container']}>
-        <div className={styles['wrapper']}>
-          <span className={styles['five']}>5</span>
-          <span className={styles['four']}>4</span>
-          <span className={styles['three']}>3</span>
-          <span className={styles['two']}>2</span>
-          <span className={styles['one']}>1</span>
-          <span className={styles['go']} onAnimationEnd={handleAnimationEnd}>
-            Go
-          </span>
-        </div>
-      </div>
+      <Flex className={styles.container} justify="center" align="center">
+        <span className={styles.five}>5</span>
+        <span className={styles.four}>4</span>
+        <span className={styles.three}>3</span>
+        <span className={styles.two}>2</span>
+        <span className={styles.one}>1</span>
+        <span className={styles.go} onAnimationEnd={handleAnimationEnd}>
+          Go
+        </span>
+      </Flex>
     </>
   )
 }
