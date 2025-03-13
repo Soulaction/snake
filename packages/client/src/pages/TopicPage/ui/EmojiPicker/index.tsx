@@ -1,10 +1,7 @@
 import { Flex } from 'antd'
-import { CSSProperties, FC } from 'react'
+import { FC } from 'react'
 import { Emoji } from '../Emoji'
-
-const emojiPickerStyles: CSSProperties = {
-  maxWidth: 140,
-}
+import styles from './EmojiPicker.module.css'
 
 export interface IEmojiPicker {
   onChooseEmoji: (emoji: string) => void
@@ -13,7 +10,7 @@ export interface IEmojiPicker {
 export const EmojiPicker: FC<IEmojiPicker> = props => {
   const { onChooseEmoji } = props
   return (
-    <Flex gap={10} wrap style={emojiPickerStyles}>
+    <Flex gap={10} wrap className={styles['picker']}>
       <Emoji onClick={onChooseEmoji} name="grinning_face" />
       <Emoji onClick={onChooseEmoji} name="smiling_face_with_sunglasses" />
       <Emoji onClick={onChooseEmoji} name="face_with_tears_of_joy" />

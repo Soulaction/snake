@@ -1,20 +1,8 @@
 import { SmileOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Popover } from 'antd'
-import { FC, useState, ChangeEvent, CSSProperties, useRef } from 'react'
+import { FC, useState, ChangeEvent, useRef } from 'react'
 import { EmojiPicker } from '../EmojiPicker'
-
-const textareaStyles: CSSProperties = {
-  maxWidth: '100%',
-  width: '100%',
-  borderRadius: 4,
-  borderColor: '#d9d9d9',
-  minHeight: 32,
-  lineHeight: 1.6,
-  verticalAlign: 'bottom',
-  resize: 'vertical',
-  padding: '4px 11px',
-  outline: 'none',
-}
+import styles from './ReplyForm.module.css'
 
 export const ReplyForm: FC = () => {
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
@@ -46,7 +34,7 @@ export const ReplyForm: FC = () => {
     <Form name="comment_form">
       <Flex gap={20}>
         <textarea
-          style={textareaStyles}
+          className={styles['textarea']}
           name="comment"
           value={value}
           ref={inputRef}

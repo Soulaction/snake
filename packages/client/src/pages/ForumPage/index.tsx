@@ -11,7 +11,9 @@ import {
 } from 'antd'
 import { TopicCard } from './ui/TopicCard'
 import { ForumPagination } from './ui/ForumPagination'
-import { FC, useState, useEffect, CSSProperties } from 'react'
+import { FC, useState, useEffect } from 'react'
+import styles from './ForumPage.module.css'
+import { mockData } from './model/forumConstant'
 
 export interface ITopics {
   id: number
@@ -27,54 +29,6 @@ export interface ITopics {
 }
 
 const { Title } = Typography
-
-const formStyles: CSSProperties = {
-  paddingTop: 25,
-}
-
-const contentFlexboxStyles: CSSProperties = {
-  width: '100%',
-}
-
-const mockData: ITopics[] = [
-  {
-    id: 123123,
-    title: 'Немного о змейке',
-    author: {
-      name: 'Vasya',
-      avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-    },
-    date: '04.03.25',
-    commentsCount: 150,
-    viewsCount: 200,
-    content: 'SampleText',
-  },
-  {
-    id: 321321,
-    title: 'Много о змейке',
-    author: {
-      name: 'Petya',
-      avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-    },
-    date: '06.03.25',
-    commentsCount: 123,
-    viewsCount: 300,
-    content: 'Text Sample',
-  },
-  {
-    id: 231132,
-    title: 'Ничего о змейке',
-    author: {
-      name: 'Kolya',
-      avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-    },
-    date: '08.03.25',
-    commentsCount: 170,
-    viewsCount: 400,
-    content:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
-  },
-]
 
 export const ForumPage: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -141,7 +95,7 @@ export const ForumPage: FC = () => {
       </Flex>
 
       <Flex>
-        <Space direction="vertical" size="middle" style={contentFlexboxStyles}>
+        <Space direction="vertical" size="middle" className={styles['space']}>
           {topicsList ? topicsList : skeleton}
         </Space>
       </Flex>
@@ -159,7 +113,7 @@ export const ForumPage: FC = () => {
         confirmLoading={isSending}
         destroyOnClose={true}>
         <Title level={4}>Создать топик</Title>
-        <Form name="create_topic" style={formStyles} preserve={false}>
+        <Form name="create_topic" className={styles['form']} preserve={false}>
           <Form.Item
             name="topic_name"
             label="Название топика"

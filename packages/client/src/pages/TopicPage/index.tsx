@@ -1,7 +1,9 @@
 import { Avatar, Divider, Flex, Skeleton, Space, Typography } from 'antd'
-import { CSSProperties, FC, useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Comment } from './ui/Comment'
 import { ReplyForm } from './ui/ReplyForm'
+import styles from './TopicPage.module.css'
+import { mockData } from './model/topicConstant'
 
 const { Text, Title } = Typography
 
@@ -13,42 +15,6 @@ export interface IComment {
   content: string
   date: string
 }
-
-const titleStyles: CSSProperties = {
-  margin: 0,
-}
-
-const dividerStyles: CSSProperties = {
-  margin: '5px 0',
-  borderColor: '#7cb305',
-}
-
-const mockData = [
-  {
-    author: {
-      name: 'Vasya',
-      avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-    },
-    date: '07.03.25',
-    content: 'Some comment text',
-  },
-  {
-    author: {
-      name: 'Petya',
-      avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-    },
-    date: '08.03.25',
-    content: 'Some comment text Some comment text Some comment text',
-  },
-  {
-    author: {
-      name: 'Kolya',
-      avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-    },
-    date: '09.03.25',
-    content: 'Some comment text',
-  },
-]
 
 export const TopicPage: FC = () => {
   const [comments, setComments] = useState<IComment[] | null>(null)
@@ -88,7 +54,7 @@ export const TopicPage: FC = () => {
       <Space direction="vertical" size="small">
         <Flex gap={30} align="center" wrap justify="space-between">
           <Flex gap={30} align="center">
-            <Title level={3} style={titleStyles}>
+            <Title level={3} className={styles['title']}>
               Some Topics Title
             </Title>
           </Flex>
@@ -113,14 +79,14 @@ export const TopicPage: FC = () => {
           pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
           culpa qui officia deserunt mollit anim id est laborum.
         </Text>
-        <Divider variant="solid" style={dividerStyles} />
+        <Divider variant="solid" className={styles['divider']} />
 
         <Title level={4}>Комментарии</Title>
         {commentsList ? commentsList : skeleton}
 
         <Divider
           variant="solid"
-          style={dividerStyles}
+          className={styles['divider']}
           orientation="start"></Divider>
         <Text>Оставить комментарий</Text>
         <ReplyForm />

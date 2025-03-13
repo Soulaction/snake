@@ -5,16 +5,13 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 import { Card, Avatar, Flex, Typography } from 'antd'
-import { FC, CSSProperties } from 'react'
+import { FC } from 'react'
 import { Link } from 'react-router-dom'
 import { ITopics } from '../..'
+import styles from './TopicCard.module.css'
 
 const { Meta } = Card
 const { Text } = Typography
-
-const footerStyles: CSSProperties = {
-  marginTop: 10,
-}
 
 export const TopicCard: FC<ITopics> = props => {
   const { id, title, author, date, commentsCount, viewsCount, content } = props
@@ -28,7 +25,7 @@ export const TopicCard: FC<ITopics> = props => {
           description={content}
         />
 
-        <Flex justify="flex-end" style={footerStyles} wrap gap={20}>
+        <Flex justify="flex-end" className={styles['footer']} wrap gap={20}>
           <Text type="secondary">
             <UserOutlined /> {author.name}
           </Text>
