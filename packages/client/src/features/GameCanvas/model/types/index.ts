@@ -1,0 +1,5 @@
+export { Direction } from './Direction'
+export type { ConfigCanvas } from './ConfigCanvas'
+export type { GameItem } from './GameItem'
+export type { SizeCanvas } from './SizeCanvas'
+export type { Snake } from './Snake'

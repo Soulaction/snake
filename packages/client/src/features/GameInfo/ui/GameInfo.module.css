@@ -1,0 +1,18 @@
+.game-info {
+  height: 100%;
+  font-size: 14px;
+}
+
+.game-info-title {
+  margin-bottom: 45px;
+  font-size: 27px;
+}
+
+.game-description-title {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.game-info-management {
+  margin: 40px 0;
+}
