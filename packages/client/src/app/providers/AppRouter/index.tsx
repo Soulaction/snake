@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { MainLayout } from '@/widgets'
 import {
+  ErrorPage,
   ForumPage,
   GamePage,
   LeaderboardPage,
@@ -61,6 +62,11 @@ export const AppRouter: FC = () => (
         key={RouterPaths.topic}
         path={RouterPaths.topic}
         element={<TopicPage />}
+      />
+      <Route
+        key={RouterPaths.error}
+        path={RouterPaths.error}
+        element={<ErrorPage />}
       />
     </Route>
   </Routes>
