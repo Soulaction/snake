@@ -4,7 +4,6 @@ import { UserModel } from '@/shared/types/model'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { changeAvatar, changeUser } from '@/entities/User/service'
 import { FileInput } from '@/shared/ui/FileInput'
-import { apiYandex } from '@/shared/constants/api'
 import styles from './ProfilePage.module.css'
 
 export const ProfilePage: FC = () => {
@@ -25,19 +24,16 @@ export const ProfilePage: FC = () => {
   }
 
   const onFinishFailed: FormProps<UserModel>['onFinishFailed'] = errorInfo => {
-    console.log('Failed:', errorInfo)
+    console.log('Ошибка заполнения формы:', errorInfo)
   }
 
   return (
     <div>
-      <Flex
-        className={styles['avatar-container']}
-        align="center"
-        justify="center">
+      <Flex className={styles.avatar} align="center" justify="center">
         <FileInput imgUrl={`${user.avatar}`} />
       </Flex>
       <Form
-        className={styles['form']}
+        className={styles.form}
         labelCol={{ span: 6 }}
         wrapperCol={{ span: 16 }}
         layout="horizontal"
