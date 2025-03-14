@@ -1,17 +1,9 @@
 import { FC, useState } from 'react'
 import { PlusOutlined } from '@ant-design/icons'
 import { Image, Upload } from 'antd'
-import type { GetProp, UploadFile, UploadProps } from 'antd'
-
-type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0]
-
-export const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result as string)
-    reader.onerror = error => reject(error)
-  })
+import type { UploadFile, UploadProps } from 'antd'
+import { getBase64 } from './libs'
+import { FileType } from './libs/getBase64'
 
 interface IFileInputProps {
   imgUrl?: string
