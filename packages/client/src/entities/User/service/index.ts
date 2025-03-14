@@ -1,10 +1,10 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
-  changeUserResponse,
-  avatarResponse,
-  changeUserRequest,
-  avatarRequest,
+  ChangeUserResponse,
+  AvatarResponse,
+  ChangeUserRequest,
+  AvatarRequest,
 } from '@/shared/types/api'
 import { apiYandex } from '@/shared/constants/api'
 
@@ -15,16 +15,16 @@ const userUrls = {
 
 export const changeAvatar = createAsyncThunk(
   'user/change_avatar',
-  async (body: avatarRequest) => {
+  async (body: AvatarRequest) => {
     const requestUrl = userUrls.avatar
-    return axios.put<avatarResponse>(requestUrl, body)
+    return axios.put<AvatarResponse>(requestUrl, body)
   }
 )
 
 export const changeUser = createAsyncThunk(
   'user/change_user',
-  async (body: changeUserRequest) => {
+  async (body: ChangeUserRequest) => {
     const requestUrl = userUrls.user
-    return axios.put<changeUserResponse>(requestUrl, body)
+    return axios.put<ChangeUserResponse>(requestUrl, body)
   }
 )
