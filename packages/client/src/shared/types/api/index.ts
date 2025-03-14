@@ -1,6 +1,6 @@
 import type { UserModel } from '@/shared/types/model'
 
-export interface RequestError {
+export interface IRequestError {
   reason: string
 }
 
@@ -12,11 +12,11 @@ export type ChangeUserRequest = Omit<UserModel, 'id' | 'avatar'>
 
 export type ChangeUserResponse = UserModel
 
-export interface YandexRequest {
+export interface IYandexRequest {
   code: string
   redirect_uri: string
 }
 
-export interface ServiceIdResponse {
+export interface IServiceIdResponse {
   service_id: string
 }

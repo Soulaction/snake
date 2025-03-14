@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { MainLayout } from '@/widgets'
 import {
+  EditPasswordPage,
   ErrorPage,
   ForumPage,
   GamePage,
@@ -57,6 +58,11 @@ export const AppRouter: FC = () => (
         key={RouterPaths.profile}
         path={RouterPaths.profile}
         element={<ProfilePage />}
+      />
+      <Route
+        key={RouterPaths['edit-password']}
+        path={RouterPaths['edit-password']}
+        element={<EditPasswordPage />}
       />
       <Route
         key={RouterPaths.topic}

@@ -1,12 +1,15 @@
 import { FC } from 'react'
-import { Button, Flex, Form, FormProps, Input } from 'antd'
+import { Button, Flex, Form, FormProps, Input, Space } from 'antd'
 import { UserModel } from '@/shared/types/model'
+import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { changeAvatar, changeUser } from '@/entities/User/service'
-import { FileInput } from '@/shared/ui/FileInput'
+import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
+import { RouterPaths } from '@/shared/router'
 
 export const ProfilePage: FC = () => {
+  const navigate = useNavigate()
   const user = useAppSelector(state => state.user.user)
   const isLoading = useAppSelector(state => state.user.userLoading)
 
@@ -19,6 +22,10 @@ export const ProfilePage: FC = () => {
     dispatch(changeAvatar(formData))
   }
 
+  const goToPassReset = () => {
+    navigate(RouterPaths['edit-password'])
+  }
+
   const onFinish: FormProps<UserModel>['onFinish'] = values => {
     dispatch(changeUser(values))
   }
@@ -28,7 +35,7 @@ export const ProfilePage: FC = () => {
   }
 
   return (
-    <div>
+    <>
       <Flex className={styles.avatar} align="center" justify="center">
         <FileInput imgUrl={`${user.avatar}`} />
       </Flex>
@@ -60,12 +67,15 @@ export const ProfilePage: FC = () => {
         </Form.Item>
         <Form.Item name="display_name" label={null}>
           <Flex align="end" justify="end">
-            <Button type="primary" htmlType="submit" loading={isLoading}>
-              Сохранить
-            </Button>
+            <Space>
+              <Button onClick={goToPassReset}>Изменить пароль</Button>
+              <Button type="primary" htmlType="submit" loading={isLoading}>
+                Сохранить
+              </Button>
+            </Space>
           </Flex>
         </Form.Item>
       </Form>
-    </div>
+    </>
   )
 }
