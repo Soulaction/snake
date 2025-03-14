@@ -25,9 +25,11 @@ export const UserSlice = createSlice({
         state.user = action.payload.data
         Notification.success('Профиль изменен')
       })
-      .addCase(changeUser.rejected, state => {
+      .addCase(changeUser.rejected, (state, action) => {
         state.userLoading = false
-        Notification.error('Не удалось изменить профиль')
+        const errorMessage =
+          action.error?.message || 'Не удалось изменить профиль'
+        Notification.error(errorMessage)
       })
       .addCase(changeAvatar.pending, state => {
         state.avatarLoading = true
@@ -36,9 +38,11 @@ export const UserSlice = createSlice({
         state.user = action.payload.data
         Notification.success('Новый аватар сохранен')
       })
-      .addCase(changeAvatar.rejected, state => {
+      .addCase(changeAvatar.rejected, (state, action) => {
         state.avatarLoading = false
-        Notification.error('Аватар не изменен')
+        const errorMessage =
+          action.error?.message || 'Не удалось изменить аватар'
+        Notification.error(errorMessage)
       })
   },
 })

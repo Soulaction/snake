@@ -1,21 +1,36 @@
 import { notification } from 'antd'
+import { NotificationPlacement } from 'antd/es/notification/interface'
 
 export class Notification {
-  static success(description: string) {
-    notification.success({
-      message: 'Успешно',
+  private static showNotification(
+    type: 'success' | 'error',
+    description: string,
+    placement: NotificationPlacement = 'topRight',
+    showProgress = true
+  ) {
+    notification[type]({
+      message: type === 'success' ? 'Успешно' : 'Ошибка',
       description,
-      placement: 'topRight',
-      showProgress: true,
+      placement,
+      showProgress,
     })
   }
 
-  static error(description: string) {
-    notification.error({
-      message: 'Ошибка',
-      description,
-      placement: 'topRight',
-      showProgress: true,
-    })
+  static success(
+    description: string,
+    placement?: NotificationPlacement,
+    showProgress?: boolean
+  ) {
+    this.showNotification('success', description, placement, showProgress)
+  }
+
+  static error(
+    description: string,
+    placement?: NotificationPlacement,
+    showProgress?: boolean
+  ) {
+    this.showNotification('error', description, placement, showProgress)
   }
 }
+
+export default Notification
