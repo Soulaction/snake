@@ -8,14 +8,17 @@ import { RouterPaths } from '@/shared/router'
 const { Content } = Layout
 
 export const MainLayout: FC = () => {
-  const { pathname } = useLocation();
-  const isShowHeader = pathname !== RouterPaths.login && pathname !== RouterPaths.registration;
-  
+  const { pathname } = useLocation()
+  const isShowHeader =
+    pathname !== RouterPaths.login && pathname !== RouterPaths.registration
+
   return (
-    <Layout className={styles['layout']}>
+    <Layout className={styles.layout}>
       {isShowHeader && <Header />}
-      <Content className={styles['content']}>
-        <div className={styles['card']}><Outlet /></div>
+      <Content className={styles.content}>
+        <div className={styles.card}>
+          <Outlet />
+        </div>
       </Content>
     </Layout>
   )
