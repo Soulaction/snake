@@ -1,4 +1,4 @@
-import { notification } from 'antd'
+import { Notification } from '@/shared/lib'
 import { createSlice } from '@reduxjs/toolkit'
 import { UserModel } from '@/shared/types/model'
 import { userInitial } from '../mock'
@@ -23,42 +23,22 @@ export const UserSlice = createSlice({
       })
       .addCase(changeUser.fulfilled, (state, action) => {
         state.user = action.payload.data
-        notification.success({
-          message: 'Успех',
-          description: 'Профиль изменен',
-          placement: 'topRight',
-          showProgress: true,
-        })
+        Notification.success('Профиль изменен')
       })
       .addCase(changeUser.rejected, state => {
         state.userLoading = false
-        notification.error({
-          message: 'Ошибка',
-          description: 'Не удалось изменить профиль',
-          placement: 'topRight',
-          showProgress: true,
-        })
+        Notification.error('Не удалось изменить профиль')
       })
       .addCase(changeAvatar.pending, state => {
         state.avatarLoading = true
       })
       .addCase(changeAvatar.fulfilled, (state, action) => {
         state.user = action.payload.data
-        notification.success({
-          message: 'Успешно',
-          description: 'Новый аватар успешно сохранен',
-          placement: 'topRight',
-          showProgress: true,
-        })
+        Notification.success('Новый аватар сохранен')
       })
       .addCase(changeAvatar.rejected, state => {
         state.avatarLoading = false
-        notification.error({
-          message: 'Ошибка',
-          description: 'Аватар не изменен',
-          placement: 'topRight',
-          showProgress: true,
-        })
+        Notification.error('Аватар не изменен')
       })
   },
 })
