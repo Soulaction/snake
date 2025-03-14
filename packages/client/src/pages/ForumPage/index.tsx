@@ -1,7 +1,5 @@
-import type { FC } from "react"
+import type { FC } from 'react'
 
 export const ForumPage: FC = () => {
-  return (
-      <div>Forum Page</div>
-  )
+  return <div>Forum Page</div>
 }
