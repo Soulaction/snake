@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import UserReducer from '@/entities/User/slice'
+import { gameReducer } from '@/widgets/Game/model/gemeSlice'
 
 const reducer = combineReducers({
   user: UserReducer,
+  game: gameReducer,
 })
 
 // @ts-expect-error типы any
