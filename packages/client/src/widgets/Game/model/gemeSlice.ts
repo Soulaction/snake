@@ -4,7 +4,7 @@ import { GameStore } from '@/widgets/Game/model/types'
 
 const initialState: GameStore = {
   // @TODO заменить на StatusGame.Start, когда будет функционал по началу игры
-  statusGame: StatusGame.Process,
+  statusGame: StatusGame.Start,
   score: 0,
 }
 
