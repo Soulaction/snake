@@ -100,7 +100,7 @@ export const GameInfo: FC = () => {
           </Flex>
           <Flex align="center">
             <Button size="small">Space</Button>
-            <p>&nbsp;- усколениеи (вкл./выкл. по нажатию)</p>
+            <p>&nbsp;- усколрениеи (вкл./выкл. по нажатию)</p>
           </Flex>
         </Flex>
       </Card>
