@@ -11,12 +11,14 @@ import {
   LeaderboardPage,
   MainPage,
   ErrorPage,
+  EditPasswordPage,
 } from '@/pages'
 
 export const AppRoutes = {
   MAIN: 'main',
   LOGIN: 'login',
   REGISTRATION: 'registration',
+  PASSWORD: 'edit-password',
   PROFILE: 'profile',
   LEADERBOARD: 'leaderboard',
   GAME: 'game',
@@ -27,13 +29,14 @@ export const AppRoutes = {
 } as const
 
 type AppRoutesKeys = keyof typeof AppRoutes
-type AppRoutesValues = typeof AppRoutes[AppRoutesKeys]
+type AppRoutesValues = (typeof AppRoutes)[AppRoutesKeys]
 
 export const RouterPaths: Record<AppRoutesValues, string> = {
   [AppRoutes.MAIN]: '/',
   [AppRoutes.LOGIN]: '/sign-in',
   [AppRoutes.REGISTRATION]: '/sign-up',
   [AppRoutes.PROFILE]: '/profile',
+  [AppRoutes.PASSWORD]: '/edit-password',
   [AppRoutes.GAME]: '/game',
   [AppRoutes.LEADERBOARD]: '/leaderboard',
   [AppRoutes.FORUM]: '/forum',
@@ -58,6 +61,10 @@ export const router: Record<AppRoutesValues, RouteProps> = {
   [AppRoutes.PROFILE]: {
     path: RouterPaths.profile,
     element: <ProfilePage />,
+  },
+  [AppRoutes.PASSWORD]: {
+    path: RouterPaths['edit-password'],
+    element: <EditPasswordPage />,
   },
   [AppRoutes.LEADERBOARD]: {
     path: RouterPaths.leaderboard,
