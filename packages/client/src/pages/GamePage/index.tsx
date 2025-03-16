@@ -15,6 +15,9 @@ export const GamePage: FC = () => {
 
   return (
     <>
+      {statusGame === StatusGame.START && (
+        <StartGame onStartClick={handleStartClick} playGame={playGame} />
+      )}
       {statusGame !== StatusGame.End && <Game />}
       {statusGame === StatusGame.End && (
         <EndGame score={score} rating={14} startNewGame={startNewGame} />

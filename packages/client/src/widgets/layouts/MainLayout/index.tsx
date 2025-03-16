@@ -13,10 +13,10 @@ export const MainLayout: FC = () => {
     pathname !== RouterPaths.login && pathname !== RouterPaths.registration
 
   return (
-    <Layout className={styles['layout']}>
+    <Layout className={styles.layout}>
       {isShowHeader && <Header />}
-      <Content className={styles['content']}>
-        <div className={styles['card']}>
+      <Content className={styles.content}>
+        <div className={styles.card}>
           <Outlet />
         </div>
       </Content>
