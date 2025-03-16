@@ -1,9 +1,5 @@
-import { MainLayout } from '@/widgets'
+import { FC } from 'react'
 
-export const LeaderboardPage = () => {
-  return (
-    <MainLayout>
-      <div>Leaderboard Page</div>
-    </MainLayout>
-  )
+export const LeaderboardPage: FC = () => {
+  return <div>Leaderboard Page</div>
 }
