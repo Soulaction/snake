@@ -5,14 +5,12 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame, setScore } from '@/widgets/Game/model/gemeSlice'
 import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
-import { useNavigate } from 'react-router-dom'
 
 export const GameInfo: FC = () => {
   const timeGameSecond = useRef<number>(0)
   const intervalId = useRef<ReturnType<typeof setInterval>>()
   const [timeGame, setTimeGame] = useState<string>(formatTimeFromSecond(0))
   const [isPause, setIsPause] = useState<boolean>(false)
-  const navigate = useNavigate()
 
   const score = useAppSelector(state => state.game.score)
   const statusGame = useAppSelector(state => state.game.statusGame)
