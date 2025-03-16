@@ -1,0 +1,9 @@
+.form {
+  width: 600px;
+  max-width: 600px;
+  height: 100%;
+}
+
+.avatar-container {
+  margin-bottom: 20px;
+}
