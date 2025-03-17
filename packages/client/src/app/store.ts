@@ -18,12 +18,8 @@ const reducer = combineReducers({
 
 type RootAction = PayloadAction<any> | { type: 'reset' }
 
-const rootReducer = (state: RootState | undefined, action: RootAction) => {
-  if (action.type === 'reset') {
-    state = undefined
-  }
-  return reducer(state, action)
-}
+const rootReducer = (state: RootState | undefined, action: RootAction) =>
+  reducer(state, action)
 
 export const store = configureStore({
   reducer: rootReducer,
