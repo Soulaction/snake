@@ -1,22 +1,22 @@
 import type { UserModel } from '@/shared/types/model'
 
-export interface RequestError {
+export interface IRequestError {
   reason: string
 }
 
-export type avatarRequest = FormData
+export type AvatarRequest = FormData
 
-export type avatarResponse = UserModel
+export type AvatarResponse = UserModel
 
-export type changeUserRequest = Omit<UserModel, 'id' | 'avatar'>
+export type ChangeUserRequest = Omit<UserModel, 'id' | 'avatar'>
 
-export type changeUserResponse = UserModel
+export type ChangeUserResponse = UserModel
 
-export interface YandexRequest {
+export interface IYandexRequest {
   code: string
   redirect_uri: string
 }
 
-export interface ServiceIdResponse {
+export interface IServiceIdResponse {
   service_id: string
 }

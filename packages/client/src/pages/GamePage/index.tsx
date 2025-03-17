@@ -9,7 +9,6 @@ export const GamePage: FC = () => {
   const dispatch = useAppDispatch()
 
   const startNewGame = () => {
-    // @TODO с появлением экрана начала поправить на StatusGame.Start
     dispatch(setStatusGame(StatusGame.Start))
   }
 
@@ -19,9 +18,8 @@ export const GamePage: FC = () => {
 
   return (
     <>
-      {statusGame === StatusGame.Start && <StartGame playGame={playGame} />}
-      {(statusGame === StatusGame.Process ||
-        statusGame === StatusGame.Pause) && <Game />}
+      {statusGame === StatusGame.Start && <StartGame playGame={startGame} />}
+      {[StatusGame.Process, StatusGame.Pause].includes(statusGame) && <Game />}
       {statusGame === StatusGame.End && (
         <EndGame score={score} rating={14} startNewGame={startNewGame} />
       )}

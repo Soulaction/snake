@@ -3,7 +3,6 @@ import { StatusGame } from '@/widgets/Game/model/types/StatusGame'
 import { GameStore } from '@/widgets/Game/model/types'
 
 const initialState: GameStore = {
-  // @TODO заменить на StatusGame.Start, когда будет функционал по началу игры
   statusGame: StatusGame.Start,
   score: 0,
 }
