@@ -18,7 +18,7 @@ export const GamePage: FC = () => {
 
   return (
     <>
-      {statusGame === StatusGame.Start && <StartGame playGame={startGame} />}
+      {statusGame === StatusGame.Start && <StartGame playGame={playGame} />}
       {[StatusGame.Process, StatusGame.Pause].includes(statusGame) && <Game />}
       {statusGame === StatusGame.End && (
         <EndGame score={score} rating={14} startNewGame={startNewGame} />

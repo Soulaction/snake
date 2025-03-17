@@ -15,6 +15,7 @@ export const GameInfo: FC = () => {
   const score = useAppSelector(state => state.game.score)
   const statusGame = useAppSelector(state => state.game.statusGame)
   const dispatch = useAppDispatch()
+  let isEndGame = false
 
   useEffect(() => {
     if (statusGame === StatusGame.Process) {
@@ -42,7 +43,11 @@ export const GameInfo: FC = () => {
   }, [isPause])
 
   const handleOpenChange = useCallback((isOpen: boolean): void => {
-    isOpen && dispatch(setStatusGame(StatusGame.Pause))
+    if (isOpen) {
+      dispatch(setStatusGame(StatusGame.Pause))
+    } else if (!isEndGame) {
+      dispatch(setStatusGame(StatusGame.Process))
+    }
   }, [])
 
   const cancel: PopconfirmProps['onCancel'] = useCallback(() => {
@@ -50,6 +55,7 @@ export const GameInfo: FC = () => {
   }, [])
 
   const confirm: PopconfirmProps['onConfirm'] = useCallback(() => {
+    isEndGame = true
     dispatch(setStatusGame(StatusGame.End))
   }, [])
 
