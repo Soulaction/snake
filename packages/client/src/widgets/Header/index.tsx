@@ -1,26 +1,37 @@
 import { Layout, Flex, Dropdown, Avatar, MenuProps } from 'antd'
 import { Navbar } from '../Navbar'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-
-const items: MenuProps['items'] = [
-  {
-    key: '1',
-    label: <Link to="/profile">Редактировать</Link>,
-    icon: <SettingOutlined />,
-  },
-  {
-    key: '2',
-    label: <span>Выйти</span>,
-    icon: <LogoutOutlined />,
-  },
-]
+import { signController } from '@/shared/controllers/sign-controller'
+import { useCallback, useMemo } from 'react'
 
 export const Header = () => {
+  const navigate = useNavigate()
+  const handleLogoutClick = useCallback(() => {
+    signController.logout(navigate)
+  }, [signController.logout])
+  
+  const items: MenuProps['items'] = useMemo(
+    () => [
+      {
+        key: 'profile',
+        label: <Link to="/profile">Редактировать</Link>,
+        icon: <SettingOutlined />,
+      },
+      {
+        key: 'logout',
+        label: <span>Выйти</span>,
+        icon: <LogoutOutlined />,
+        onClick: handleLogoutClick,
+      },
+    ],
+    [handleLogoutClick]
+  )
+
   return (
     <Layout.Header>
       <Flex align="center" justify="center">
