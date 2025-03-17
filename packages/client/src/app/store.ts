@@ -1,14 +1,24 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import {
+  combineReducers,
+  configureStore,
+  PayloadAction,
+} from '@reduxjs/toolkit'
 import UserReducer from '@/entities/User/slice'
 import { gameReducer } from '@/widgets/Game/model/gemeSlice'
+
+export type RootState = {
+  user: ReturnType<typeof UserReducer>
+  game: ReturnType<typeof gameReducer>
+}
 
 const reducer = combineReducers({
   user: UserReducer,
   game: gameReducer,
 })
 
-// @ts-expect-error типы any
-const rootReducer = (state, action) => {
+type RootAction = PayloadAction<any> | { type: 'reset' }
+
+const rootReducer = (state: RootState | undefined, action: RootAction) => {
   if (action.type === 'reset') {
     state = undefined
   }
@@ -23,5 +33,4 @@ export const store = configureStore({
     }),
 })
 
-export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
