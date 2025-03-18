@@ -3,7 +3,7 @@ import { Button, Card, Flex, Popconfirm, PopconfirmProps } from 'antd'
 import s from './GameInfo.module.css'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
-import { setStatusGame, setScore } from '@/widgets/Game/model/gemeSlice'
+import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
 import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
 import { store } from '@/app/store'
 
