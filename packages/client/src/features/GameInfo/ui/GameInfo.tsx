@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame, setScore } from '@/widgets/Game/model/gemeSlice'
 import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
+import { store } from '@/app/store'
 
 export const GameInfo: FC = () => {
   const timeGameSecond = useRef<number>(0)
@@ -15,7 +16,6 @@ export const GameInfo: FC = () => {
   const score = useAppSelector(state => state.game.score)
   const statusGame = useAppSelector(state => state.game.statusGame)
   const dispatch = useAppDispatch()
-  let isEndGame = false
 
   useEffect(() => {
     if (statusGame === StatusGame.Process) {
@@ -43,25 +43,19 @@ export const GameInfo: FC = () => {
   }, [isPause])
 
   const handleOpenChange = useCallback((isOpen: boolean): void => {
+    if (store.getState().game.statusGame === StatusGame.End) {
+      return
+    }
     if (isOpen) {
       dispatch(setStatusGame(StatusGame.Pause))
-    } else if (!isEndGame) {
+    } else {
       dispatch(setStatusGame(StatusGame.Process))
     }
   }, [])
 
-  const cancel: PopconfirmProps['onCancel'] = useCallback(() => {
-    dispatch(setStatusGame(StatusGame.Process))
-  }, [])
-
   const confirm: PopconfirmProps['onConfirm'] = useCallback(() => {
-    isEndGame = true
     dispatch(setStatusGame(StatusGame.End))
   }, [])
-
-  useEffect(() => {
-    dispatch(setScore(score))
-  }, [score])
 
   return (
     <Flex className={s.gameInfo} vertical>
@@ -116,9 +110,9 @@ export const GameInfo: FC = () => {
           {isPause ? 'Продолжить' : 'Пауза'}
         </Button>
         <Popconfirm
+          placement="topRight"
           title="Вы действительно хотите покинуть игру?"
           onConfirm={confirm}
-          onCancel={cancel}
           onOpenChange={handleOpenChange}
           okText="Закончить игру"
           cancelText="Продолжить игру">
