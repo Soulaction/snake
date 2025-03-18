@@ -34,7 +34,8 @@ export const LoginPage: FC = () => {
           <Button block type="primary" htmlType="submit">
             Войти
           </Button>
-          или <NavLink to={RouterPaths.registration}>Зарегистрироваться</NavLink>
+          или{' '}
+          <NavLink to={RouterPaths.registration}>Зарегистрироваться</NavLink>
         </Form.Item>
       </Form>
     </Flex>

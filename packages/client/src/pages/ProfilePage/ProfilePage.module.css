@@ -1,0 +1,12 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 60%;
+  max-width: 60%;
+  height: 100%;
+}
+
+.avatar {
+  margin-bottom: 20px;
+}

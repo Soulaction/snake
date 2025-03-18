@@ -4,18 +4,14 @@ import styles from './Start.module.css'
 import { CounterAnimation } from '@/shared/ui'
 
 interface IStartGameProps {
-  onStartClick?: () => void
   playGame: () => void
 }
 
-export const StartGame: FC<IStartGameProps> = ({ onStartClick, playGame }) => {
+export const StartGame: FC<IStartGameProps> = ({ playGame }) => {
   const [started, setStarted] = useState(false)
   const [isAnimationComplete, setIsAnimationComplete] = useState(false)
 
   const startAnimation = () => {
-    if (onStartClick) {
-      onStartClick()
-    }
     setStarted(true)
     setIsAnimationComplete(false)
   }
