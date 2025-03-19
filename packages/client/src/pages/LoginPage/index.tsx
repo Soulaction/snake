@@ -1,14 +1,20 @@
 import type { FC } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Flex, Typography } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
+import { useAuth } from '@/shared/hooks'
 
 const { Title } = Typography
 
 export const LoginPage: FC = () => {
+  const { setAuth } = useAuth()
+  const navigate =useNavigate()
+
   const onFinish = (values: unknown) => {
     console.log('введенные данные', values)
+    setAuth(true)
+    navigate(RouterPaths.main)
   }
 
   return (
