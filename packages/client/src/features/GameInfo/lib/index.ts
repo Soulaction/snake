@@ -1,1 +1,1 @@
-export { formatTimeFromMS } from './formatedTimeFromMS'
+export { formatTimeFromSecond } from './formatedTimeFromMS'
