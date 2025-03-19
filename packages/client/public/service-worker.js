@@ -1,13 +1,13 @@
 const CACHE_NAME = 'game-cache-v1'
 
 const urlsCashed = [
-  '/index.html'
+  '/'
 ]
 
-// const skipProtocolCashed = [
-//   'chrome-extension:',
-//   'ws:'
-// ]
+const skipProtocolCashed = [
+  'chrome-extension:',
+  'ws:'
+]
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -29,25 +29,24 @@ self.addEventListener('activate', (event) => {
 })
 
 self.addEventListener('fetch', event => {
-  event.respondWith(strategyCacheFirst)
+  event.respondWith(strategyCacheFirst(event))
 })
 
-const strategyCacheFirst = (event) => {
-  const protocol = event.request.headers.protocol
-  console.log(protocol)
-  const responseCache = caches.match(event.request)
+const strategyCacheFirst = async (event) => {
+  const responseCache = await caches.match(event.request)
   if (responseCache) {
     return responseCache
   }
-  const fetchRequest = event.request.clone()
-  const responseApi = fetch(fetchRequest)
-  if (!responseApi || responseApi.status !== 200 || responseApi.type !== 'basic') {
-    return responseApi
-  }
 
-  const responseToCache = responseApi.clone()
-  const cache = caches.open(CACHE_NAME)
-  cache.put(event.request, responseToCache)
+  const { protocol } = new URL(event.request.url)
+  const fetchRequest = event.request.clone()
+  const responseApi = await fetch(fetchRequest)
+
+  if (!skipProtocolCashed.includes(protocol) && (responseApi || responseApi.status === 200 || responseApi.type === 'basic') ) {
+    const responseToCache = responseApi.clone()
+    const cache = await caches.open(CACHE_NAME)
+    cache.put(event.request, responseToCache)
+  }
 
   return responseApi
 }

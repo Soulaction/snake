@@ -12,7 +12,6 @@ export const GameInfo: FC = () => {
   const timeGameSecond = useRef<number>(0)
   const intervalId = useRef<ReturnType<typeof setInterval>>()
   const [timeGame, setTimeGame] = useState<string>(formatTimeFromSecond(0))
-  const [isPause, setIsPause] = useState<boolean>(false)
   const navigate = useNavigate()
 
   const score = useAppSelector(state => state.game.score)
@@ -36,13 +35,11 @@ export const GameInfo: FC = () => {
 
   const togglePause = useCallback(() => {
     if (statusGame === StatusGame.Pause) {
-      setIsPause(false)
       dispatch(setStatusGame(StatusGame.Process))
     } else {
-      setIsPause(true)
       dispatch(setStatusGame(StatusGame.Pause))
     }
-  }, [isPause])
+  }, [statusGame])
 
   const handleOpenChange = useCallback((isOpen: boolean): void => {
     if (isOpen) {
@@ -106,7 +103,7 @@ export const GameInfo: FC = () => {
       </Card>
       <Flex justify="space-between">
         <Button color="primary" variant="outlined" onClick={togglePause}>
-          {isPause ? 'Продолжить' : 'Пауза'}
+          {statusGame === StatusGame.Pause ? 'Продолжить' : 'Пауза'}
         </Button>
         <Popconfirm
           title="Вы действительно хотите покинуть игру?"
