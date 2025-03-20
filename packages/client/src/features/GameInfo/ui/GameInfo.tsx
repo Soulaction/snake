@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
 import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
-import { RouterPaths } from '@/shared/router'
+import { store } from '@/app/store'
 
 export const GameInfo: FC = () => {
   const timeGameSecond = useRef<number>(0)
@@ -34,11 +34,13 @@ export const GameInfo: FC = () => {
 
   const togglePause = useCallback(() => {
     if (statusGame === StatusGame.Pause) {
+      setIsPause(false)
       dispatch(setStatusGame(StatusGame.Process))
     } else {
+      setIsPause(true)
       dispatch(setStatusGame(StatusGame.Pause))
     }
-  }, [statusGame])
+  }, [isPause])
 
   const handleOpenChange = useCallback((isOpen: boolean): void => {
     if (store.getState().game.statusGame === StatusGame.End) {
@@ -105,7 +107,7 @@ export const GameInfo: FC = () => {
       </Card>
       <Flex justify="space-between">
         <Button color="primary" variant="outlined" onClick={togglePause}>
-          {statusGame === StatusGame.Pause ? 'Продолжить' : 'Пауза'}
+          {isPause ? 'Продолжить' : 'Пауза'}
         </Button>
         <Popconfirm
           placement="topRight"
