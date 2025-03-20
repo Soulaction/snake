@@ -5,14 +5,13 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
 import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
-import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 
 export const GameInfo: FC = () => {
   const timeGameSecond = useRef<number>(0)
   const intervalId = useRef<ReturnType<typeof setInterval>>()
   const [timeGame, setTimeGame] = useState<string>(formatTimeFromSecond(0))
-  const navigate = useNavigate()
+  const [isPause, setIsPause] = useState<boolean>(false)
 
   const score = useAppSelector(state => state.game.score)
   const statusGame = useAppSelector(state => state.game.statusGame)
@@ -42,6 +41,9 @@ export const GameInfo: FC = () => {
   }, [statusGame])
 
   const handleOpenChange = useCallback((isOpen: boolean): void => {
+    if (store.getState().game.statusGame === StatusGame.End) {
+      return
+    }
     if (isOpen) {
       dispatch(setStatusGame(StatusGame.Pause))
     } else {
@@ -50,7 +52,7 @@ export const GameInfo: FC = () => {
   }, [])
 
   const confirm: PopconfirmProps['onConfirm'] = useCallback(() => {
-    navigate(RouterPaths.main)
+    dispatch(setStatusGame(StatusGame.End))
   }, [])
 
   return (
@@ -97,7 +99,7 @@ export const GameInfo: FC = () => {
           </Flex>
           <Flex align="center">
             <Button size="small">Space</Button>
-            <p>&nbsp;- усколрениеи (вкл./выкл. по нажатию)</p>
+            <p>&nbsp;- ускорение (вкл./выкл. по нажатию)</p>
           </Flex>
         </Flex>
       </Card>
@@ -106,13 +108,14 @@ export const GameInfo: FC = () => {
           {statusGame === StatusGame.Pause ? 'Продолжить' : 'Пауза'}
         </Button>
         <Popconfirm
+          placement="topRight"
           title="Вы действительно хотите покинуть игру?"
           onConfirm={confirm}
           onOpenChange={handleOpenChange}
-          okText="Выйти"
+          okText="Закончить игру"
           cancelText="Продолжить игру">
           <Button color="default" variant="outlined">
-            Выйти
+            Закончить игру
           </Button>
         </Popconfirm>
       </Flex>
