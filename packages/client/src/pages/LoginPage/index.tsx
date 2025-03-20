@@ -4,15 +4,20 @@ import { Button, Form, Input, Flex, Typography } from 'antd'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { signController } from '@/shared/controllers/sign-controller'
-import { ISigninDTO } from '@/shared/api/sign-api'
+import { ISigninDTO } from '@/shared/controllers/sign-controller'
+import { getUserData } from '@/entities/User/service'
+import { useAppDispatch } from '@/shared/hooks'
 
 const { Title } = Typography
 
 export const LoginPage: FC = () => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const onFinish = (values: unknown) => {
-    console.log('введенные данные', values)
-    signController.login(values as ISigninDTO, navigate);
+  const onFinish = async (values: ISigninDTO) => {
+    await signController.login(values, () => {
+      dispatch(getUserData())
+      navigate(RouterPaths.main)
+    })
   }
 
   return (

@@ -8,13 +8,15 @@ import {
 } from '@ant-design/icons'
 import { signController } from '@/shared/controllers/sign-controller'
 import { useCallback, useMemo } from 'react'
+import { RouterPaths } from '@/shared/router'
 
 export const Header = () => {
   const navigate = useNavigate()
   const handleLogoutClick = useCallback(() => {
-    signController.logout(navigate)
+    signController.logout()
+    navigate(RouterPaths.login)
   }, [signController.logout])
-  
+
   const items: MenuProps['items'] = useMemo(
     () => [
       {
