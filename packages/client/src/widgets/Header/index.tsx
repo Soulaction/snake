@@ -17,7 +17,7 @@ export const Header = () => {
   const handleLogout = useCallback(() => {
     setAuth(false)
     navigate(RouterPaths.login)
-  }, [setAuth, navigate])
+  }, [])
 
   const items: MenuProps['items'] = useMemo(
     () => [
