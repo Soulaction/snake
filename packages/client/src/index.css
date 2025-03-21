@@ -1,3 +1,5 @@
+@import './shared/constants/styles/landing-variables.css';
+
 * {
   padding: 0;
   margin: 0;

@@ -1,0 +1,16 @@
+.circle {
+  background-color: var(--landing-main-color);
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+.title {
+  color: var(--landing-main-text-color);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  color: var(--landing-secondary-text-color);
+  font-size: 1rem;
+}
