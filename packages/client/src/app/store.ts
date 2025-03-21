@@ -16,7 +16,7 @@ const reducer = combineReducers({
   game: gameReducer,
 })
 
-type RootAction = PayloadAction<any> | { type: 'reset' }
+type RootAction = PayloadAction<unknown> | { type: 'reset' }
 
 const rootReducer = (state: RootState | undefined, action: RootAction) =>
   reducer(state, action)
