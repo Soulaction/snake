@@ -1,3 +1,5 @@
+import { RouterPaths } from '@/shared/router'
+
 export interface NavbarItemType {
   path: string
   title: string
@@ -5,19 +7,19 @@ export interface NavbarItemType {
 
 export const NavbarItemsList: NavbarItemType[] = [
   {
-    path: '/',
+    path: RouterPaths.main,
     title: 'Главная',
   },
   {
-    path: '/game',
+    path: RouterPaths.game,
     title: 'Играть',
   },
   {
-    path: '/leaderboard',
+    path: RouterPaths.leaderboard,
     title: 'Лидеры',
   },
   {
-    path: '/forum',
+    path: RouterPaths.forum,
     title: 'Форум',
   },
 ]
