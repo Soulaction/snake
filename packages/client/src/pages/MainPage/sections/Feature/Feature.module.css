@@ -1,0 +1,11 @@
+.title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--landing-main-text-color);
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--landing-secondary-text-color);
+}
