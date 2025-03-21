@@ -1,0 +1,47 @@
+.layout {
+  background-color: var(--landing-main-bg-color);
+  color: var(--landing-main-text-color);
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  width: 100%;
+}
+
+.actionBtn {
+  background-color: var(--landing-main-color) !important;
+  color: var(--landing-main-text-color) !important;
+  border: none !important;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: none !important;
+}
+
+.actionBtn:hover,
+.actionBtn:focus,
+.actionBtn:active {
+  background-color: var(--landing-main-color-active) !important;
+  color: var(--landing-main-text-color) !important;
+  transform: var(--landing-scale-animation);
+  box-shadow: none !important;
+}
+
+.card {
+  background-color: var(--landing-card-bg-color);
+  border-radius: 1rem;
+  padding: 0.3rem;
+  border: none;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: var(--landing-scale-animation);
+}
+
+.icon {
+  font-size: 3rem;
+  color: var(--landing-main-color);
+  margin-bottom: 1rem;
+}
