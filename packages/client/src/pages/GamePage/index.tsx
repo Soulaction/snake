@@ -1,4 +1,4 @@
-import { EndGame, Game, StartGame } from '@/widgets'
+import { StartGame, Game, EndGame } from '@/widgets'
 import type { FC } from 'react'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
@@ -12,13 +12,13 @@ export const GamePage: FC = () => {
     dispatch(setStatusGame(StatusGame.Start))
   }
 
-  const startGame = () => {
+  const playGame = () => {
     dispatch(setStatusGame(StatusGame.Process))
   }
 
   return (
     <>
-      {statusGame === StatusGame.Start && <StartGame playGame={startGame} />}
+      {statusGame === StatusGame.Start && <StartGame playGame={playGame} />}
       {[StatusGame.Process, StatusGame.Pause].includes(statusGame) && <Game />}
       {statusGame === StatusGame.End && (
         <EndGame score={score} rating={14} startNewGame={startNewGame} />
