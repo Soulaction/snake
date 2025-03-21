@@ -8,6 +8,15 @@ import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
 import { RouterPaths } from '@/shared/router'
 
+const formFields = [
+  { name: 'first_name', label: 'Имя' },
+  { name: 'second_name', label: 'Фамилия' },
+  { name: 'login', label: 'Логин' },
+  { name: 'email', label: 'Почта' },
+  { name: 'phone', label: 'Телефон' },
+  { name: 'display_name', label: 'Имя в чате' },
+]
+
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
   const user = useAppSelector(state => state.user.user)
@@ -46,25 +55,12 @@ export const ProfilePage: FC = () => {
       <Flex className={styles.avatar} align="center" justify="center">
         <FileInput imgUrl={`${user.avatar}`} />
       </Flex>
-      <Form.Item name="first_name" label="Имя">
-        <Input />
-      </Form.Item>
-      <Form.Item name="second_name" label="Фамилия">
-        <Input />
-      </Form.Item>
-      <Form.Item name="login" label="Логин">
-        <Input />
-      </Form.Item>
-      <Form.Item name="email" label="Почта">
-        <Input />
-      </Form.Item>
-      <Form.Item name="phone" label="Телефон">
-        <Input />
-      </Form.Item>
-      <Form.Item name="display_name" label="Имя в чате">
-        <Input />
-      </Form.Item>
-      <Form.Item name="display_name" label={null}>
+      {formFields.map(({ name, label }) => (
+        <Form.Item key={name} name={name} label={label}>
+          <Input />
+        </Form.Item>
+      ))}
+      <Form.Item label={null}>
         <Flex align="end" justify="end">
           <Space>
             <Button onClick={goToPassReset}>Изменить пароль</Button>
