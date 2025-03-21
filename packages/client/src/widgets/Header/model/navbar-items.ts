@@ -1,6 +1,8 @@
+import { RouterPaths } from '@/shared/router'
+
 export const navbarItems = [
-  { key: '/', label: 'Главная' },
-  { key: '/game', label: 'Играть' },
-  { key: '/leaderboard', label: 'Лидеры' },
-  { key: '/forum', label: 'Форум' },
+  { key: RouterPaths.main, label: 'Главная' },
+  { key: RouterPaths.game, label: 'Играть' },
+  { key: RouterPaths.leaderboard, label: 'Лидеры' },
+  { key: RouterPaths.forum, label: 'Форум' },
 ]
