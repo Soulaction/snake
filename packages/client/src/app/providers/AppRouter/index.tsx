@@ -18,6 +18,11 @@ import type { FC } from 'react'
 
 export const AppRouter: FC = () => (
   <Routes>
+    <Route
+      key={RouterPaths.main}
+      path={RouterPaths.main}
+      element={<MainPage />}
+    />
     <Route key="layout" element={<MainLayout />}>
       <Route
         key={RouterPaths.login}
@@ -39,11 +44,7 @@ export const AppRouter: FC = () => (
         path={RouterPaths.game}
         element={<GamePage />}
       />
-      <Route
-        key={RouterPaths.main}
-        path={RouterPaths.main}
-        element={<MainPage />}
-      />
+
       <Route
         key={RouterPaths.leaderboard}
         path={RouterPaths.leaderboard}

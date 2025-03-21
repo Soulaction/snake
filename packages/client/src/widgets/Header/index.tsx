@@ -1,11 +1,12 @@
 import { Layout, Flex, Dropdown, Avatar, MenuProps } from 'antd'
-import { Navbar } from '../Navbar'
+import { Navbar } from '../../shared/ui/Navbar'
 import { Link } from 'react-router-dom'
 import {
   LogoutOutlined,
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons'
+import { navbarItems } from './model/navbar-items'
 
 const items: MenuProps['items'] = [
   {
@@ -24,7 +25,7 @@ export const Header = () => {
   return (
     <Layout.Header>
       <Flex align="center" justify="center">
-        <Navbar />
+        <Navbar items={navbarItems} />
         <Dropdown
           menu={{ items }}
           placement="bottomRight"
