@@ -2,9 +2,30 @@ import { KeyboardEvent, useEffect, useState } from 'react'
 import { Direction } from '@/features/GameCanvas/model/types'
 import { DEFAULT_SPEED } from '@/features/GameCanvas/model/gameConstant'
 
-export const useGameControls = (): { direction: Direction; speed: number } => {
+export const useGameControls = (): {
+  direction: Direction
+  speed: number
+  increaseSpeed: () => void
+} => {
   const [direction, setDirection] = useState<Direction>(Direction.ArrowRight)
   const [speed, setSpeed] = useState<number>(DEFAULT_SPEED)
+  const [isBoosted, setIsBoosted] = useState<boolean>(false)
+
+  const increaseSpeed = () => {
+    setSpeed(prevSpeed => {
+      return prevSpeed / 1.1
+    })
+  }
+
+  const toggleBoost = () => {
+    setIsBoosted(isBoosted => {
+      setSpeed(prevSpeed => {
+        return !isBoosted ? prevSpeed / 2 : prevSpeed * 2
+      })
+
+      return !isBoosted
+    })
+  }
 
   useEffect(() => {
     const handleKeyDown = (event: Event): void => {
@@ -44,12 +65,7 @@ export const useGameControls = (): { direction: Direction; speed: number } => {
           })
           break
         case 'Space':
-          setSpeed(prevSpeed => {
-            if (DEFAULT_SPEED === prevSpeed) {
-              return prevSpeed / 5
-            }
-            return DEFAULT_SPEED
-          })
+          toggleBoost()
           break
       }
     }
@@ -58,5 +74,5 @@ export const useGameControls = (): { direction: Direction; speed: number } => {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  return { direction, speed }
+  return { direction, speed, increaseSpeed }
 }
