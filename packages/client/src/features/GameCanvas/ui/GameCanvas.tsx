@@ -28,7 +28,6 @@ export const GameCanvas = () => {
 
   const statusGame = useAppSelector(state => state.game.statusGame)
   const currentLevel = useAppSelector(state => state.game.level)
-  const currentScore = useAppSelector(state => state.game.score)
 
   const dispatch = useAppDispatch()
 
@@ -50,8 +49,10 @@ export const GameCanvas = () => {
 
   useEffect(() => {
     if (appleLifetime) {
-      clearInterval(appleInterval.current)
       appleInterval.current = setInterval(generateApple, appleLifetime)
+    }
+    return () => {
+      clearInterval(appleInterval.current)
     }
   }, [apple])
 
@@ -83,15 +84,13 @@ export const GameCanvas = () => {
       newSnake = [...snake.slice(1), newHeadNode, dopItemSnake]
       generateApple()
       dispatch(setScore(newSnake.length - 1))
-      if (currentScore % 4 === 0) {
-        //каждые 4 яблока это +1 уровень
+      if ((newSnake.length - 1) % 4 === 0) {
         const nextLevel = currentLevel + 1
-        increaseSpeed() //повышаем скорость вместе с уровнем
+        increaseSpeed()
         dispatch(setLevel(nextLevel))
         if (nextLevel > 1 && nextLevel < 20) {
           setAppleLifetime(oldAppleLifetime => {
-            //выставляем таймер для яблока
-            return !oldAppleLifetime ? 20000 : oldAppleLifetime - 1000 //отнимаем секунду за каждый уровень
+            return !oldAppleLifetime ? 20000 : oldAppleLifetime - 1000
           })
         }
       }
