@@ -7,15 +7,7 @@ import { changeAvatar, changeUser } from '@/entities/User/service'
 import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
 import { RouterPaths } from '@/shared/router'
-
-const formFields = [
-  { name: 'first_name', label: 'Имя' },
-  { name: 'second_name', label: 'Фамилия' },
-  { name: 'login', label: 'Логин' },
-  { name: 'email', label: 'Почта' },
-  { name: 'phone', label: 'Телефон' },
-  { name: 'display_name', label: 'Имя в чате' },
-]
+import { fieldTooltip, regExpByField } from '../RegistrationPage'
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -51,15 +43,131 @@ export const ProfilePage: FC = () => {
       layout="horizontal"
       initialValues={{ ...user }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}>
+      onFinishFailed={onFinishFailed}
+      validateTrigger={['onFinish', 'onBlur']}>
       <Flex className={styles.avatar} align="center" justify="center">
         <FileInput imgUrl={`${user.avatar}`} />
       </Flex>
-      {formFields.map(({ name, label }) => (
-        <Form.Item key={name} name={name} label={label}>
-          <Input />
-        </Form.Item>
-      ))}
+      <Form.Item
+        name="first_name"
+        label="Имя"
+        rules={[
+          {
+            required: true,
+            message: 'Укажите Имя',
+          },
+          () => ({
+            validator(_, value) {
+              if (!value || regExpByField.first_name.test(value)) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Ошибка валидации поля Имя'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.first_name}>
+        <Input name="first_name" />
+      </Form.Item>
+      <Form.Item
+        name="second_name"
+        label="Фамилия"
+        rules={[
+          {
+            required: true,
+            message: 'Укажите Фамилию',
+          },
+          () => ({
+            validator(_, value) {
+              if (!value || regExpByField.second_name.test(value)) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Ошибка валидации поля Фамилия'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.second_name}>
+        <Input name="second_name" />
+      </Form.Item>
+      <Form.Item
+        name="login"
+        label="Логин"
+        rules={[
+          {
+            required: true,
+            message: 'Укажите Логин',
+          },
+          () => ({
+            validator(_, value) {
+              if (!value || regExpByField.login.test(value)) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Ошибка валидации поля Логин'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.login}>
+        <Input name="login" autoComplete="on" />
+      </Form.Item>
+      <Form.Item
+        name="email"
+        label="Почта"
+        rules={[
+          {
+            required: true,
+            message: 'Ошибка валидации E-mail!',
+          },
+          () => ({
+            validator(_, value) {
+              if (!value || regExpByField.email.test(value)) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Ошибка валидации поля Почта'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.email}>
+        <Input name="email" autoComplete="on" />
+      </Form.Item>
+      <Form.Item
+        name="phone"
+        label="Телефон"
+        rules={[
+          {
+            required: true,
+            message: 'Укажите Телефон',
+          },
+          () => ({
+            validator(_, value) {
+              if (!value || regExpByField.phone.test(value)) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Ошибка валидации поля Телефон'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.phone}>
+        <Input name="phone" autoComplete="on" />
+      </Form.Item>
+      <Form.Item
+        name="display_name"
+        label="Имя в чате"
+        rules={[
+          {
+            required: true,
+            message: 'Укажите Имя в чате',
+          },
+          () => ({
+            validator(_, value) {
+              if (!value || regExpByField.login.test(value)) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Ошибка валидации поля Имя в чате'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.login}>
+        <Input name="login" autoComplete="on" />
+      </Form.Item>
       <Form.Item label={null}>
         <Flex align="end" justify="end">
           <Space>
