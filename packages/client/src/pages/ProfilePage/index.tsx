@@ -7,6 +7,7 @@ import { changeAvatar, changeUser } from '@/entities/User/service'
 import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
 import { RouterPaths } from '@/shared/router'
+import { apiYandex, resourcesYandex } from '@/shared/constants/api'
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -37,7 +38,9 @@ export const ProfilePage: FC = () => {
   return (
     <>
       <Flex className={styles.avatar} align="center" justify="center">
-        <FileInput imgUrl={`${user.avatar}`} />
+        <FileInput
+          imgUrl={user.avatar}
+        />
       </Flex>
       <Form
         className={styles.form}

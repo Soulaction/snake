@@ -2,12 +2,13 @@ import { Notification } from '@/shared/lib'
 import { createSlice } from '@reduxjs/toolkit'
 import { UserModel } from '@/shared/types/model'
 import { userInitial } from '../mock'
-import { changeAvatar, changeUser, getUserData } from '../service'
+import { changeAvatar, changeUser, changeUserPassword, getUserData } from '../service'
 
 const initialState = {
   user: { ...userInitial } as UserModel,
   userLoading: false,
   avatarLoading: false,
+  passwordChanging: false,
 }
 
 export type UserState = Readonly<typeof initialState>
@@ -55,6 +56,20 @@ export const UserSlice = createSlice({
       .addCase(getUserData.rejected, (state, action) => {
         const errorMessage =
           action.error?.message || 'Не удалось получить данные пользователя'
+        Notification.error(errorMessage)
+      })
+      .addCase(changeUserPassword.pending, state => {
+        state.passwordChanging = true
+      })
+      .addCase(changeUserPassword.fulfilled, (state) => {
+        state.passwordChanging = false
+        Notification.success('Новый пароль сохранен')
+      })
+      .addCase(changeUserPassword.rejected, (state, action) => {
+        console.log({ action });
+        state.passwordChanging = false
+        const errorMessage =
+          action.error?.message || 'Не удалось поменять пароль'
         Notification.error(errorMessage)
       })
   },
