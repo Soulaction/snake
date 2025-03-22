@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Flex, notification } from 'antd'
+import { Flex } from 'antd'
 import { Direction, GameItem, Snake } from '@/features/GameCanvas/model/types'
 import {
   useConfigurateCanvas,
@@ -10,7 +10,11 @@ import { drawGame } from '@/features/GameCanvas/lib/drawGame'
 import { getRandomInt } from '@/features/GameCanvas/lib'
 import s from './GameCanvas.module.css'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
-import { setScore, setStatusGame } from '@/widgets/Game/model/gemeSlice'
+import {
+  setScore,
+  setStatusGame,
+  setLevel,
+} from '@/widgets/Game/model/gemeSlice'
 import { StatusGame } from '@/widgets/Game/model/types'
 
 export const GameCanvas = () => {
@@ -20,15 +24,19 @@ export const GameCanvas = () => {
 
   const [snake, setSnake] = useState<Snake>([])
   const [apple, setApple] = useState<GameItem>()
+  const [appleTimeout, setAppleTimeout] = useState<number>(0)
 
   const statusGame = useAppSelector(state => state.game.statusGame)
+  const currentLevel = useAppSelector(state => state.game.level)
+  const currentScore = useAppSelector(state => state.game.score)
+
   const dispatch = useAppDispatch()
 
   const configCanvas = useConfigurateCanvas<HTMLCanvasElement>(
     canvasRef,
     SIZE_OBJECT
   )
-  const { direction, speed } = useGameControls()
+  const { direction, speed, increaseSpeed } = useGameControls()
 
   useEffect(() => {
     if (statusGame === StatusGame.Process) {
@@ -51,8 +59,10 @@ export const GameCanvas = () => {
   }, [configCanvas])
 
   const updateGame = useCallback(() => {
+    //обновляем кадр
     const { width: widthCanvas, height: heightCanvas } = configCanvas.sizeCanvas
     const headNode = snake.at(-1)
+
     if (!headNode || !apple) {
       return
     }
@@ -64,6 +74,12 @@ export const GameCanvas = () => {
       const dopItemSnake: GameItem = transformSnake(newHeadNode)
       newSnake = [...snake.slice(1), newHeadNode, dopItemSnake]
       generateApple()
+      dispatch(setScore(newSnake.length - 1))
+      if (currentScore % 4 === 0) {
+        //каждые 4 яблока это +1 уровень
+        increaseSpeed() //повышаем скорость вместе с уровнем
+        dispatch(setLevel(currentLevel + 1))
+      }
     } else {
       newSnake = [...snake.slice(1), newHeadNode]
     }
@@ -88,7 +104,6 @@ export const GameCanvas = () => {
     } else {
       drawGame(configCanvas, newSnake, apple)
       setSnake(newSnake)
-      dispatch(setScore(newSnake.length - 1))
     }
   }, [configCanvas, snake, direction])
 
