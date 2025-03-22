@@ -7,6 +7,7 @@ import { changeAvatar, changeUser } from '@/entities/User/service'
 import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
 import { RouterPaths } from '@/shared/router'
+import { apiYandex, resourcesYandex } from '@/shared/constants/api'
 
 const formFields = [
   { name: 'first_name', label: 'Имя' },
@@ -53,7 +54,9 @@ export const ProfilePage: FC = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}>
       <Flex className={styles.avatar} align="center" justify="center">
-        <FileInput imgUrl={`${user.avatar}`} />
+        <FileInput
+          imgUrl={user.avatar}
+        />
       </Flex>
       {formFields.map(({ name, label }) => (
         <Form.Item key={name} name={name} label={label}>

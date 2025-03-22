@@ -4,17 +4,31 @@ import { Image, Upload } from 'antd'
 import type { UploadFile, UploadProps } from 'antd'
 import { getBase64 } from './libs'
 import { FileType } from './libs/getBase64'
+import { useAppSelector } from '@/shared/hooks'
+import { resourcesYandex } from '@/shared/constants/api'
 
 interface IFileInputProps {
   imgUrl?: string
 }
 
 export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
+  const user = useAppSelector(state => state.user.user)
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
-  const [file, setFile] = useState<UploadFile[]>([
-    { uid: imgUrl || '1', name: 'image.png', status: 'done', url: imgUrl },
-  ])
+  const [file, setFile] = useState<UploadFile[]>(
+    imgUrl
+      ? [
+          {
+            uid: imgUrl || '1',
+            name: 'image.png',
+            status: 'done',
+            url: `${resourcesYandex}${imgUrl}`,
+          },
+        ]
+      : []
+  )
+
+  console.log({ file, user }, file.length > 0 || user.avatar)
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -35,7 +49,7 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
   const uploadButton = (
     <button style={{ border: 0, background: 'none' }} type="button">
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div style={{ marginTop: 8 }}>Добавить аватар</div>
     </button>
   )
 
@@ -54,7 +68,7 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
       )}
       <Upload
         style={{ width: '300px', height: '300px' }}
-        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+        action={resourcesYandex}
         listType="picture-card"
         fileList={file}
         onPreview={handlePreview}
