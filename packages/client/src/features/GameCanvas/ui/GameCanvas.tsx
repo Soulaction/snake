@@ -24,7 +24,7 @@ export const GameCanvas = () => {
 
   const [snake, setSnake] = useState<Snake>([])
   const [apple, setApple] = useState<GameItem>()
-  const [appleTimeout, setAppleTimeout] = useState<number>(0)
+  const [appleLifetime, setAppleLifetime] = useState<number>(0)
 
   const statusGame = useAppSelector(state => state.game.statusGame)
   const currentLevel = useAppSelector(state => state.game.level)
@@ -37,6 +37,7 @@ export const GameCanvas = () => {
     SIZE_OBJECT
   )
   const { direction, speed, increaseSpeed } = useGameControls()
+  const appleInterval = useRef<ReturnType<typeof setInterval>>()
 
   useEffect(() => {
     if (statusGame === StatusGame.Process) {
@@ -46,6 +47,13 @@ export const GameCanvas = () => {
       }
     }
   }, [snake, apple, direction, statusGame])
+
+  useEffect(() => {
+    if (appleLifetime) {
+      clearInterval(appleInterval.current)
+      appleInterval.current = setInterval(generateApple, appleLifetime)
+    }
+  }, [apple])
 
   useEffect(() => {
     const {
@@ -77,8 +85,15 @@ export const GameCanvas = () => {
       dispatch(setScore(newSnake.length - 1))
       if (currentScore % 4 === 0) {
         //каждые 4 яблока это +1 уровень
+        const nextLevel = currentLevel + 1
         increaseSpeed() //повышаем скорость вместе с уровнем
-        dispatch(setLevel(currentLevel + 1))
+        dispatch(setLevel(nextLevel))
+        if (nextLevel > 1 && nextLevel < 20) {
+          setAppleLifetime(oldAppleLifetime => {
+            //выставляем таймер для яблока
+            return !oldAppleLifetime ? 20000 : oldAppleLifetime - 1000 //отнимаем секунду за каждый уровень
+          })
+        }
       }
     } else {
       newSnake = [...snake.slice(1), newHeadNode]
