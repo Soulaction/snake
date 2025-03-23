@@ -16,6 +16,7 @@ export const GameInfo: FC = () => {
   const [textContent, toggleFullScreen] = useToggleFullscreen()
 
   const score = useAppSelector(state => state.game.score)
+  const currentLevel = useAppSelector(state => state.game.level)
   const statusGame = useAppSelector(state => state.game.statusGame)
   const dispatch = useAppDispatch()
 
@@ -66,6 +67,10 @@ export const GameInfo: FC = () => {
         <p>
           <span className={s.gameDescriptionTitle}>Съедено яблок: </span>
           {score}
+        </p>
+        <p>
+          <span className={s.gameDescriptionTitle}>Текущий уровень: </span>
+          {currentLevel}
         </p>
         <p>
           <span className={s.gameDescriptionTitle}>Время с начала игры: </span>
