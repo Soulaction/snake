@@ -1,6 +1,6 @@
 import type { FC } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
-import { Button, Form, Input, Flex, Typography } from 'antd'
+import { Button, Flex, Form, Input, Typography } from 'antd'
 import { NavLink } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 

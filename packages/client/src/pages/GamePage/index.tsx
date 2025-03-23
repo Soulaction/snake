@@ -3,6 +3,7 @@ import type { FC } from 'react'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
+import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
 
 export const GamePage: FC = () => {
   const { statusGame, score } = useAppSelector(state => state.game)
@@ -17,12 +18,12 @@ export const GamePage: FC = () => {
   }
 
   return (
-    <>
+    <ErrorBoundary>
       {statusGame === StatusGame.Start && <StartGame playGame={playGame} />}
       {[StatusGame.Process, StatusGame.Pause].includes(statusGame) && <Game />}
       {statusGame === StatusGame.End && (
         <EndGame score={score} rating={14} startNewGame={startNewGame} />
       )}
-    </>
+    </ErrorBoundary>
   )
 }
