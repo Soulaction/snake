@@ -1,5 +1,5 @@
 export type AppRoutesKeys = keyof typeof AppRoutes
-export type AppRoutesValues = typeof AppRoutes[AppRoutesKeys]
+export type AppRoutesValues = (typeof AppRoutes)[AppRoutesKeys]
 
 export const AppRoutes = {
   MAIN: 'main',
