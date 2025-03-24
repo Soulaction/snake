@@ -20,3 +20,8 @@ export interface IYandexRequest {
 export interface IServiceIdResponse {
   service_id: string
 }
+
+export interface IChangePasswordDTO {
+  oldPassword: string
+  newPassword: string
+}

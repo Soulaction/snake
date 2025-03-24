@@ -2,12 +2,13 @@ import { Notification } from '@/shared/lib'
 import { createSlice } from '@reduxjs/toolkit'
 import { UserModel } from '@/shared/types/model'
 import { userInitial } from '../mock'
-import { changeAvatar, changeUser } from '../service'
+import { changeAvatar, changeUser, changeUserPassword, getUserData } from '../service'
 
 const initialState = {
   user: { ...userInitial } as UserModel,
   userLoading: false,
   avatarLoading: false,
+  passwordChanging: false,
   isAuth: false,
 }
 
@@ -28,6 +29,7 @@ export const UserSlice = createSlice({
       })
       .addCase(changeUser.fulfilled, (state, action) => {
         state.user = action.payload.data
+        state.userLoading = false
         Notification.success('Профиль изменен')
       })
       .addCase(changeUser.rejected, (state, action) => {
@@ -47,6 +49,32 @@ export const UserSlice = createSlice({
         state.avatarLoading = false
         const errorMessage =
           action.error?.message || 'Не удалось изменить аватар'
+        Notification.error(errorMessage)
+      })
+      .addCase(getUserData.pending, state => {
+        state.userLoading = true
+      })
+      .addCase(getUserData.fulfilled, (state, action) => {
+        state.user = action.payload.data
+        state.userLoading = false
+      })
+      .addCase(getUserData.rejected, (state, action) => {
+        const errorMessage =
+          action.error?.message || 'Не удалось получить данные пользователя'
+        Notification.error(errorMessage)
+      })
+      .addCase(changeUserPassword.pending, state => {
+        state.passwordChanging = true
+      })
+      .addCase(changeUserPassword.fulfilled, (state) => {
+        state.passwordChanging = false
+        Notification.success('Новый пароль сохранен')
+      })
+      .addCase(changeUserPassword.rejected, (state, action) => {
+        console.log({ action });
+        state.passwordChanging = false
+        const errorMessage =
+          action.error?.message || 'Не удалось поменять пароль'
         Notification.error(errorMessage)
       })
   },

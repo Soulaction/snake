@@ -53,7 +53,9 @@ export const ProfilePage: FC = () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}>
       <Flex className={styles.avatar} align="center" justify="center">
-        <FileInput imgUrl={`${user.avatar}`} />
+        <FileInput
+          imgUrl={user.avatar}
+        />
       </Flex>
       {formFields.map(({ name, label }) => (
         <Form.Item key={name} name={name} label={label}>

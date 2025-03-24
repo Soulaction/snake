@@ -6,18 +6,20 @@ import {
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons'
+import { signController } from '@/shared/controllers/sign-controller'
 import { useCallback, useMemo } from 'react'
-import { useAuth } from '@/shared/hooks'
 import { RouterPaths } from '@/shared/router'
+import { useAuth } from '@/shared/hooks'
 
 export const Header = () => {
   const { setAuth } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogout = useCallback(() => {
+  const handleLogoutClick = useCallback(() => {
+    signController.logout()
     setAuth(false)
     navigate(RouterPaths.login)
-  }, [])
+  }, [signController.logout])
 
   const items: MenuProps['items'] = useMemo(
     () => [
@@ -30,7 +32,7 @@ export const Header = () => {
         key: 'logout',
         label: <span>Выйти</span>,
         icon: <LogoutOutlined />,
-        onClick: handleLogout,
+        onClick: handleLogoutClick,
       },
     ],
     []
