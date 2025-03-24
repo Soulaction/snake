@@ -5,17 +5,18 @@ import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
 import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
-import { useNavigate } from 'react-router-dom'
-import { RouterPaths } from '@/shared/router'
+import { store } from '@/app/store'
+import { useToggleFullscreen } from '@/shared/hooks/webApi'
 
 export const GameInfo: FC = () => {
   const timeGameSecond = useRef<number>(0)
   const intervalId = useRef<ReturnType<typeof setInterval>>()
   const [timeGame, setTimeGame] = useState<string>(formatTimeFromSecond(0))
   const [isPause, setIsPause] = useState<boolean>(false)
-  const navigate = useNavigate()
+  const [textContent, toggleFullScreen] = useToggleFullscreen()
 
   const score = useAppSelector(state => state.game.score)
+  const currentLevel = useAppSelector(state => state.game.level)
   const statusGame = useAppSelector(state => state.game.statusGame)
   const dispatch = useAppDispatch()
 
@@ -45,6 +46,9 @@ export const GameInfo: FC = () => {
   }, [isPause])
 
   const handleOpenChange = useCallback((isOpen: boolean): void => {
+    if (store.getState().game.statusGame === StatusGame.End) {
+      return
+    }
     if (isOpen) {
       dispatch(setStatusGame(StatusGame.Pause))
     } else {
@@ -53,7 +57,7 @@ export const GameInfo: FC = () => {
   }, [])
 
   const confirm: PopconfirmProps['onConfirm'] = useCallback(() => {
-    navigate(RouterPaths.main)
+    dispatch(setStatusGame(StatusGame.End))
   }, [])
 
   return (
@@ -63,6 +67,10 @@ export const GameInfo: FC = () => {
         <p>
           <span className={s.gameDescriptionTitle}>Съедено яблок: </span>
           {score}
+        </p>
+        <p>
+          <span className={s.gameDescriptionTitle}>Текущий уровень: </span>
+          {currentLevel}
         </p>
         <p>
           <span className={s.gameDescriptionTitle}>Время с начала игры: </span>
@@ -100,7 +108,7 @@ export const GameInfo: FC = () => {
           </Flex>
           <Flex align="center">
             <Button size="small">Space</Button>
-            <p>&nbsp;- усколрениеи (вкл./выкл. по нажатию)</p>
+            <p>&nbsp;- ускорение (вкл./выкл. по нажатию)</p>
           </Flex>
         </Flex>
       </Card>
@@ -108,14 +116,16 @@ export const GameInfo: FC = () => {
         <Button color="primary" variant="outlined" onClick={togglePause}>
           {isPause ? 'Продолжить' : 'Пауза'}
         </Button>
+        <Button onClick={toggleFullScreen}>{textContent}</Button>
         <Popconfirm
+          placement="topRight"
           title="Вы действительно хотите покинуть игру?"
           onConfirm={confirm}
           onOpenChange={handleOpenChange}
-          okText="Выйти"
+          okText="Закончить игру"
           cancelText="Продолжить игру">
           <Button color="default" variant="outlined">
-            Выйти
+            Закончить игру
           </Button>
         </Popconfirm>
       </Flex>

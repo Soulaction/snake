@@ -9,6 +9,7 @@ const initialState = {
   userLoading: false,
   avatarLoading: false,
   passwordChanging: false,
+  isAuth: false,
 }
 
 export type UserState = Readonly<typeof initialState>
@@ -16,7 +17,11 @@ export type UserState = Readonly<typeof initialState>
 export const UserSlice = createSlice({
   name: 'user',
   initialState: initialState as UserState,
-  reducers: {},
+  reducers: {
+    setAuth(state, action) {
+      state.isAuth = action.payload.isAuth
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(changeUser.pending, state => {
@@ -76,3 +81,4 @@ export const UserSlice = createSlice({
 })
 
 export default UserSlice.reducer
+export const { setAuth } = UserSlice.actions

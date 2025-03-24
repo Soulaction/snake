@@ -1,22 +1,28 @@
 import type { FC } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Form, Input, Flex, Typography } from 'antd'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { RouterPaths } from '@/shared/router'
 import { signController } from '@/shared/controllers/sign-controller'
 import { ISigninDTO } from '@/shared/controllers/sign-controller'
 import { getUserData } from '@/entities/User/service'
 import { useAppDispatch } from '@/shared/hooks'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
+import { RouterPaths } from '@/shared/router'
+import { useAuth } from '@/shared/hooks'
 
 const { Title } = Typography
 
 export const LoginPage: FC = () => {
-  const dispatch = useAppDispatch()
+const { setAuth } = useAuth()
+const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+
   const onFinish = async (values: ISigninDTO) => {
+    const path = location.state?.from || RouterPaths.main
     await signController.login(values, () => {
       dispatch(getUserData())
-      navigate(RouterPaths.main)
+      setAuth(true)
+      navigate(path)
     })
   }
 

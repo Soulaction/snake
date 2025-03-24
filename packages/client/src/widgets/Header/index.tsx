@@ -9,11 +9,15 @@ import {
 import { signController } from '@/shared/controllers/sign-controller'
 import { useCallback, useMemo } from 'react'
 import { RouterPaths } from '@/shared/router'
+import { useAuth } from '@/shared/hooks'
 
 export const Header = () => {
+  const { setAuth } = useAuth()
   const navigate = useNavigate()
+
   const handleLogoutClick = useCallback(() => {
     signController.logout()
+    setAuth(false)
     navigate(RouterPaths.login)
   }, [signController.logout])
 
@@ -21,7 +25,7 @@ export const Header = () => {
     () => [
       {
         key: 'profile',
-        label: <Link to="/profile">Редактировать</Link>,
+        label: <Link to={RouterPaths.profile}>Редактировать</Link>,
         icon: <SettingOutlined />,
       },
       {
@@ -31,7 +35,7 @@ export const Header = () => {
         onClick: handleLogoutClick,
       },
     ],
-    [handleLogoutClick]
+    []
   )
 
   return (

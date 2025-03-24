@@ -6,15 +6,19 @@ import { signController } from '@/shared/controllers/sign-controller'
 import type { ISignupDTO } from '@/shared/controllers/sign-controller'
 import { useAppDispatch } from '@/shared/hooks'
 import { getUserData } from '@/entities/User/service'
+import { useAuth } from '@/shared/hooks'
 
 const { Title } = Typography
 
 export const RegistrationPage: FC = () => {
-  const dispatch = useAppDispatch()
+const { setAuth } = useAuth()
+const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
   const onFinish = (values: ISignupDTO) => {
     signController.createAccount(values, () => {
       dispatch(getUserData())
+      setAuth(true)
       navigate(RouterPaths.main)
     })
   }
