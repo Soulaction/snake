@@ -2,19 +2,26 @@ import { FC } from 'react'
 import { Button, Form, Input, Flex, Typography } from 'antd'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
+import { signController } from '@/shared/controllers/sign-controller'
+import type { ISignupDTO } from '@/shared/controllers/sign-controller'
+import { useAppDispatch } from '@/shared/hooks'
+import { getUserData } from '@/entities/User/service'
 import { useAuth } from '@/shared/hooks'
 import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
 
 const { Title } = Typography
 
 export const RegistrationPage: FC = () => {
-  const { setAuth } = useAuth()
+const { setAuth } = useAuth()
+const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const onFinish = (values: unknown) => {
-    console.log('введенные данные', values)
-    setAuth(true)
-    navigate(RouterPaths.main)
+  const onFinish = (values: ISignupDTO) => {
+    signController.createAccount(values, () => {
+      dispatch(getUserData())
+      setAuth(true)
+      navigate(RouterPaths.main)
+    })
   }
 
   return (

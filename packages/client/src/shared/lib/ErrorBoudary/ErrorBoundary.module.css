@@ -1,0 +1,10 @@
+.error-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-info-text {
+  margin: auto;
+  font-size: 21px;
+}

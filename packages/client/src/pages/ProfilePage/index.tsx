@@ -46,7 +46,9 @@ export const ProfilePage: FC = () => {
       onFinishFailed={onFinishFailed}
       validateTrigger={['onFinish', 'onBlur']}>
       <Flex className={styles.avatar} align="center" justify="center">
-        <FileInput imgUrl={`${user.avatar}`} />
+        <FileInput
+          imgUrl={user.avatar}
+        />
       </Flex>
       <Form.Item
         name="first_name"
