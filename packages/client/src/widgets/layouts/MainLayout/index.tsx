@@ -4,6 +4,7 @@ import { Header } from '@/widgets/Header'
 import styles from './MainLayout.module.css'
 import { Outlet, useLocation } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
+import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
 
 const { Content } = Layout
 
@@ -14,10 +15,16 @@ export const MainLayout: FC = () => {
 
   return (
     <Layout className={styles.layout}>
-      {isShowHeader && <Header />}
+      {isShowHeader && (
+        <ErrorBoundary>
+          <Header />
+        </ErrorBoundary>
+      )}
       <Content className={styles.content}>
         <div className={styles.card}>
-          <Outlet />
+          <ErrorBoundary>
+            <Outlet />
+          </ErrorBoundary>
         </div>
       </Content>
     </Layout>
