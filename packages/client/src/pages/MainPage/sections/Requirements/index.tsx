@@ -9,8 +9,8 @@ export const Requirements = () => {
     <SectionTemplate id="requirements" title={'Технические требования'}>
       <Row gutter={[32, 32]} className={styles.container}>
         {requirements.map((req, index) => (
-          <Col xs={24} md={12}>
-            <Card key={index} className={mainPageStyle.card}>
+          <Col key={index} xs={24} md={12}>
+            <Card className={mainPageStyle.card}>
               {req.icon}
               <h3 className={styles.title}>{req.type}</h3>
               <ul className={styles.list}>
