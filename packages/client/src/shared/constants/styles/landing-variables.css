@@ -1,0 +1,14 @@
+:root {
+  --landing-max-desktop-width: 1200px;
+
+  --landing-main-text-color: white;
+  --landing-secondary-text-color: #e2e8f0;
+  --landing-main-color: #22c55e;
+  --landing-main-color-active: #16a34a;
+  --landing-card-bg-color: #282f3f;
+  --landing-main-bg-color: #141b26;
+  --landing-secondary-bg-color: #192230;
+
+  --landing-scale-animation: scale(1.05);
+  --landign-linear-gradient: linear-gradient(to right, #34d399, #3b82f6);
+}

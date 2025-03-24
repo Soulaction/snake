@@ -12,8 +12,8 @@ import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
 const { Title } = Typography
 
 export const RegistrationPage: FC = () => {
-const { setAuth } = useAuth()
-const dispatch = useAppDispatch()
+  const { setAuth } = useAuth()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const onFinish = (values: ISignupDTO) => {

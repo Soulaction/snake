@@ -19,6 +19,11 @@ import { PrivateLayout } from '@/widgets/layouts/PrivateLayout'
 
 export const AppRouter: FC = () => (
   <Routes>
+    <Route
+      key={RouterPaths.main}
+      path={RouterPaths.main}
+      element={<MainPage />}
+    />
     <Route key="layout" element={<MainLayout />}>
       <Route
         key={RouterPaths.login}

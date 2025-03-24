@@ -2,7 +2,12 @@ import { Notification } from '@/shared/lib'
 import { createSlice } from '@reduxjs/toolkit'
 import { UserModel } from '@/shared/types/model'
 import { userInitial } from '../mock'
-import { changeAvatar, changeUser, changeUserPassword, getUserData } from '../service'
+import {
+  changeAvatar,
+  changeUser,
+  changeUserPassword,
+  getUserData,
+} from '../service'
 
 const initialState = {
   user: { ...userInitial } as UserModel,
@@ -66,12 +71,12 @@ export const UserSlice = createSlice({
       .addCase(changeUserPassword.pending, state => {
         state.passwordChanging = true
       })
-      .addCase(changeUserPassword.fulfilled, (state) => {
+      .addCase(changeUserPassword.fulfilled, state => {
         state.passwordChanging = false
         Notification.success('Новый пароль сохранен')
       })
       .addCase(changeUserPassword.rejected, (state, action) => {
-        console.log({ action });
+        console.log({ action })
         state.passwordChanging = false
         const errorMessage =
           action.error?.message || 'Не удалось поменять пароль'

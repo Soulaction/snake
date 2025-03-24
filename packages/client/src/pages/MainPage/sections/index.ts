@@ -1,0 +1,6 @@
+export { Main } from './Main'
+export { Feature } from './Feature'
+export { Gameplay } from './Gameplay'
+export { Leaderboard } from './Leaderboard'
+export { Reviews } from './Reviews'
+export { Requirements } from './Requirements'

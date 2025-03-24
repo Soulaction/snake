@@ -12,8 +12,8 @@ import { useAuth } from '@/shared/hooks'
 const { Title } = Typography
 
 export const LoginPage: FC = () => {
-const { setAuth } = useAuth()
-const dispatch = useAppDispatch()
+  const { setAuth } = useAuth()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -29,11 +29,19 @@ const dispatch = useAppDispatch()
   return (
     <Flex justify="center" align="center" style={{ height: '100%' }} vertical>
       <Title>Вход</Title>
-      <Form name="login" style={{ minWidth: 400 }} onFinish={onFinish} validateTrigger={['onFinish', 'onBlur']}>
-        <Form.Item name="login" rules={[{ required: true, message: 'Введите логин' }]}>
+      <Form
+        name="login"
+        style={{ minWidth: 400 }}
+        onFinish={onFinish}
+        validateTrigger={['onFinish', 'onBlur']}>
+        <Form.Item
+          name="login"
+          rules={[{ required: true, message: 'Введите логин' }]}>
           <Input prefix={<UserOutlined />} placeholder="Логин" name="login" />
         </Form.Item>
-        <Form.Item name="password" rules={[{ required: true, message: 'Введите пароль' }]}>
+        <Form.Item
+          name="password"
+          rules={[{ required: true, message: 'Введите пароль' }]}>
           <Input
             prefix={<LockOutlined />}
             type="password"
