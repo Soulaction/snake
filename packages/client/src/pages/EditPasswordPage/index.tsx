@@ -3,7 +3,7 @@ import { Button, Flex, Form, Input, Space, FormProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import styles from './EditPasswordPage.module.css'
-import { fieldTooltip, regExpByField } from '../RegistrationPage'
+import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
 
 export const EditPasswordPage: FC = () => {
   const navigate = useNavigate()
@@ -44,14 +44,7 @@ export const EditPasswordPage: FC = () => {
             required: true,
             message: 'Укажите старый пароль',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.password.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Пароль'))
-            },
-          }),
+          validate(regExpByField.password, 'Ошибка валидации поля Пароль'),
         ]}
         tooltip={fieldTooltip.password}>
         <Input type="password" />
@@ -64,14 +57,7 @@ export const EditPasswordPage: FC = () => {
             required: true,
             message: 'Укажите Новый пароль',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.password.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Пароль'))
-            },
-          }),
+          validate(regExpByField.password, 'Ошибка валидации поля Пароль'),
         ]}
         tooltip={fieldTooltip.password}>
         <Input type="password" />

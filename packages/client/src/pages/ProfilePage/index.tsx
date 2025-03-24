@@ -7,7 +7,7 @@ import { changeAvatar, changeUser } from '@/entities/User/service'
 import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
 import { RouterPaths } from '@/shared/router'
-import { fieldTooltip, regExpByField } from '../RegistrationPage'
+import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
 
 export const ProfilePage: FC = () => {
   const navigate = useNavigate()
@@ -56,14 +56,7 @@ export const ProfilePage: FC = () => {
             required: true,
             message: 'Укажите Имя',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.first_name.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Имя'))
-            },
-          }),
+          validate(regExpByField.first_name, 'Ошибка валидации поля Имя'),
         ]}
         tooltip={fieldTooltip.first_name}>
         <Input name="first_name" />
@@ -76,14 +69,7 @@ export const ProfilePage: FC = () => {
             required: true,
             message: 'Укажите Фамилию',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.second_name.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Фамилия'))
-            },
-          }),
+          validate(regExpByField.second_name, 'Ошибка валидации поля Фамилия'),
         ]}
         tooltip={fieldTooltip.second_name}>
         <Input name="second_name" />
@@ -96,14 +82,7 @@ export const ProfilePage: FC = () => {
             required: true,
             message: 'Укажите Логин',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.login.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Логин'))
-            },
-          }),
+          validate(regExpByField.login, 'Ошибка валидации поля Логин'),
         ]}
         tooltip={fieldTooltip.login}>
         <Input name="login" autoComplete="on" />
@@ -116,14 +95,7 @@ export const ProfilePage: FC = () => {
             required: true,
             message: 'Ошибка валидации E-mail!',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.email.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Почта'))
-            },
-          }),
+          validate(regExpByField.email, 'Ошибка валидации поля Почта'),
         ]}
         tooltip={fieldTooltip.email}>
         <Input name="email" autoComplete="on" />
@@ -136,14 +108,7 @@ export const ProfilePage: FC = () => {
             required: true,
             message: 'Укажите Телефон',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.phone.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Телефон'))
-            },
-          }),
+          validate(regExpByField.phone, 'Ошибка валидации поля Телефон'),
         ]}
         tooltip={fieldTooltip.phone}>
         <Input name="phone" autoComplete="on" />
@@ -156,14 +121,7 @@ export const ProfilePage: FC = () => {
             required: true,
             message: 'Укажите Имя в чате',
           },
-          () => ({
-            validator(_, value) {
-              if (!value || regExpByField.login.test(value)) {
-                return Promise.resolve()
-              }
-              return Promise.reject(new Error('Ошибка валидации поля Имя в чате'))
-            },
-          }),
+          validate(regExpByField.login, 'Ошибка валидации поля Имя в чате'),
         ]}
         tooltip={fieldTooltip.login}>
         <Input name="login" autoComplete="on" />
