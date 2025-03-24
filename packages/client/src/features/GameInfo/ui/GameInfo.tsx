@@ -6,14 +6,17 @@ import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
 import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS'
 import { store } from '@/app/store'
+import { useToggleFullscreen } from '@/shared/hooks/webApi'
 
 export const GameInfo: FC = () => {
   const timeGameSecond = useRef<number>(0)
   const intervalId = useRef<ReturnType<typeof setInterval>>()
   const [timeGame, setTimeGame] = useState<string>(formatTimeFromSecond(0))
   const [isPause, setIsPause] = useState<boolean>(false)
+  const [textContent, toggleFullScreen] = useToggleFullscreen()
 
   const score = useAppSelector(state => state.game.score)
+  const currentLevel = useAppSelector(state => state.game.level)
   const statusGame = useAppSelector(state => state.game.statusGame)
   const dispatch = useAppDispatch()
 
@@ -66,6 +69,10 @@ export const GameInfo: FC = () => {
           {score}
         </p>
         <p>
+          <span className={s.gameDescriptionTitle}>Текущий уровень: </span>
+          {currentLevel}
+        </p>
+        <p>
           <span className={s.gameDescriptionTitle}>Время с начала игры: </span>
           {timeGame}
         </p>
@@ -109,6 +116,7 @@ export const GameInfo: FC = () => {
         <Button color="primary" variant="outlined" onClick={togglePause}>
           {isPause ? 'Продолжить' : 'Пауза'}
         </Button>
+        <Button onClick={toggleFullScreen}>{textContent}</Button>
         <Popconfirm
           placement="topRight"
           title="Вы действительно хотите покинуть игру?"
