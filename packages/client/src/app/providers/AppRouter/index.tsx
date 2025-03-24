@@ -15,6 +15,7 @@ import {
   TopicPage,
 } from '@/pages'
 import type { FC } from 'react'
+import { PrivateLayout } from '@/widgets/layouts/PrivateLayout'
 
 export const AppRouter: FC = () => (
   <Routes>
@@ -34,47 +35,53 @@ export const AppRouter: FC = () => (
         path={RouterPaths.registration}
         element={<RegistrationPage />}
       />
-      <Route
-        key={RouterPaths['not-found']}
-        path={RouterPaths['not-found']}
-        element={<NotFoundPage />}
-      />
-      <Route
-        key={RouterPaths.game}
-        path={RouterPaths.game}
-        element={<GamePage />}
-      />
-
-      <Route
-        key={RouterPaths.leaderboard}
-        path={RouterPaths.leaderboard}
-        element={<LeaderboardPage />}
-      />
-      <Route
-        key={RouterPaths.forum}
-        path={RouterPaths.forum}
-        element={<ForumPage />}
-      />
-      <Route
-        key={RouterPaths.profile}
-        path={RouterPaths.profile}
-        element={<ProfilePage />}
-      />
-      <Route
-        key={RouterPaths['edit-password']}
-        path={RouterPaths['edit-password']}
-        element={<EditPasswordPage />}
-      />
-      <Route
-        key={RouterPaths.topic}
-        path={RouterPaths.topic}
-        element={<TopicPage />}
-      />
-      <Route
-        key={RouterPaths.error}
-        path={RouterPaths.error}
-        element={<ErrorPage />}
-      />
+      <Route key="private" element={<PrivateLayout />}>
+        <Route
+          key={RouterPaths['not-found']}
+          path={RouterPaths['not-found']}
+          element={<NotFoundPage />}
+        />
+        <Route
+          key={RouterPaths.game}
+          path={RouterPaths.game}
+          element={<GamePage />}
+        />
+        <Route
+          key={RouterPaths.main}
+          path={RouterPaths.main}
+          element={<MainPage />}
+        />
+        <Route
+          key={RouterPaths.leaderboard}
+          path={RouterPaths.leaderboard}
+          element={<LeaderboardPage />}
+        />
+        <Route
+          key={RouterPaths.forum}
+          path={RouterPaths.forum}
+          element={<ForumPage />}
+        />
+        <Route
+          key={RouterPaths.profile}
+          path={RouterPaths.profile}
+          element={<ProfilePage />}
+        />
+        <Route
+          key={RouterPaths['edit-password']}
+          path={RouterPaths['edit-password']}
+          element={<EditPasswordPage />}
+        />
+        <Route
+          key={RouterPaths.topic}
+          path={RouterPaths.topic}
+          element={<TopicPage />}
+        />
+        <Route
+          key={RouterPaths.error}
+          path={RouterPaths.error}
+          element={<ErrorPage />}
+        />
+      </Route>
     </Route>
   </Routes>
 )

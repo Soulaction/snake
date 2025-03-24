@@ -3,22 +3,27 @@ import { Button, Flex, Form, Input, Space, FormProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import styles from './EditPasswordPage.module.css'
+import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
+import { changeUserPassword } from '@/entities/User/service'
+
+interface IPasswordChangeForm {
+  oldPassword: string
+  newPassword: string
+  repeatNewPassword: string
+}
 
 export const EditPasswordPage: FC = () => {
   const navigate = useNavigate()
+  const isLoading = useAppSelector(state => state.user.passwordChanging)
+  const dispatch = useAppDispatch()
 
   const goToProfile = () => {
     navigate(RouterPaths.profile)
   }
 
-  interface IPasswordChangeForm {
-    oldPassword: string
-    newPassword: string
-    repeatNewPassword: string
-  }
-
   const onFinish: FormProps<IPasswordChangeForm>['onFinish'] = values => {
-    console.log('Форма изменения пароля: ', values)
+    dispatch(changeUserPassword(values))
   }
 
   const onFinishFailed: FormProps<IPasswordChangeForm>['onFinishFailed'] =
@@ -33,23 +38,52 @@ export const EditPasswordPage: FC = () => {
       wrapperCol={{ span: 9 }}
       layout="horizontal"
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}>
+      onFinishFailed={onFinishFailed}
+      validateTrigger={['onFinish', 'onBlur']}>
       <Form.Item
         name="oldPassword"
         label="Старый пароль"
-        rules={[{ required: true }]}>
+        rules={[
+          {
+            required: true,
+            message: 'Укажите старый пароль',
+          },
+          validate(regExpByField.password, 'Ошибка валидации поля Пароль'),
+        ]}
+        tooltip={fieldTooltip.password}>
         <Input type="password" />
       </Form.Item>
       <Form.Item
         name="newPassword"
         label="Новый пароль"
-        rules={[{ required: true }]}>
+        rules={[
+          {
+            required: true,
+            message: 'Укажите Новый пароль',
+          },
+          validate(regExpByField.password, 'Ошибка валидации поля Пароль'),
+        ]}
+        tooltip={fieldTooltip.password}>
         <Input type="password" />
       </Form.Item>
       <Form.Item
         name="repeatNewPassword"
         label="Повторите новый пароль"
-        rules={[{ required: true }]}>
+        rules={[
+          {
+            required: true,
+            message: 'Повторите пароль',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('newPassword') === value) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Пароли должны совпадать'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.password}>
         <Input type="password" />
       </Form.Item>
 
@@ -57,7 +91,7 @@ export const EditPasswordPage: FC = () => {
         <Flex align="end" justify="end">
           <Space>
             <Button onClick={goToProfile}>Профиль</Button>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={isLoading}>
               Сохранить
             </Button>
           </Space>
