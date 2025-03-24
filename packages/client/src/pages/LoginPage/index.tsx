@@ -29,11 +29,11 @@ const dispatch = useAppDispatch()
   return (
     <Flex justify="center" align="center" style={{ height: '100%' }} vertical>
       <Title>Вход</Title>
-      <Form name="login" style={{ minWidth: 400 }} onFinish={onFinish}>
-        <Form.Item name="login">
+      <Form name="login" style={{ minWidth: 400 }} onFinish={onFinish} validateTrigger={['onFinish', 'onBlur']}>
+        <Form.Item name="login" rules={[{ required: true, message: 'Введите логин' }]}>
           <Input prefix={<UserOutlined />} placeholder="Логин" name="login" />
         </Form.Item>
-        <Form.Item name="password">
+        <Form.Item name="password" rules={[{ required: true, message: 'Введите пароль' }]}>
           <Input
             prefix={<LockOutlined />}
             type="password"

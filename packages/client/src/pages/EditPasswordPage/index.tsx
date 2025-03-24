@@ -3,6 +3,7 @@ import { Button, Flex, Form, Input, Space, FormProps } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import styles from './EditPasswordPage.module.css'
+import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { changeUserPassword } from '@/entities/User/service'
 
@@ -37,23 +38,52 @@ export const EditPasswordPage: FC = () => {
       wrapperCol={{ span: 9 }}
       layout="horizontal"
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}>
+      onFinishFailed={onFinishFailed}
+      validateTrigger={['onFinish', 'onBlur']}>
       <Form.Item
         name="oldPassword"
         label="Старый пароль"
-        rules={[{ required: true }]}>
+        rules={[
+          {
+            required: true,
+            message: 'Укажите старый пароль',
+          },
+          validate(regExpByField.password, 'Ошибка валидации поля Пароль'),
+        ]}
+        tooltip={fieldTooltip.password}>
         <Input type="password" />
       </Form.Item>
       <Form.Item
         name="newPassword"
         label="Новый пароль"
-        rules={[{ required: true }]}>
+        rules={[
+          {
+            required: true,
+            message: 'Укажите Новый пароль',
+          },
+          validate(regExpByField.password, 'Ошибка валидации поля Пароль'),
+        ]}
+        tooltip={fieldTooltip.password}>
         <Input type="password" />
       </Form.Item>
       <Form.Item
         name="repeatNewPassword"
         label="Повторите новый пароль"
-        rules={[{ required: true }]}>
+        rules={[
+          {
+            required: true,
+            message: 'Повторите пароль',
+          },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('newPassword') === value) {
+                return Promise.resolve()
+              }
+              return Promise.reject(new Error('Пароли должны совпадать'))
+            },
+          }),
+        ]}
+        tooltip={fieldTooltip.password}>
         <Input type="password" />
       </Form.Item>
 
