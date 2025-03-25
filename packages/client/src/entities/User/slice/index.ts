@@ -2,11 +2,17 @@ import { Notification } from '@/shared/lib'
 import { createSlice } from '@reduxjs/toolkit'
 import { UserModel } from '@/shared/types/model'
 import { userInitial } from '../mock'
-import { changeAvatar, changeUser, changeUserPassword, getUserData } from '../service'
+import {
+  changeAvatar,
+  changeUser,
+  changeUserPassword,
+  getUserData,
+  logout,
+} from '../service'
 
 const initialState = {
   user: { ...userInitial } as UserModel,
-  userLoading: false,
+  userLoading: true,
   avatarLoading: false,
   passwordChanging: false,
   isAuth: false,
@@ -17,11 +23,7 @@ export type UserState = Readonly<typeof initialState>
 export const UserSlice = createSlice({
   name: 'user',
   initialState: initialState as UserState,
-  reducers: {
-    setAuth(state, action) {
-      state.isAuth = action.payload.isAuth
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(changeUser.pending, state => {
@@ -57,21 +59,29 @@ export const UserSlice = createSlice({
       .addCase(getUserData.fulfilled, (state, action) => {
         state.user = action.payload.data
         state.userLoading = false
+        state.isAuth = true
       })
-      .addCase(getUserData.rejected, (state, action) => {
-        const errorMessage =
-          action.error?.message || 'Не удалось получить данные пользователя'
-        Notification.error(errorMessage)
+      .addCase(getUserData.rejected, state => {
+        state.isAuth = false
+        state.userLoading = false
+      })
+      .addCase(logout.pending, state => {
+        state.userLoading = true
+      })
+      .addCase(logout.fulfilled, state => {
+        state.user = userInitial
+        state.userLoading = false
+        state.isAuth = false
       })
       .addCase(changeUserPassword.pending, state => {
         state.passwordChanging = true
       })
-      .addCase(changeUserPassword.fulfilled, (state) => {
+      .addCase(changeUserPassword.fulfilled, state => {
         state.passwordChanging = false
         Notification.success('Новый пароль сохранен')
       })
       .addCase(changeUserPassword.rejected, (state, action) => {
-        console.log({ action });
+        console.log({ action })
         state.passwordChanging = false
         const errorMessage =
           action.error?.message || 'Не удалось поменять пароль'
@@ -81,4 +91,3 @@ export const UserSlice = createSlice({
 })
 
 export default UserSlice.reducer
-export const { setAuth } = UserSlice.actions

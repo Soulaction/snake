@@ -39,7 +39,7 @@ export const EditPasswordPage: FC = () => {
       layout="horizontal"
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      validateTrigger={['onFinish', 'onBlur']}>
+      validateTrigger={['onBlur']}>
       <Form.Item
         name="oldPassword"
         label="Старый пароль"

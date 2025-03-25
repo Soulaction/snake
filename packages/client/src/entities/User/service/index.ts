@@ -8,6 +8,7 @@ import {
 } from '@/shared/types/api'
 import { getAxiosInstance } from '@/shared/api/axios-transport'
 import { UserModel } from '@/shared/types/model'
+import { signController } from '@/shared/controllers/sign-controller'
 
 const { axios: axiosAuth } = getAxiosInstance('/auth')
 const { axios: axiosUser } = getAxiosInstance('/user')
@@ -37,6 +38,10 @@ export const changeUser = createAsyncThunk(
 
 export const getUserData = createAsyncThunk('user/get_user_data', async () => {
   return axiosAuth.get<UserModel>(userUrls.data)
+})
+
+export const logout = createAsyncThunk('user/logout', async () => {
+  return signController.logout()
 })
 
 export const changeUserPassword = createAsyncThunk(

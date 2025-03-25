@@ -16,13 +16,6 @@ export const ProfilePage: FC = () => {
 
   const dispatch = useAppDispatch()
 
-  const handleChangeAvatar = (newAvatar: File) => {
-    const formData = new FormData()
-    const file = newAvatar
-    formData.append('avatar', file)
-    dispatch(changeAvatar(formData))
-  }
-
   const goToPassReset = () => {
     navigate(RouterPaths['edit-password'])
   }
@@ -44,11 +37,9 @@ export const ProfilePage: FC = () => {
       initialValues={{ ...user }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
-      validateTrigger={['onFinish', 'onBlur']}>
+      validateTrigger={['onBlur']}>
       <Flex className={styles.avatar} align="center" justify="center">
-        <FileInput
-          imgUrl={user.avatar}
-        />
+        <FileInput imgUrl={user.avatar} />
       </Flex>
       <Form.Item
         name="first_name"

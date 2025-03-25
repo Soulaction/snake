@@ -10,8 +10,12 @@ const { Content } = Layout
 
 export const MainLayout: FC = () => {
   const { pathname } = useLocation()
-  const isShowHeader =
-    pathname !== RouterPaths.login && pathname !== RouterPaths.registration
+  const isShowHeader = ![
+    RouterPaths.login,
+    RouterPaths.registration,
+    RouterPaths.errors,
+    RouterPaths['not-found'],
+  ].includes(pathname)
 
   return (
     <Layout className={styles.layout}>

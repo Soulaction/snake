@@ -61,6 +61,7 @@ export const ForumPage: FC = () => {
     return (
       <TopicCard
         id={topic.id}
+        key={topic.id}
         title={topic.title}
         author={topic.author}
         date={topic.date}

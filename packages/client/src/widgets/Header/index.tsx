@@ -1,4 +1,4 @@
-import { Layout, Flex, Dropdown, Avatar, MenuProps } from 'antd'
+import { Avatar, Button, Dropdown, Flex, Layout, MenuProps } from 'antd'
 import { Navbar } from '../Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import {
@@ -9,15 +9,16 @@ import {
 import { signController } from '@/shared/controllers/sign-controller'
 import { useCallback, useMemo } from 'react'
 import { RouterPaths } from '@/shared/router'
-import { useAuth } from '@/shared/hooks'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
+import { logout } from '@/entities/User/service'
 
 export const Header = () => {
-  const { setAuth } = useAuth()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { isAuth } = useAppSelector(state => state.user)
 
   const handleLogoutClick = useCallback(() => {
-    signController.logout()
-    setAuth(false)
+    dispatch(logout())
     navigate(RouterPaths.login)
   }, [signController.logout])
 
@@ -40,15 +41,26 @@ export const Header = () => {
 
   return (
     <Layout.Header>
-      <Flex align="center" justify="center">
-        <Navbar />
-        <Dropdown
-          menu={{ items }}
-          placement="bottomRight"
-          arrow={{ pointAtCenter: true }}>
-          <Avatar size="large" icon={<UserOutlined />} />
-        </Dropdown>
-      </Flex>
+      {isAuth ? (
+        <Flex align="center" justify="center">
+          <Navbar />
+          <Dropdown
+            menu={{ items }}
+            placement="bottomRight"
+            arrow={{ pointAtCenter: true }}>
+            <Avatar size="large" icon={<UserOutlined />} />
+          </Dropdown>
+        </Flex>
+      ) : (
+        <Flex align="center" justify="flex-end" style={{ height: '100%' }}>
+          <Button
+            color="primary"
+            variant="solid"
+            onClick={() => navigate(RouterPaths.login)}>
+            Войти
+          </Button>
+        </Flex>
+      )}
     </Layout.Header>
   )
 }

@@ -4,8 +4,10 @@ import { Image, Upload } from 'antd'
 import type { UploadFile, UploadProps } from 'antd'
 import { getBase64 } from './libs'
 import { FileType } from './libs/getBase64'
-import { useAppSelector } from '@/shared/hooks'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { resourcesYandex } from '@/shared/constants/api'
+import { changeAvatar } from '@/entities/User/service'
+import { useDispatch } from 'react-redux'
 
 interface IFileInputProps {
   imgUrl?: string
@@ -28,7 +30,7 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
       : []
   )
 
-  console.log({ file, user }, file.length > 0 || user.avatar)
+  const dispatch = useAppDispatch()
 
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -39,11 +41,12 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
   }
 
   const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    if (newFileList[0] && newFileList[0].status === 'error') {
-      setFile([{ ...newFileList[0], status: 'done' }])
-    } else {
-      setFile(newFileList)
+    if (newFileList[0]) {
+      const formData = new FormData()
+      formData.append('avatar', newFileList[0].originFileObj as File)
+      dispatch(changeAvatar(formData))
     }
+    setFile(newFileList)
   }
 
   const uploadButton = (
@@ -68,7 +71,6 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
       )}
       <Upload
         style={{ width: '300px', height: '300px' }}
-        action={resourcesYandex}
         listType="picture-card"
         fileList={file}
         onPreview={handlePreview}

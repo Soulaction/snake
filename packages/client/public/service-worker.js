@@ -42,7 +42,7 @@ const strategyCacheFirst = async (event) => {
   const fetchRequest = event.request.clone()
   const responseApi = await fetch(fetchRequest)
 
-  if (!skipProtocolCashed.includes(protocol) && (responseApi || responseApi.status === 200 || responseApi.type === 'basic') ) {
+  if (!skipProtocolCashed.includes(protocol) && responseApi && responseApi.status === 200 && responseApi.type === 'basic') {
     const responseToCache = responseApi.clone()
     const cache = await caches.open(CACHE_NAME)
     cache.put(event.request, responseToCache)

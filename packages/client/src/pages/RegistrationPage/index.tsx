@@ -1,25 +1,22 @@
 import { FC } from 'react'
-import { Button, Form, Input, Flex, Typography } from 'antd'
+import { Button, Flex, Form, Input, Typography } from 'antd'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
-import { signController } from '@/shared/controllers/sign-controller'
 import type { ISignupDTO } from '@/shared/controllers/sign-controller'
+import { signController } from '@/shared/controllers/sign-controller'
 import { useAppDispatch } from '@/shared/hooks'
 import { getUserData } from '@/entities/User/service'
-import { useAuth } from '@/shared/hooks'
 import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
 
 const { Title } = Typography
 
 export const RegistrationPage: FC = () => {
-const { setAuth } = useAuth()
-const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
   const onFinish = (values: ISignupDTO) => {
     signController.createAccount(values, () => {
       dispatch(getUserData())
-      setAuth(true)
       navigate(RouterPaths.main)
     })
   }
@@ -32,7 +29,7 @@ const dispatch = useAppDispatch()
         style={{ minWidth: 400 }}
         onFinish={onFinish}
         layout="vertical"
-        validateTrigger={['onFinish', 'onBlur']}>
+        validateTrigger={['onBlur']}>
         <Form.Item
           name="first_name"
           label="Имя"

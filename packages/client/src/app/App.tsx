@@ -13,6 +13,7 @@ function App() {
 
     fetchServerData()
   }, [])
+
   return (
     <div className="App">
       <AppRouter />

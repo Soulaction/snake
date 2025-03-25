@@ -1,11 +1,13 @@
 import type { FC } from 'react'
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
-import { useAuth } from '@/shared/hooks'
 
-export const PrivateLayout: FC = () => {
+interface IPrivateLayoutProps {
+  isAuth: boolean
+}
+
+export const PrivateLayout: FC<IPrivateLayoutProps> = ({ isAuth }) => {
   const { pathname } = useLocation()
-  const { isAuth } = useAuth()
 
   return isAuth ? (
     <Outlet />
