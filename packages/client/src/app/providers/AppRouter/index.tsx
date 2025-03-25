@@ -27,6 +27,11 @@ export const AppRouter: FC = () => {
     <Spin className={style.spin} size="large" />
   ) : (
     <Routes>
+      <Route
+        key={RouterPaths.main}
+        path={RouterPaths.main}
+        element={<MainPage />}
+      />
       <Route key="layout" element={<MainLayout />}>
         <Route
           key={RouterPaths.login}
@@ -37,11 +42,6 @@ export const AppRouter: FC = () => {
           key={RouterPaths.registration}
           path={RouterPaths.registration}
           element={<RegistrationPage />}
-        />
-        <Route
-          key={RouterPaths.main}
-          path={RouterPaths.main}
-          element={<MainPage />}
         />
         <Route
           key={RouterPaths['not-found']}
