@@ -10,6 +10,16 @@ export default {
   },
   moduleNameMapper: {
     '\\.(scss|css)$': 'identity-obj-proxy',
+    '\\.(jpg|jpeg|png|webp|svg)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
+  extensionsToTreatAsEsm: ['.tsx', '.ts'],
+  /* transform: {
+    "^.+\\.ts?$": [
+      "ts-jest",
+      {
+        useESM: true,
+      },
+    ],
+  }, */
 }
