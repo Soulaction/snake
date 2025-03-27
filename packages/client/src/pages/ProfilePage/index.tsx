@@ -17,7 +17,7 @@ export const ProfilePage: FC = () => {
   const dispatch = useAppDispatch()
 
   const goToPassReset = () => {
-    navigate(RouterPaths['edit-password'])
+    navigate(RouterPaths.PASSWORD)
   }
 
   const onFinish: FormProps<UserModel>['onFinish'] = values => {

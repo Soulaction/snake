@@ -1,2 +1,3 @@
 export { RouterPaths } from './RouterPaths'
-export { router } from './router'
+export { publicRouters } from './router'
+export { privateRouters } from './router'

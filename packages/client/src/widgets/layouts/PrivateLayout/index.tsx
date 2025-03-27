@@ -21,7 +21,7 @@ export const PrivateLayout: FC<IPrivateLayoutProps> = ({ isAuth }) => {
           <ContentContainer />
         </Layout>
       ) : (
-        <Navigate to={RouterPaths.login} replace />
+        <Navigate to={RouterPaths.LOGIN} replace />
       )}
     </>
   )

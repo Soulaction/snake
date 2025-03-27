@@ -13,8 +13,8 @@ export const PublicLayout: FC<IPublicLayout> = ({ isAuth }) => {
 
   return (
     <>
-      {isAuth && pathname == RouterPaths.login ? (
-        <Navigate to={RouterPaths.game} replace />
+      {isAuth && pathname == RouterPaths.LOGIN ? (
+        <Navigate to={RouterPaths.GAME} replace />
       ) : (
         <Layout className="layout">
           <ContentContainer />

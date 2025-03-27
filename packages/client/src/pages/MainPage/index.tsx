@@ -22,7 +22,7 @@ export const MainPage: FC = () => {
   const { isAuth } = useAppSelector(state => state.user)
 
   const handlePlayClick = () => {
-    navigate(RouterPaths.login)
+    navigate(RouterPaths.LOGIN)
   }
 
   return (

@@ -18,7 +18,7 @@ export const LoginPage: FC = () => {
   const dispatch = useAppDispatch()
 
   const onFinish = async (values: ISigninDTO) => {
-    const path = location.state?.from || RouterPaths.main
+    const path = location.state?.from || RouterPaths.MAIN
     await signController.login(values, () => {
       dispatch(getUserData())
       navigate(path)
@@ -53,7 +53,7 @@ export const LoginPage: FC = () => {
             Войти
           </Button>
           или{' '}
-          <NavLink to={RouterPaths.registration}>Зарегистрироваться</NavLink>
+          <NavLink to={RouterPaths.REGISTRATION}>Зарегистрироваться</NavLink>
         </Form.Item>
       </Form>
     </Flex>

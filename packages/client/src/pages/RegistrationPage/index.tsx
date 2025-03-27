@@ -17,7 +17,7 @@ export const RegistrationPage: FC = () => {
   const onFinish = (values: ISignupDTO) => {
     signController.createAccount(values, () => {
       dispatch(getUserData())
-      navigate(RouterPaths.main)
+      navigate(RouterPaths.MAIN)
     })
   }
 
@@ -135,7 +135,7 @@ export const RegistrationPage: FC = () => {
           <Button block type="primary" htmlType="submit">
             Зарегистрироваться
           </Button>
-          Уже есть аккаунт? <NavLink to={RouterPaths.login}>Войти</NavLink>
+          Уже есть аккаунт? <NavLink to={RouterPaths.LOGIN}>Войти</NavLink>
         </Form.Item>
       </Form>
     </Flex>

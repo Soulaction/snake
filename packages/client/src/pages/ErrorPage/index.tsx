@@ -7,7 +7,7 @@ export const ErrorPage: FC = () => {
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate(RouterPaths.main)
+    navigate(RouterPaths.MAIN)
   }
 
   return (

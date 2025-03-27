@@ -19,7 +19,7 @@ export const EditPasswordPage: FC = () => {
   const dispatch = useAppDispatch()
 
   const goToProfile = () => {
-    navigate(RouterPaths.profile)
+    navigate(RouterPaths.PROFILE)
   }
 
   const onFinish: FormProps<IPasswordChangeForm>['onFinish'] = values => {

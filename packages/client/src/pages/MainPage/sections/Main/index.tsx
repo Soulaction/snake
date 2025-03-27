@@ -12,7 +12,7 @@ export const Main: FC = () => {
   const navigate = useNavigate()
 
   const handlePlayClick = () => {
-    navigate(RouterPaths.game)
+    navigate(RouterPaths.GAME)
   }
 
   return (

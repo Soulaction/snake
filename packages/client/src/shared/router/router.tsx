@@ -1,63 +1,66 @@
-import type { RouteProps } from 'react-router-dom'
-import { AppRoutes, RouterPaths, type AppRoutesValues } from './RouterPaths'
+import { RouterPaths } from './RouterPaths'
 
 import {
-  NotFoundPage,
+  EditPasswordPage,
+  ErrorPage,
   ForumPage,
-  TopicPage,
   GamePage,
+  LeaderboardPage,
   LoginPage,
+  NotFoundPage,
   ProfilePage,
   RegistrationPage,
-  LeaderboardPage,
-  MainPage,
-  ErrorPage,
-  EditPasswordPage,
+  TopicPage,
 } from '@/pages'
+import { ReactNode } from 'react'
 
-export const router: Record<AppRoutesValues, RouteProps> = {
-  [AppRoutes.MAIN]: {
-    path: RouterPaths.main,
-    element: <MainPage />,
-  },
-  [AppRoutes.LOGIN]: {
-    path: RouterPaths.login,
+type RouterInfo = {
+  path: (typeof RouterPaths)[keyof typeof RouterPaths]
+  element: ReactNode
+}
+
+export const publicRouters: RouterInfo[] = [
+  {
+    path: RouterPaths.LOGIN,
     element: <LoginPage />,
   },
-  [AppRoutes.REGISTRATION]: {
-    path: RouterPaths.registration,
+  {
+    path: RouterPaths.REGISTRATION,
     element: <RegistrationPage />,
   },
-  [AppRoutes.PROFILE]: {
-    path: RouterPaths.profile,
-    element: <ProfilePage />,
-  },
-  [AppRoutes.PASSWORD]: {
-    path: RouterPaths['edit-password'],
-    element: <EditPasswordPage />,
-  },
-  [AppRoutes.LEADERBOARD]: {
-    path: RouterPaths.leaderboard,
-    element: <LeaderboardPage />,
-  },
-  [AppRoutes.GAME]: {
-    path: RouterPaths.game,
-    element: <GamePage />,
-  },
-  [AppRoutes.FORUM]: {
-    path: RouterPaths.forum,
-    element: <ForumPage />,
-  },
-  [AppRoutes.TOPIC]: {
-    path: RouterPaths.topic,
-    element: <TopicPage />,
-  },
-  [AppRoutes.NOTFOUND]: {
-    path: RouterPaths['not-found'],
+  {
+    path: RouterPaths.NOTFOUND,
     element: <NotFoundPage />,
   },
-  [AppRoutes.ERROR]: {
-    path: RouterPaths['error'],
+  {
+    path: RouterPaths.ERROR,
     element: <ErrorPage />,
   },
-}
+]
+
+export const privateRouters: RouterInfo[] = [
+  {
+    path: RouterPaths.PROFILE,
+    element: <ProfilePage />,
+  },
+  {
+    path: RouterPaths.PASSWORD,
+    element: <EditPasswordPage />,
+  },
+  {
+    path: RouterPaths.LEADERBOARD,
+    element: <LeaderboardPage />,
+  },
+  {
+    path: RouterPaths.GAME,
+    element: <GamePage />,
+  },
+  {
+    path: RouterPaths.FORUM,
+    element: <ForumPage />,
+  },
+  {
+    path: RouterPaths.TOPIC,
+    element: <TopicPage />,
+  },
+]
