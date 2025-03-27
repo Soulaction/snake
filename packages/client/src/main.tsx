@@ -8,7 +8,7 @@ import './index.css'
 import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
 
 const startServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && import.meta.env.PROD) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
         .register('service-worker.js')

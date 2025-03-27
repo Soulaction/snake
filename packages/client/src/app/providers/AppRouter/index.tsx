@@ -1,6 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
-import { MainLayout } from '@/widgets'
 import {
   EditPasswordPage,
   ErrorPage,
@@ -14,11 +13,12 @@ import {
   RegistrationPage,
   TopicPage,
 } from '@/pages'
-import type { FC } from 'react'
+import { FC } from 'react'
 import { PrivateLayout } from '@/widgets/layouts/PrivateLayout'
 import { useAuth } from '@/shared/hooks'
 import { Spin } from 'antd'
 import style from './AppRouter.module.css'
+import { PublicLayout } from '@/widgets/layouts/PublicLayout'
 
 export const AppRouter: FC = () => {
   const { isAuth, userLoading } = useAuth()
@@ -32,7 +32,7 @@ export const AppRouter: FC = () => {
         path={RouterPaths.main}
         element={<MainPage />}
       />
-      <Route key="layout" element={<MainLayout />}>
+      <Route key="layout" element={<PublicLayout isAuth={isAuth} />}>
         <Route
           key={RouterPaths.login}
           path={RouterPaths.login}
@@ -53,38 +53,38 @@ export const AppRouter: FC = () => {
           path={RouterPaths.error}
           element={<ErrorPage />}
         />
-        <Route key="private" element={<PrivateLayout isAuth={isAuth} />}>
-          <Route
-            key={RouterPaths.game}
-            path={RouterPaths.game}
-            element={<GamePage />}
-          />
-          <Route
-            key={RouterPaths.leaderboard}
-            path={RouterPaths.leaderboard}
-            element={<LeaderboardPage />}
-          />
-          <Route
-            key={RouterPaths.forum}
-            path={RouterPaths.forum}
-            element={<ForumPage />}
-          />
-          <Route
-            key={RouterPaths.profile}
-            path={RouterPaths.profile}
-            element={<ProfilePage />}
-          />
-          <Route
-            key={RouterPaths['edit-password']}
-            path={RouterPaths['edit-password']}
-            element={<EditPasswordPage />}
-          />
-          <Route
-            key={RouterPaths.topic}
-            path={RouterPaths.topic}
-            element={<TopicPage />}
-          />
-        </Route>
+      </Route>
+      <Route key="private" element={<PrivateLayout isAuth={isAuth} />}>
+        <Route
+          key={RouterPaths.game}
+          path={RouterPaths.game}
+          element={<GamePage />}
+        />
+        <Route
+          key={RouterPaths.leaderboard}
+          path={RouterPaths.leaderboard}
+          element={<LeaderboardPage />}
+        />
+        <Route
+          key={RouterPaths.forum}
+          path={RouterPaths.forum}
+          element={<ForumPage />}
+        />
+        <Route
+          key={RouterPaths.profile}
+          path={RouterPaths.profile}
+          element={<ProfilePage />}
+        />
+        <Route
+          key={RouterPaths['edit-password']}
+          path={RouterPaths['edit-password']}
+          element={<EditPasswordPage />}
+        />
+        <Route
+          key={RouterPaths.topic}
+          path={RouterPaths.topic}
+          element={<TopicPage />}
+        />
       </Route>
     </Routes>
   )

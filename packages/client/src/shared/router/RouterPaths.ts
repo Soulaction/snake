@@ -13,7 +13,7 @@ export const AppRoutes = {
   TOPIC: 'topic',
   NOTFOUND: 'not-found',
   ERROR: 'error',
-}
+} as const
 
 export const RouterPaths: Record<AppRoutesValues, string> = {
   [AppRoutes.MAIN]: '/',

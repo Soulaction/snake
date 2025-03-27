@@ -1,17 +1,28 @@
 import type { FC } from 'react'
-import { Navigate, Outlet, useLocation } from 'react-router-dom'
+import { Layout } from 'antd'
+import { ContentContainer } from '@/features/ContentContainer'
+import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
+import { Header } from '@/widgets/Header'
 import { RouterPaths } from '@/shared/router'
+import { Navigate } from 'react-router-dom'
 
 interface IPrivateLayoutProps {
   isAuth: boolean
 }
 
 export const PrivateLayout: FC<IPrivateLayoutProps> = ({ isAuth }) => {
-  const { pathname } = useLocation()
-
-  return isAuth ? (
-    <Outlet />
-  ) : (
-    <Navigate to={RouterPaths.login} state={{ from: pathname }} />
+  return (
+    <>
+      {isAuth ? (
+        <Layout className="layout">
+          <ErrorBoundary>
+            <Header />
+          </ErrorBoundary>
+          <ContentContainer />
+        </Layout>
+      ) : (
+        <Navigate to={RouterPaths.login} replace />
+      )}
+    </>
   )
 }

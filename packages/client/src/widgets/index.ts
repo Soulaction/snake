@@ -1,4 +1,5 @@
-export { MainLayout } from './layouts/MainLayout'
+export { PublicLayout } from './layouts/PublicLayout'
+export { PrivateLayout } from './layouts/PrivateLayout'
 export { EndGame } from './EndGame'
 export { StartGame } from './StartGame'
 export { Game } from './Game/ui/Game'

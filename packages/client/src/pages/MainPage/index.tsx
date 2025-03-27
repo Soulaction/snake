@@ -13,14 +13,16 @@ import { RouterPaths } from '@/shared/router'
 import { Navbar } from '@/shared/ui'
 import { anchorItems } from './model/anchor-items'
 import styles from './MainPage.module.css'
+import { useAppSelector } from '@/shared/hooks'
 
 const { Content, Header } = Layout
 
 export const MainPage: FC = () => {
   const navigate = useNavigate()
+  const { isAuth } = useAppSelector(state => state.user)
 
   const handlePlayClick = () => {
-    navigate(RouterPaths.game)
+    navigate(RouterPaths.login)
   }
 
   return (
@@ -31,12 +33,14 @@ export const MainPage: FC = () => {
             <Navbar items={anchorItems} />
           </Col>
           <Col>
-            <Button
-              className={styles.actionBtn}
-              size="large"
-              onClick={handlePlayClick}>
-              Играть
-            </Button>
+            {!isAuth && (
+              <Button
+                className={styles.actionBtn}
+                size="large"
+                onClick={handlePlayClick}>
+                Войти
+              </Button>
+            )}
           </Col>
         </Row>
       </Header>
