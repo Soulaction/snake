@@ -82,7 +82,7 @@ export const ForumPage: FC = () => {
   )
 
   return (
-    <>
+    <div className={styles.wrap}>
       <Flex justify="space-between" align="center">
         <Title>Форум</Title>
         <Button
@@ -129,6 +129,6 @@ export const ForumPage: FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-    </>
+    </div>
   )
 }
