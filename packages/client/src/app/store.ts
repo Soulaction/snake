@@ -23,6 +23,8 @@ const rootReducer = (state: RootState | undefined, action: RootAction) =>
 
 export const store = configureStore({
   reducer: rootReducer,
+  preloadedState:
+    typeof window === 'undefined' ? undefined : window.APP_INITIAL_STATE,
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false,

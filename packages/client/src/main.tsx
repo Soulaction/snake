@@ -1,11 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
 import { store } from '@/app/store'
-import App from '@/app/App'
 import './index.css'
 import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
+import { AppRouter } from '@/app/providers/AppRouter'
 
 const startServiceWorker = () => {
   if ('serviceWorker' in navigator && import.meta.env.PROD) {
@@ -21,14 +20,11 @@ const startServiceWorker = () => {
 
 startServiceWorker()
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <ErrorBoundary>
-          <App />
-        </ErrorBoundary>
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>
+ReactDOM.hydrateRoot(
+  document.getElementById('root') as HTMLElement,
+  <Provider store={store}>
+    <ErrorBoundary>
+      <AppRouter />
+    </ErrorBoundary>
+  </Provider>
 )

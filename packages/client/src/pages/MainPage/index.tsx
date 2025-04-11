@@ -20,7 +20,6 @@ const { Content, Header } = Layout
 export const MainPage: FC = () => {
   const navigate = useNavigate()
   const { isAuth } = useAppSelector(state => state.user)
-
   const handlePlayClick = () => {
     navigate(RouterPaths.LOGIN)
   }

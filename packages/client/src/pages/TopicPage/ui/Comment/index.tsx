@@ -1,11 +1,11 @@
 import { CalendarOutlined } from '@ant-design/icons'
 import { Avatar, Card, Flex, Typography } from 'antd'
-import Meta from 'antd/es/card/Meta'
 import { FC } from 'react'
 import { IComment } from '../..'
 import styles from './Comment.module.css'
 
 const { Text } = Typography
+const { Meta } = Card
 
 export const Comment: FC<IComment> = props => {
   const { author, content, date } = props

@@ -7,15 +7,18 @@ import {
   GamePage,
   LeaderboardPage,
   LoginPage,
+  MainPage,
   NotFoundPage,
   ProfilePage,
   RegistrationPage,
   TopicPage,
 } from '@/pages'
 import { ReactNode } from 'react'
+import { createBrowserRouter } from 'react-router-dom'
+import { PrivateLayout, PublicLayout } from '@/widgets'
 
 type RouterInfo = {
-  path: (typeof RouterPaths)[keyof typeof RouterPaths]
+  path: typeof RouterPaths[keyof typeof RouterPaths]
   element: ReactNode
 }
 
@@ -64,3 +67,33 @@ export const privateRouters: RouterInfo[] = [
     element: <TopicPage />,
   },
 ]
+
+export const getRouts = (isAuth: boolean) => [
+  {
+    path: RouterPaths.MAIN,
+    element: <MainPage />,
+  },
+  {
+    path: '/',
+    element: <PublicLayout isAuth={isAuth} />,
+    children: publicRouters.map(route => ({
+      path: route.path,
+      element: route.element,
+    })),
+  },
+  {
+    path: '/',
+    element: <PrivateLayout isAuth={isAuth} />,
+    children: privateRouters.map(route => ({
+      path: route.path,
+      element: route.element,
+    })),
+  },
+]
+
+export const getRouter = (isAuth: boolean) =>
+  createBrowserRouter(getRouts(isAuth), {
+    future: {
+      v7_relativeSplatPath: true,
+    },
+  })

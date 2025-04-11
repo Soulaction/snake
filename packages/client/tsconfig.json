@@ -21,6 +21,8 @@
     }
   },
   "include": ["src", "postcss.config.cjs"],
-
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    { "path": "./tsconfig.node.json" },
+    { "path": "./tsconfig.server.json" }
+  ]
 }
