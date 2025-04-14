@@ -7,11 +7,11 @@ interface IPrivateLayoutProps {
 }
 
 export const PrivateLayout: FC<IPrivateLayoutProps> = ({ isAuth }) => {
-  const { pathname } = useLocation()
+  const location = useLocation()
 
   return isAuth ? (
     <Outlet />
   ) : (
-    <Navigate to={RouterPaths.login} state={{ from: pathname }} />
+    <Navigate to={RouterPaths.login} state={{ from: location }} />
   )
 }

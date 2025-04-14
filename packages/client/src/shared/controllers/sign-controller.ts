@@ -20,7 +20,17 @@ interface IData {
   reason: string
 }
 
+interface IServiceDTO {
+  redirect_uri: string
+}
+
+interface IOauthSignInRequest {
+  code: string;
+  redirect_uri: string;
+}
+
 const { axios } = getAxiosInstance('/auth')
+const { axios: oauthAxios } = getAxiosInstance('/oauth/yandex')
 
 export class SignController {
   public async login(data: ISigninDTO, callBack?: () => void) {
@@ -53,6 +63,31 @@ export class SignController {
   public async createAccount(data: ISignupDTO, callBack?: () => void) {
     try {
       const response = await axios.post('/signup', data)
+      console.log({ response })
+      callBack?.()
+    } catch (error) {
+      const { response } = error as AxiosError
+      const { reason } = response?.data as IData
+      Notification.error(reason)
+    }
+  }
+
+  public async getServiceId(data: IServiceDTO, callBack?: (service_id: string) => void) {
+    try { 
+      const response = await oauthAxios.get('/service-id', { params: data })
+      const { service_id } = response.data
+      console.log({ response })
+      callBack?.(service_id)
+    } catch (error) {
+      const { response } = error as AxiosError
+      const { reason } = response?.data as IData
+      Notification.error(reason)
+    }
+  }
+
+  public async loginOAuth(data: IOauthSignInRequest, callBack?: () => void) {
+    try { 
+      const response = await oauthAxios.post('', data)
       console.log({ response })
       callBack?.()
     } catch (error) {
