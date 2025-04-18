@@ -18,7 +18,7 @@ export const regExpByField = {
   login: /^[\w\d_-]{3,20}$/,
   display_name: /^[\wА-ЯЁа-яё\d_-]{3,20}$/,
   email: /^[\w_-]+@[\w]+[.]{1}[\w]+$/,
-  password: /^[+]*[\d]{10,15}$/,
+  password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,40}$/,
   phone: /^[+]*[\d]{10,15}$/,
 }
 

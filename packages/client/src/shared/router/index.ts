@@ -1,5 +1,5 @@
-export { RouterPaths } from './RouterPaths'
-export { publicRouters } from './router'
+export { RouterPaths } from './router-paths'
+export { publicRoutersWithAuth } from './router'
 export { privateRouters } from './router'
 export { getRouter } from './router'
 export { getRouts } from './router'

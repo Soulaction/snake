@@ -7,10 +7,12 @@ import { signController } from '@/shared/controllers/sign-controller'
 import { useAppDispatch } from '@/shared/hooks'
 import { getUserData } from '@/entities/User/service'
 import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 const { Title } = Typography
 
 export const RegistrationPage: FC = () => {
+  useInitStatePage({ initPage: initRegistrationPage })
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
@@ -141,3 +143,5 @@ export const RegistrationPage: FC = () => {
     </Flex>
   )
 }
+
+export const initRegistrationPage = () => Promise.resolve()

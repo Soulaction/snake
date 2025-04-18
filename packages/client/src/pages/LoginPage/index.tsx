@@ -9,10 +9,12 @@ import { useAppDispatch } from '@/shared/hooks'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { getUserData } from '@/entities/User/service'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 const { Title } = Typography
 
 export const LoginPage: FC = () => {
+  useInitStatePage({ initPage: initLoginPage })
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
@@ -59,3 +61,5 @@ export const LoginPage: FC = () => {
     </Flex>
   )
 }
+
+export const initLoginPage = () => Promise.resolve()
