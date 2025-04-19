@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/server'
 import './index.css'
-import { Request as ExpressRequest } from 'express'
+import { Request as ExpressRequest, Response as ExpressResponse } from 'express'
 import { Provider } from 'react-redux'
 import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
 import { createFetchRequest, createUrl } from '@/entry-server.utils'
@@ -11,9 +11,10 @@ import {
   StaticRouterProvider,
 } from 'react-router-dom/server'
 import {
-  getRouts,
   privateRouters,
   publicRoutersWithAuth,
+  RouterPaths,
+  routs,
 } from '@/shared/router'
 import { store } from '@/app/store'
 import { getUserData } from '@/entities/User/service'
@@ -21,8 +22,8 @@ import { publicRouters } from '@/shared/router/router'
 import { axiosInstance } from '@/shared/api/axios-transport'
 import { setPageHasBeenInitializedOnServer } from '@/entities/Application/slice'
 
-export const render = async (req: ExpressRequest) => {
-  const { query, dataRoutes } = createStaticHandler(getRouts(false))
+export const render = async (req: ExpressRequest, res: ExpressResponse) => {
+  const { query, dataRoutes } = createStaticHandler(routs)
   const fetchRequest = createFetchRequest(req)
   const context = await query(fetchRequest)
 
@@ -32,7 +33,6 @@ export const render = async (req: ExpressRequest) => {
 
   let isAuth: boolean
   axiosInstance.defaults.headers.common['cookie'] = req.headers.cookie
-  console.log(req.headers.cookie)
 
   try {
     await store.dispatch(getUserData()).unwrap()
@@ -47,7 +47,19 @@ export const render = async (req: ExpressRequest) => {
     ...publicRoutersWithAuth,
     ...(isAuth ? privateRouters : []),
   ].find(el => el.path === url.pathname)
-  if (!foundRoutes) {
+
+  if (!foundRoutes && !isAuth) {
+    return res.redirect(RouterPaths.LOGIN)
+  } else if (!foundRoutes && isAuth) {
+    return res.redirect(RouterPaths.NOTFOUND)
+  } else if (
+    foundRoutes &&
+    isAuth &&
+    (RouterPaths.LOGIN === foundRoutes.path ||
+      RouterPaths.REGISTRATION === foundRoutes.path)
+  ) {
+    return res.redirect(RouterPaths.GAME)
+  } else if (!foundRoutes) {
     throw new Error('Страница не найдена!')
   }
 

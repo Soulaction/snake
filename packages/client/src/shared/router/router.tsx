@@ -15,7 +15,6 @@ import {
 } from '@/pages'
 import { ReactNode } from 'react'
 import { createBrowserRouter, RouteObject } from 'react-router-dom'
-import { PrivateLayout, PublicLayout } from '@/widgets'
 import { PageInitFunc } from '@/shared/hooks/useInitStatePage'
 import { initLoginPage } from '@/pages/LoginPage'
 import { initRegistrationPage } from '@/pages/RegistrationPage'
@@ -28,6 +27,8 @@ import { initGamePage } from '@/pages/GamePage'
 import { initForumPage } from '@/pages/ForumPage'
 import { initTopicPage } from '@/pages/TopicPage'
 import { initMainPage } from '@/pages/MainPage'
+import { LayoutWithHeader } from '@/widgets/layouts/LayoutWithHeader'
+import { LayoutWithoutHeader } from '@/widgets/layouts/LayoutWithoutHeader'
 
 type RouterInfo = {
   path: typeof RouterPaths[keyof typeof RouterPaths]
@@ -99,14 +100,14 @@ export const privateRouters: RouterInfo[] = [
   },
 ]
 
-export const getRouts = (isAuth: boolean): RouteObject[] => [
+export const routs: RouteObject[] = [
   ...publicRouters.map(route => ({
     path: route.path,
     element: route.element,
   })),
   {
     path: '/',
-    element: <PublicLayout isAuth={isAuth} />,
+    element: <LayoutWithoutHeader />,
     children: publicRoutersWithAuth.map(route => ({
       path: route.path,
       element: route.element,
@@ -114,7 +115,7 @@ export const getRouts = (isAuth: boolean): RouteObject[] => [
   },
   {
     path: '/',
-    element: <PrivateLayout isAuth={isAuth} />,
+    element: <LayoutWithHeader />,
     children: privateRouters.map(route => ({
       path: route.path,
       element: route.element,
@@ -122,8 +123,8 @@ export const getRouts = (isAuth: boolean): RouteObject[] => [
   },
 ]
 
-export const getRouter = (isAuth: boolean) =>
-  createBrowserRouter(getRouts(isAuth), {
+export const getRouter = () =>
+  createBrowserRouter(routs, {
     future: {
       v7_relativeSplatPath: true,
     },

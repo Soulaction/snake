@@ -7,7 +7,7 @@ export const RouterPaths = {
   GAME: '/game',
   LEADERBOARD: '/leaderboard',
   FORUM: '/forum',
-  NOTFOUND: '*',
+  NOTFOUND: '/not-found',
   TOPIC: '/topic/:topicId',
   ERROR: '/error',
 } as const

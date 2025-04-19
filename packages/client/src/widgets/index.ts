@@ -1,5 +1,5 @@
-export { PublicLayout } from './layouts/PublicLayout'
-export { PrivateLayout } from './layouts/PrivateLayout'
+export { LayoutWithoutHeader } from './layouts/LayoutWithoutHeader'
+export { LayoutWithHeader } from './layouts/LayoutWithHeader'
 export { EndGame } from './EndGame'
 export { StartGame } from './StartGame'
 export { Game } from './Game/ui/Game'

@@ -2,7 +2,10 @@ import dotenv from 'dotenv'
 
 dotenv.config()
 
-import express, { Request as ExpressRequest } from 'express'
+import express, {
+  Request as ExpressRequest,
+  Response as ExpressResponse,
+} from 'express'
 import path from 'path'
 import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
@@ -46,7 +49,8 @@ async function createServer() {
 
     try {
       let render: (
-        req: ExpressRequest
+        req: ExpressRequest,
+        res: ExpressResponse
       ) => Promise<{ html: string; initialState: unknown }>
       let template: string
       if (vite) {
@@ -75,9 +79,7 @@ async function createServer() {
         render = (await import(pathToServer)).render
       }
 
-      const { html: appHtml, initialState } = await render(req)
-      console.log('====================', appHtml)
-
+      const { html: appHtml, initialState } = await render(req, res)
       const html = template.replace(`<!--ssr-outlet-->`, appHtml).replace(
         `<!--ssr-initial-state-->`,
         `<script>window.APP_INITIAL_STATE = ${serialize(initialState, {
