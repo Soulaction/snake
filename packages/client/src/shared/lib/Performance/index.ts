@@ -37,4 +37,31 @@ export class Measures {
       )
     })
   }
+
+  static measureByMarks(start: string, end: string): PerformanceEntry | null {
+    const marks = this.markList()
+    if (marks.indexOf(start) === -1 || marks.indexOf(end) === -1) {
+      return null
+    }
+
+    const selectedMarks = marks.filter(
+      mark => [start, end].indexOf(mark) !== -1
+    )
+
+    if (selectedMarks.length < 2) {
+      return null
+    }
+
+    return performance.measure(
+      `Замер производительности между '${start}' и '${end}'`,
+      {
+        start,
+        end,
+        detail: {
+          markStart: start,
+          markEnd: end,
+        },
+      }
+    )
+  }
 }
