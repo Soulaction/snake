@@ -9,16 +9,18 @@ import { useAppDispatch } from '@/shared/hooks'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { getUserData } from '@/entities/User/service'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 const { Title } = Typography
 
 export const LoginPage: FC = () => {
+  useInitStatePage({ initPage: initLoginPage })
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
 
   const onFinish = async (values: ISigninDTO) => {
-    const path = location.state?.from || RouterPaths.main
+    const path = location.state?.from || RouterPaths.MAIN
     await signController.login(values, () => {
       dispatch(getUserData())
       navigate(path)
@@ -53,9 +55,11 @@ export const LoginPage: FC = () => {
             Войти
           </Button>
           или{' '}
-          <NavLink to={RouterPaths.registration}>Зарегистрироваться</NavLink>
+          <NavLink to={RouterPaths.REGISTRATION}>Зарегистрироваться</NavLink>
         </Form.Item>
       </Form>
     </Flex>
   )
 }
+
+export const initLoginPage = () => Promise.resolve()

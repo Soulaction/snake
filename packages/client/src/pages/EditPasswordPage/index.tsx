@@ -6,6 +6,7 @@ import styles from './EditPasswordPage.module.css'
 import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { changeUserPassword } from '@/entities/User/service'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 interface IPasswordChangeForm {
   oldPassword: string
@@ -14,12 +15,13 @@ interface IPasswordChangeForm {
 }
 
 export const EditPasswordPage: FC = () => {
+  useInitStatePage({ initPage: initEditPasswordPage })
   const navigate = useNavigate()
   const isLoading = useAppSelector(state => state.user.passwordChanging)
   const dispatch = useAppDispatch()
 
   const goToProfile = () => {
-    navigate(RouterPaths.profile)
+    navigate(RouterPaths.PROFILE)
   }
 
   const onFinish: FormProps<IPasswordChangeForm>['onFinish'] = values => {
@@ -100,3 +102,5 @@ export const EditPasswordPage: FC = () => {
     </Form>
   )
 }
+
+export const initEditPasswordPage = () => Promise.resolve()

@@ -3,13 +3,15 @@ import { Button, Flex, Form, FormProps, Input, Space } from 'antd'
 import { UserModel } from '@/shared/types/model'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
-import { changeAvatar, changeUser } from '@/entities/User/service'
+import { changeUser } from '@/entities/User/service'
 import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
 import { RouterPaths } from '@/shared/router'
 import { fieldTooltip, regExpByField, validate } from '@/shared/lib/Validation'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 export const ProfilePage: FC = () => {
+  useInitStatePage({ initPage: initProfilePage })
   const navigate = useNavigate()
   const user = useAppSelector(state => state.user.user)
   const isLoading = useAppSelector(state => state.user.userLoading)
@@ -17,7 +19,7 @@ export const ProfilePage: FC = () => {
   const dispatch = useAppDispatch()
 
   const goToPassReset = () => {
-    navigate(RouterPaths['edit-password'])
+    navigate(RouterPaths.PASSWORD)
   }
 
   const onFinish: FormProps<UserModel>['onFinish'] = values => {
@@ -39,7 +41,7 @@ export const ProfilePage: FC = () => {
       onFinishFailed={onFinishFailed}
       validateTrigger={['onBlur']}>
       <Flex className={styles.avatar} align="center" justify="center">
-        <FileInput imgUrl={user.avatar} />
+        <FileInput imgUrl={user?.avatar} />
       </Flex>
       <Form.Item
         name="first_name"
@@ -132,3 +134,5 @@ export const ProfilePage: FC = () => {
     </Form>
   )
 }
+
+export const initProfilePage = () => Promise.resolve()

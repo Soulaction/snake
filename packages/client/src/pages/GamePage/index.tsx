@@ -1,11 +1,13 @@
-import { StartGame, Game, EndGame } from '@/widgets'
+import { EndGame, Game, StartGame } from '@/widgets'
 import type { FC } from 'react'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { StatusGame } from '@/widgets/Game/model/types'
 import { setStatusGame } from '@/widgets/Game/model/gemeSlice'
 import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 export const GamePage: FC = () => {
+  useInitStatePage({ initPage: initGamePage })
   const { statusGame, score } = useAppSelector(state => state.game)
   const dispatch = useAppDispatch()
 
@@ -27,3 +29,5 @@ export const GamePage: FC = () => {
     </ErrorBoundary>
   )
 }
+
+export const initGamePage = () => Promise.resolve()

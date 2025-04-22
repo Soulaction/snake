@@ -17,38 +17,8 @@
   }
 }
 
-.five {
-  position: absolute;
-  opacity: 0;
-  animation: number-anim 1.2s ease 0s 1 normal;
-}
-
-.four {
-  position: absolute;
-  opacity: 0;
-  animation: number-anim 1.2s ease 1.2s 1 normal;
-}
-
-.three {
-  position: absolute;
-  opacity: 0;
-  animation: number-anim 1.2s ease 2.4s 1 normal;
-}
-
-.two {
-  position: absolute;
-  opacity: 0;
-  animation: number-anim 1.2s ease 3.6s 1 normal;
-}
-
-.one {
-  position: absolute;
-  opacity: 0;
-  animation: number-anim 1.2s ease 4.8s 1 normal;
-}
-
 .go {
   position: absolute;
   opacity: 0;
-  animation: number-anim 1.2s ease 6s 1 normal;
+  animation: number-anim 1.2s ease 1 normal;
 }

@@ -1,14 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
-import { BrowserRouter } from 'react-router-dom'
 import { store } from '@/app/store'
-// import App from '@/app/App'
 import './index.css'
 import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
+import { AppRouter } from '@/app/providers/AppRouter'
 
 const startServiceWorker = () => {
-  if ('serviceWorker' in navigator) {
+  if ('serviceWorker' in navigator && import.meta.env.PROD) {
     window.addEventListener('load', () => {
       navigator.serviceWorker
         .register('service-worker.js')
@@ -23,14 +22,9 @@ startServiceWorker()
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <ErrorBoundary>
-          <div>SSR from express-server</div>
-          {/* <App /> */}
-        </ErrorBoundary>
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>
+  <Provider store={store}>
+    <ErrorBoundary>
+      <AppRouter />
+    </ErrorBoundary>
+  </Provider>
 )
