@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 import { store } from '@/app/store'
-import App from '@/app/App'
+// import App from '@/app/App'
 import './index.css'
 import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
 
@@ -27,7 +27,8 @@ ReactDOM.hydrateRoot(
     <BrowserRouter>
       <Provider store={store}>
         <ErrorBoundary>
-          <App />
+          <div>SSR from express-server</div>
+          {/* <App /> */}
         </ErrorBoundary>
       </Provider>
     </BrowserRouter>
