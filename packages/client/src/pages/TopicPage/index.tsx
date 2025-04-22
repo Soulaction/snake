@@ -3,20 +3,14 @@ import { FC, useEffect, useState } from 'react'
 import { Comment } from './ui/Comment'
 import { ReplyForm } from './ui/ReplyForm'
 import styles from './TopicPage.module.css'
-import { mockData } from './model/topicConstant'
+import { IComment } from '@/pages/TopicPage/model/IComment'
+import { mockData } from '@/pages/TopicPage/model/topicConstant'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 const { Text, Title } = Typography
 
-export interface IComment {
-  author: {
-    avatar: string
-    name: string
-  }
-  content: string
-  date: string
-}
-
 export const TopicPage: FC = () => {
+  useInitStatePage({ initPage: initTopicPage })
   const [comments, setComments] = useState<IComment[] | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
@@ -94,3 +88,5 @@ export const TopicPage: FC = () => {
     </>
   )
 }
+
+export const initTopicPage = () => Promise.resolve()

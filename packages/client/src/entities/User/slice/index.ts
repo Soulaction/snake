@@ -1,7 +1,6 @@
 import { Notification } from '@/shared/lib'
 import { createSlice } from '@reduxjs/toolkit'
 import { UserModel } from '@/shared/types/model'
-import { userInitial } from '../mock'
 import {
   changeAvatar,
   changeUser,
@@ -10,19 +9,25 @@ import {
   logout,
 } from '../service'
 
-const initialState = {
-  user: { ...userInitial } as UserModel,
+export type UserState = Readonly<{
+  user: UserModel | null
+  userLoading: boolean
+  avatarLoading: boolean
+  passwordChanging: boolean
+  isAuth: boolean
+}>
+
+const initialState: UserState = {
+  user: null,
   userLoading: true,
   avatarLoading: false,
   passwordChanging: false,
   isAuth: false,
 }
 
-export type UserState = Readonly<typeof initialState>
-
 export const UserSlice = createSlice({
   name: 'user',
-  initialState: initialState as UserState,
+  initialState,
   reducers: {},
   extraReducers(builder) {
     builder
@@ -53,23 +58,18 @@ export const UserSlice = createSlice({
           action.error?.message || 'Не удалось изменить аватар'
         Notification.error(errorMessage)
       })
-      .addCase(getUserData.pending, state => {
-        state.userLoading = true
-      })
       .addCase(getUserData.fulfilled, (state, action) => {
         state.user = action.payload.data
-        state.userLoading = false
         state.isAuth = true
       })
       .addCase(getUserData.rejected, state => {
         state.isAuth = false
-        state.userLoading = false
       })
       .addCase(logout.pending, state => {
         state.userLoading = true
       })
       .addCase(logout.fulfilled, state => {
-        state.user = userInitial
+        state.user = null
         state.userLoading = false
         state.isAuth = false
       })
@@ -81,7 +81,6 @@ export const UserSlice = createSlice({
         Notification.success('Новый пароль сохранен')
       })
       .addCase(changeUserPassword.rejected, (state, action) => {
-        console.log({ action })
         state.passwordChanging = false
         const errorMessage =
           action.error?.message || 'Не удалось поменять пароль'

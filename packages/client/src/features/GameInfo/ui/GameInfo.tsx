@@ -1,4 +1,11 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+import React, {
+  FC,
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { Button, Card, Flex, Popconfirm, PopconfirmProps } from 'antd'
 import s from './GameInfo.module.css'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
@@ -8,12 +15,18 @@ import { formatTimeFromSecond } from '@/features/GameInfo/lib/formatedTimeFromMS
 import { store } from '@/app/store'
 import { useToggleFullscreen } from '@/shared/hooks/webApi'
 
-export const GameInfo: FC = () => {
+interface IGameInfo {
+  parentRefElement: MutableRefObject<HTMLElement | null>
+}
+
+export const GameInfo: FC<IGameInfo> = ({ parentRefElement }) => {
   const timeGameSecond = useRef<number>(0)
   const intervalId = useRef<ReturnType<typeof setInterval>>()
   const [timeGame, setTimeGame] = useState<string>(formatTimeFromSecond(0))
   const [isPause, setIsPause] = useState<boolean>(false)
-  const [textContent, toggleFullScreen] = useToggleFullscreen()
+  const [textContent, toggleFullScreen] = useToggleFullscreen(
+    parentRefElement.current?.parentElement
+  )
 
   const score = useAppSelector(state => state.game.score)
   const currentLevel = useAppSelector(state => state.game.level)
