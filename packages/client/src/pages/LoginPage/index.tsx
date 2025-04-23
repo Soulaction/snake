@@ -6,7 +6,7 @@ import {
   signController,
 } from '@/shared/controllers/sign-controller'
 import { useAppDispatch } from '@/shared/hooks'
-import { NavLink, redirect, useLocation, useNavigate } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { getUserData } from '@/entities/User/service'
 
@@ -21,13 +21,15 @@ export const LoginPage: FC = () => {
   const [urlOAuth, setUrlOAuth] = useState('')
 
   useEffect(() => {
-    signController.getServiceId({ redirect_uri: REDIRECT_URI }, service_id =>
-      setUrlOAuth(
-        `https://oauth.yandex.ru/authorize?response_type=code&client_id=${service_id}&redirect_uri=${encodeURIComponent(
-          REDIRECT_URI
-        )}`
+    if (!urlOAuth) {
+      signController.getServiceId({ redirect_uri: REDIRECT_URI }, service_id =>
+        setUrlOAuth(
+          `https://oauth.yandex.ru/authorize?response_type=code&client_id=${service_id}&redirect_uri=${encodeURIComponent(
+            REDIRECT_URI
+          )}`
+        )
       )
-    )    
+    }
 
     if (location.state?.from.search) {
       const params = new URLSearchParams(location.state?.from.search)
@@ -38,7 +40,7 @@ export const LoginPage: FC = () => {
       }
       signController.loginOAuth(oauthData, () => {
         dispatch(getUserData())
-        navigate(path)
+        navigate(RouterPaths.game)
       })
     }
   }, [])
@@ -84,7 +86,8 @@ export const LoginPage: FC = () => {
           </Button>
           или{' '}
           <NavLink to={RouterPaths.registration}>Зарегистрироваться</NavLink>
-          { urlOAuth && <a href={urlOAuth}>Войти через яндекс</a> }
+          
+          {urlOAuth && <>{' '} <a href={urlOAuth}>Войти через яндекс</a></>}
         </Form.Item>
       </Form>
     </Flex>

@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import { useEffect, type FC } from 'react'
 import {
   Feature,
   Gameplay,
@@ -8,7 +8,7 @@ import {
   Reviews,
 } from './sections'
 import { Layout, Button, Row, Col } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { Navbar } from '@/shared/ui'
 import { anchorItems } from './model/anchor-items'
@@ -18,6 +18,19 @@ const { Content, Header } = Layout
 
 export const MainPage: FC = () => {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    console.log({ location, params })
+    if (params.has('code')) {
+      navigate(RouterPaths.login, {
+        state: {
+          from: location,
+        },
+      })
+    }
+  }, [location.search])
 
   const handlePlayClick = () => {
     navigate(RouterPaths.game)
