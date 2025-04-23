@@ -19,6 +19,9 @@ export default defineConfig({
   build: {
     outDir: path.join(__dirname, 'dist/client'),
   },
+  build: {
+    outDir: path.join(__dirname, 'dist/client'),
+  },
   css: {
     modules: {
       localsConvention: 'camelCase',
