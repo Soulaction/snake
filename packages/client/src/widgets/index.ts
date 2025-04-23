@@ -1,4 +1,5 @@
-export { MainLayout } from './layouts/MainLayout'
+export { LayoutWithoutHeader } from './layouts/LayoutWithoutHeader'
+export { LayoutWithHeader } from './layouts/LayoutWithHeader'
 export { EndGame } from './EndGame'
 export { StartGame } from './StartGame'
 export { Game } from './Game/ui/Game'

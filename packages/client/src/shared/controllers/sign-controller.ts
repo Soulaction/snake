@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios'
 import { Notification } from '@/shared/lib'
-import { getAxiosInstance } from '../api/axios-transport'
+import { axiosInstance } from '../api/axios-transport'
 
 export interface ISigninDTO {
   login: string
@@ -20,13 +20,16 @@ export interface IData {
   reason: string
 }
 
-const { axios } = getAxiosInstance('/auth')
-
 export class SignController {
+  private readonly contextPath: string
+
+  constructor() {
+    this.contextPath = 'auth'
+  }
+
   public async login(data: ISigninDTO, callBack?: () => void) {
     try {
-      const response = await axios.post('/signin', data)
-      console.log({ response })
+      await axiosInstance.post(this.contextPath + '/signin', data)
       callBack?.()
     } catch (error) {
       const { response } = error as AxiosError
@@ -42,7 +45,7 @@ export class SignController {
 
   public async logout() {
     try {
-      await axios.post('/logout')
+      await axiosInstance.post(this.contextPath + '/logout')
     } catch (error) {
       const { response } = error as AxiosError
       const { reason } = response?.data as IData
@@ -52,8 +55,7 @@ export class SignController {
 
   public async createAccount(data: ISignupDTO, callBack?: () => void) {
     try {
-      const response = await axios.post('/signup', data)
-      console.log({ response })
+      await axiosInstance.post(this.contextPath + '/signup', data)
       callBack?.()
     } catch (error) {
       const { response } = error as AxiosError

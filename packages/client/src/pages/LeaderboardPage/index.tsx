@@ -3,6 +3,7 @@ import type { TableProps } from 'antd'
 import { FC } from 'react'
 import { mockData } from './model/leadersConstant'
 import styles from '../ForumPage/ForumPage.module.css'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 const { Title, Text } = Typography
 
@@ -40,6 +41,7 @@ export const columns: TableProps<DataType>['columns'] = [
 ]
 
 export const LeaderboardPage: FC = () => {
+  useInitStatePage({ initPage: initLeaderboardPage })
   return (
     <div className={styles.wrap}>
       <Flex justify="space-between" align="center">
@@ -58,3 +60,5 @@ export const LeaderboardPage: FC = () => {
     </div>
   )
 }
+        
+export const initLeaderboardPage = () => Promise.resolve()

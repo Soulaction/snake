@@ -3,17 +3,13 @@ import { apiYandex } from '../constants/api'
 
 const TIMEOUT = 5000
 
-export const getAxiosInstance = (path: string) => {
-  const controller = new AbortController()
-  const axiosInstance = axios.create({
-    baseURL: `${apiYandex}${path}`,
-    timeout: TIMEOUT,
-    withCredentials: true,
-    signal: controller.signal,
-  })
+export const abortController = new AbortController()
 
-  return {
-    axios: axiosInstance,
-    cancelRequest: controller.abort,
-  }
-}
+export const axiosInstance = axios.create({
+  baseURL: apiYandex,
+  timeout: TIMEOUT,
+  withCredentials: true,
+  signal: abortController.signal,
+})
+
+export const cancelRequest = abortController.abort

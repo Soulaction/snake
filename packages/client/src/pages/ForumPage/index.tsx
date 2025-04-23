@@ -1,48 +1,30 @@
 import {
   Button,
+  Divider,
   Flex,
-  Modal,
-  Space,
-  Typography,
   Form,
   Input,
+  Modal,
   Skeleton,
-  Divider,
+  Space,
+  Typography,
 } from 'antd'
 import { TopicCard } from './ui/TopicCard'
 import { ForumPagination } from './ui/ForumPagination'
-import { FC, useState, useEffect } from 'react'
+import { FC, useState } from 'react'
 import styles from './ForumPage.module.css'
-import { mockData } from './model/forumConstant'
-
-export interface ITopics {
-  id: number
-  title: string
-  author: {
-    name: string
-    avatar: string
-  }
-  date: string
-  commentsCount: number
-  viewsCount: number
-  content: string
-}
+import { ITopic } from '@/pages/ForumPage/model/ITopic'
+import { useAppSelector } from '@/shared/hooks'
+import { PageInitArgs, useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import { getTopics } from '@/entities/Topic/service'
 
 const { Title } = Typography
 
 export const ForumPage: FC = () => {
+  useInitStatePage({ initPage: initForumPage })
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isSending, setIsSending] = useState<boolean>(false)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [topics, setTopics] = useState<ITopics[] | null>(null)
-
-  useEffect(() => {
-    setTimeout(() => {
-      console.log('здесь могло быть ваше API на get топиков')
-      setLoading(false)
-      setTopics(mockData)
-    }, 1000)
-  }, [topics])
+  const { topics, isLoading } = useAppSelector(state => state.topic)
 
   const toggleModal = (isOpen: boolean) => {
     setIsModalOpen(isOpen)
@@ -57,7 +39,7 @@ export const ForumPage: FC = () => {
     }, 2000)
   }
 
-  const topicsList = topics?.map((topic: ITopics) => {
+  const topicsList = topics.map((topic: ITopic) => {
     return (
       <TopicCard
         id={topic.id}
@@ -73,11 +55,11 @@ export const ForumPage: FC = () => {
 
   const skeleton = (
     <>
-      <Skeleton avatar loading={loading} paragraph={{ rows: 2 }} active />
+      <Skeleton avatar loading={isLoading} paragraph={{ rows: 2 }} active />
       <Divider />
-      <Skeleton avatar loading={loading} paragraph={{ rows: 2 }} active />
+      <Skeleton avatar loading={isLoading} paragraph={{ rows: 2 }} active />
       <Divider />
-      <Skeleton avatar loading={loading} paragraph={{ rows: 2 }} active />
+      <Skeleton avatar loading={isLoading} paragraph={{ rows: 2 }} active />
     </>
   )
 
@@ -131,4 +113,8 @@ export const ForumPage: FC = () => {
       </Modal>
     </div>
   )
+}
+
+export const initForumPage = async ({ dispatch }: PageInitArgs) => {
+  return dispatch(getTopics())
 }

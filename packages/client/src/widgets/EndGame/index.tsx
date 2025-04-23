@@ -28,7 +28,7 @@ export const EndGame: FC<IEndGame> = ({ score, rating, startNewGame }) => {
 
   const navigate = useNavigate()
   const gotoMainMenu = () => {
-    navigate(RouterPaths.main)
+    navigate(RouterPaths.MAIN)
   }
 
   const { first_name } = useAppSelector(state => state.user.user)

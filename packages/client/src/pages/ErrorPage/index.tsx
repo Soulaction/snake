@@ -2,12 +2,14 @@ import { FC } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Result } from 'antd'
 import { RouterPaths } from '@/shared/router'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 export const ErrorPage: FC = () => {
+  useInitStatePage({ initPage: initErrorPage })
   const navigate = useNavigate()
 
   const handleClick = () => {
-    navigate(RouterPaths.main)
+    navigate(RouterPaths.MAIN)
   }
 
   return (
@@ -23,3 +25,5 @@ export const ErrorPage: FC = () => {
     />
   )
 }
+
+export const initErrorPage = () => Promise.resolve()
