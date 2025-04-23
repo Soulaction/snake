@@ -16,7 +16,7 @@ export interface ISignupDTO {
   second_name: string
 }
 
-interface IData {
+export interface IData {
   reason: string
 }
 

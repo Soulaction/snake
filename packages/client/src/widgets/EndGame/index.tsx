@@ -1,8 +1,10 @@
-import type { FC } from 'react'
+import { useEffect, type FC } from 'react'
 import { Button, Flex, Typography } from 'antd'
 import styles from './EndGame.module.css'
 import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
+import { useAppSelector } from '@/shared/hooks'
+import { LeaderboardController } from '@/shared/controllers/leaderboard-controller'
 
 type IEndGame = {
   score: number
@@ -28,6 +30,16 @@ export const EndGame: FC<IEndGame> = ({ score, rating, startNewGame }) => {
   const gotoMainMenu = () => {
     navigate(RouterPaths.main)
   }
+
+  const { first_name } = useAppSelector(state => state.user.user)
+
+  useEffect(() => {
+    const leadersRequest = new LeaderboardController()
+    leadersRequest.createLeader({
+      name: first_name,
+      score,
+    })
+  }, [])
 
   return (
     <Flex
