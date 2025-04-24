@@ -10,10 +10,9 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { getUserData } from '@/entities/User/service'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import { REDIRECT_URI } from '@/shared/constants/api'
 
 const { Title } = Typography
-
-export const REDIRECT_URI = 'http://localhost:3000'
 
 export const LoginPage: FC = () => {
   useInitStatePage({ initPage: initLoginPage })
@@ -31,19 +30,6 @@ export const LoginPage: FC = () => {
           )}`
         )
       )
-    }
-
-    if (location.state?.from.search) {
-      const params = new URLSearchParams(location.state?.from.search)
-      const path = location.state?.from.pathname || RouterPaths.MAIN
-      const oauthData = {
-        code: params.get('code') || '',
-        redirect_uri: REDIRECT_URI,
-      }
-      signController.loginOAuth(oauthData, () => {
-        dispatch(getUserData())
-        navigate(RouterPaths.GAME)
-      })
     }
   }, [])
 
@@ -88,6 +74,12 @@ export const LoginPage: FC = () => {
           </Button>
           или{' '}
           <NavLink to={RouterPaths.REGISTRATION}>Зарегистрироваться</NavLink>
+          {urlOAuth && (
+            <>
+              {' '}
+              <a href={urlOAuth}>Войти через яндекс</a>
+            </>
+          )}
         </Form.Item>
       </Form>
     </Flex>
