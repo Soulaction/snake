@@ -1,43 +1,37 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
-  ChangeUserResponse,
+  AvatarRequest,
   AvatarResponse,
   ChangeUserRequest,
-  AvatarRequest,
+  ChangeUserResponse,
   IChangePasswordDTO,
 } from '@/shared/types/api'
-import { getAxiosInstance } from '@/shared/api/axios-transport'
+import { axiosInstance } from '@/shared/api/axios-transport'
 import { UserModel } from '@/shared/types/model'
 import { signController } from '@/shared/controllers/sign-controller'
 
-const { axios: axiosAuth } = getAxiosInstance('/auth')
-const { axios: axiosUser } = getAxiosInstance('/user')
-
-const userUrls = {
-  avatar: '/profile/avatar',
-  user: '/profile',
-  data: '/user',
-  password: '/password',
-} as const
+const contextPathAuth = '/auth'
+const contextPathUser = '/user'
 
 export const changeAvatar = createAsyncThunk(
   'user/change_avatar',
   async (body: AvatarRequest) => {
-    const requestUrl = userUrls.avatar
-    return axiosUser.put<AvatarResponse>(requestUrl, body)
+    const requestUrl = contextPathUser + '/profile/avatar'
+    return axiosInstance.put<AvatarResponse>(requestUrl, body)
   }
 )
 
 export const changeUser = createAsyncThunk(
   'user/change_user',
   async (body: ChangeUserRequest) => {
-    const requestUrl = userUrls.user
-    return axiosUser.put<ChangeUserResponse>(requestUrl, body)
+    const requestUrl = contextPathUser + '/profile'
+    return axiosInstance.put<ChangeUserResponse>(requestUrl, body)
   }
 )
 
 export const getUserData = createAsyncThunk('user/get_user_data', async () => {
-  return axiosAuth.get<UserModel>(userUrls.data)
+  const requestUrl = contextPathAuth + '/user'
+  return axiosInstance.get<UserModel>(requestUrl)
 })
 
 export const logout = createAsyncThunk('user/logout', async () => {
@@ -47,7 +41,7 @@ export const logout = createAsyncThunk('user/logout', async () => {
 export const changeUserPassword = createAsyncThunk(
   'user/change_user_password',
   async (body: IChangePasswordDTO) => {
-    const requestUrl = userUrls.password
-    return axiosUser.put(requestUrl, body)
+    const requestUrl = contextPathUser + '/password'
+    return axiosInstance.put(requestUrl, body)
   }
 )

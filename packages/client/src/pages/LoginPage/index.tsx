@@ -9,12 +9,14 @@ import { useAppDispatch } from '@/shared/hooks'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { getUserData } from '@/entities/User/service'
+import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 
 const { Title } = Typography
 
 export const REDIRECT_URI = 'http://localhost:3000'
 
 export const LoginPage: FC = () => {
+  useInitStatePage({ initPage: initLoginPage })
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
@@ -33,20 +35,20 @@ export const LoginPage: FC = () => {
 
     if (location.state?.from.search) {
       const params = new URLSearchParams(location.state?.from.search)
-      const path = location.state?.from.pathname || RouterPaths.main
+      const path = location.state?.from.pathname || RouterPaths.MAIN
       const oauthData = {
         code: params.get('code') || '',
         redirect_uri: REDIRECT_URI,
       }
       signController.loginOAuth(oauthData, () => {
         dispatch(getUserData())
-        navigate(RouterPaths.game)
+        navigate(RouterPaths.GAME)
       })
     }
   }, [])
 
   const onFinish = async (values: ISigninDTO) => {
-    const path = location.state?.from.pathname || RouterPaths.main
+    const path = location.state?.from || RouterPaths.MAIN
     await signController.login(values, () => {
       dispatch(getUserData())
       navigate(path)
@@ -85,11 +87,11 @@ export const LoginPage: FC = () => {
             Войти
           </Button>
           или{' '}
-          <NavLink to={RouterPaths.registration}>Зарегистрироваться</NavLink>
-          
-          {urlOAuth && <>{' '} <a href={urlOAuth}>Войти через яндекс</a></>}
+          <NavLink to={RouterPaths.REGISTRATION}>Зарегистрироваться</NavLink>
         </Form.Item>
       </Form>
     </Flex>
   )
 }
+
+export const initLoginPage = () => Promise.resolve()

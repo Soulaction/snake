@@ -54,7 +54,9 @@ const isOn = (): boolean => {
   )
 }
 
-export const useToggleFullscreen = (): [string, () => void] => {
+export const useToggleFullscreen = (
+  elementForFullScreen?: HTMLElement | null
+): [string, () => void] => {
   const [textContent, setTextContent] = useState<FullScreenText>(
     FullScreenText.on
   )
@@ -65,7 +67,7 @@ export const useToggleFullscreen = (): [string, () => void] => {
       turnOff(document)
       setTextContent(FullScreenText.on)
     } else {
-      turnOn(document.documentElement)
+      turnOn(elementForFullScreen ?? document.documentElement)
       setTextContent(FullScreenText.off)
     }
   }

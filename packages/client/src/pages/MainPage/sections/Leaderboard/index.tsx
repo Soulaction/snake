@@ -12,7 +12,7 @@ const { Text } = Typography
 export const Leaderboard = () => {
   const navigate = useNavigate()
   const gotoLeaderboard = () => {
-    navigate(RouterPaths.leaderboard)
+    navigate(RouterPaths.LEADERBOARD)
   }
 
   return (
