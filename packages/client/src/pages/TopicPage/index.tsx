@@ -16,6 +16,7 @@ import { mockData } from '@/pages/TopicPage/model/topicConstant'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
+import { getComments, addComment } from '@/entities/Topic/service'
 
 const { Text, Title } = Typography
 
@@ -28,6 +29,7 @@ export const TopicPage: FC = () => {
   useEffect(() => {
     setTimeout(() => {
       console.log('здесь могло быть ваше API на get комментов')
+      getComments()
       setLoading(false)
       setComments(mockData)
     }, 1000)

@@ -30,24 +30,36 @@ export const ReplyForm: FC = () => {
     watchCursor()
   }
 
+  const addComment = () => {
+    console.log('New comment')
+  }
+
   return (
     <Form name="comment_form">
-      <Flex gap={20}>
-        <textarea
-          className={styles.textarea}
-          name="comment"
-          value={value}
-          ref={inputRef}
-          onClick={watchCursor}
-          onChange={onChange}
-        />
-        <Popover
-          content={<EmojiPicker onChooseEmoji={onChooseEmoji} />}
-          trigger="click">
-          <Button shape="circle" variant="text">
-            <SmileOutlined />
+      <Flex vertical gap={20}>
+        <Flex gap={20}>
+          <textarea
+            className={styles.textarea}
+            name="comment"
+            value={value}
+            ref={inputRef}
+            onClick={watchCursor}
+            onChange={onChange}
+          />
+          <Popover
+            content={<EmojiPicker onChooseEmoji={onChooseEmoji} />}
+            trigger="click">
+            <Button shape="circle" variant="text">
+              <SmileOutlined />
+            </Button>
+          </Popover>
+        </Flex>
+
+        <Flex>
+          <Button type="default" shape="round" onClick={() => addComment()}>
+            Отправить
           </Button>
-        </Popover>
+        </Flex>
       </Flex>
     </Form>
   )

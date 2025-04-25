@@ -19,7 +19,7 @@ export const ForumPagination: FC<IFPagination> = props => {
       defaultCurrent={current}
       total={total}
       defaultPageSize={defaultPageSize}
-      onChange={(page, pageSize) => changePage(page)}
+      onChange={page => changePage(page)}
     />
   )
 }

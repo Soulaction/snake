@@ -16,7 +16,7 @@ import styles from './ForumPage.module.css'
 import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import { useAppSelector } from '@/shared/hooks'
 import { PageInitArgs, useInitStatePage } from '@/shared/hooks/useInitStatePage'
-import { getTopics } from '@/entities/Topic/service'
+import { getTopics, addTopic } from '@/entities/Topic/service'
 
 const { Title } = Typography
 
@@ -36,6 +36,7 @@ export const ForumPage: FC = () => {
     setIsSending(true)
     setTimeout(() => {
       console.log('здесь могло быть ваше API на post топика')
+      addTopic()
       toggleModal(false)
       setIsSending(false)
     }, 2000)
