@@ -7,13 +7,13 @@ import {
 import { Card, Avatar, Flex, Typography } from 'antd'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { ITopics } from '../..'
+import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import styles from './TopicCard.module.css'
 
 const { Meta } = Card
 const { Text } = Typography
 
-export const TopicCard: FC<ITopics> = props => {
+export const TopicCard: FC<ITopic> = props => {
   const { id, title, author, date, commentsCount, viewsCount, content } = props
 
   return (

@@ -5,3 +5,13 @@
 .space {
   width: 100%;
 }
+
+.w100 {
+  width: 100%;
+}
+
+.h1forum {
+  flex: 1 1 auto;
+  text-align: center;
+  padding-left: 130px;
+}

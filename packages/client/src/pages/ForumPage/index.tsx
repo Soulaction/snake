@@ -25,6 +25,8 @@ export const ForumPage: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isSending, setIsSending] = useState<boolean>(false)
   const { topics, isLoading } = useAppSelector(state => state.topic)
+  const [currentPage, setCurrentPage] = useState(1)
+  const pageSize = 3
 
   const toggleModal = (isOpen: boolean) => {
     setIsModalOpen(isOpen)
@@ -39,19 +41,22 @@ export const ForumPage: FC = () => {
     }, 2000)
   }
 
-  const topicsList = topics.map((topic: ITopic) => {
-    return (
-      <TopicCard
-        id={topic.id}
-        key={topic.id}
-        title={topic.title}
-        author={topic.author}
-        date={topic.date}
-        commentsCount={topic.commentsCount}
-        viewsCount={topic.viewsCount}
-        content={topic.content}></TopicCard>
-    )
-  })
+  const totalPages = Math.ceil(topics.length / pageSize)
+  const topicsList = topics
+    .slice(pageSize * (currentPage - 1), pageSize * currentPage)
+    .map((topic: ITopic) => {
+      return (
+        <TopicCard
+          id={topic.id}
+          key={topic.id}
+          title={topic.title}
+          author={topic.author}
+          date={topic.date}
+          commentsCount={topic.commentsCount}
+          viewsCount={topic.viewsCount}
+          content={topic.content}></TopicCard>
+      )
+    })
 
   const skeleton = (
     <>
@@ -63,10 +68,15 @@ export const ForumPage: FC = () => {
     </>
   )
 
+  const goToPage = (num: number): void => {
+    setCurrentPage(num)
+    console.log('goToPage', num)
+  }
+
   return (
     <>
-      <Flex justify="space-between" align="center">
-        <Title>Форум</Title>
+      <Flex justify="flex-start" align="center" className={styles.w100}>
+        <Title className={styles.h1forum}>Форум</Title>
         <Button
           type="primary"
           shape="round"
@@ -83,7 +93,13 @@ export const ForumPage: FC = () => {
         </Space>
       </Flex>
 
-      <ForumPagination></ForumPagination>
+      {totalPages > 1 && (
+        <ForumPagination
+          current={1}
+          total={topics.length}
+          defaultPageSize={pageSize}
+          changePage={goToPage}></ForumPagination>
+      )}
 
       <Modal
         okText="Создать топик"

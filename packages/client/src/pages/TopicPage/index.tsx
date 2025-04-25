@@ -1,4 +1,12 @@
-import { Avatar, Divider, Flex, Skeleton, Space, Typography } from 'antd'
+import {
+  Avatar,
+  Divider,
+  Flex,
+  Skeleton,
+  Space,
+  Button,
+  Typography,
+} from 'antd'
 import { FC, useEffect, useState } from 'react'
 import { Comment } from './ui/Comment'
 import { ReplyForm } from './ui/ReplyForm'
@@ -6,6 +14,8 @@ import styles from './TopicPage.module.css'
 import { IComment } from '@/pages/TopicPage/model/IComment'
 import { mockData } from '@/pages/TopicPage/model/topicConstant'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import { useNavigate } from 'react-router-dom'
+import { RouterPaths } from '@/shared/router'
 
 const { Text, Title } = Typography
 
@@ -13,6 +23,7 @@ export const TopicPage: FC = () => {
   useInitStatePage({ initPage: initTopicPage })
   const [comments, setComments] = useState<IComment[] | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
+  const navigate = useNavigate()
 
   useEffect(() => {
     setTimeout(() => {
@@ -33,6 +44,10 @@ export const TopicPage: FC = () => {
     )
   })
 
+  const goToForumPage = () => {
+    navigate(RouterPaths.FORUM)
+  }
+
   const skeleton = (
     <>
       <Skeleton avatar loading={loading} paragraph={{ rows: 1 }} active />
@@ -47,13 +62,7 @@ export const TopicPage: FC = () => {
     <>
       <Space direction="vertical" size="small">
         <Flex gap={30} align="center" wrap justify="space-between">
-          <Flex gap={30} align="center">
-            <Title level={3} className={styles.title}>
-              Some Topics Title
-            </Title>
-          </Flex>
-
-          <Flex gap={15} align="center">
+          <Flex gap={5} vertical align="flex-start">
             <Text type="secondary">
               Автор:{' '}
               <Avatar
@@ -63,6 +72,16 @@ export const TopicPage: FC = () => {
             </Text>
             <Text type="secondary">Опубликовано: 05.03.25</Text>
           </Flex>
+
+          <Flex gap={30} align="center">
+            <Title level={3} className={styles.title}>
+              Some Topics Title
+            </Title>
+          </Flex>
+
+          <Button type="default" shape="round" onClick={() => goToForumPage()}>
+            К топикам
+          </Button>
         </Flex>
         <Text>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
