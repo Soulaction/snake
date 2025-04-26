@@ -28,10 +28,10 @@ export const Header = () => {
 
   const handleThemeSwitchClick = useCallback(() => {
     console.log('handleThemeSwitchClick')
-    dispatch(toggleTheme());
+    dispatch(toggleTheme())
+    localStorage.setItem('theme', store.getState().user.theme)
     console.log(store.getState().user.theme)
   }, [])
-
 
   const items: MenuProps['items'] = useMemo(
     () => [
@@ -54,14 +54,18 @@ export const Header = () => {
     <Layout.Header>
       <Flex align="center" justify="center">
         <Navbar items={navbarItems} />
-        <Space>
+        <Space style={{textAlign: 'center'}}>
           <Dropdown
             menu={{ items }}
             placement="bottomRight"
             arrow={{ pointAtCenter: true }}>
             <Avatar size="large" icon={<UserOutlined />} />
           </Dropdown>
-          <Button shape="circle" icon={<UserOutlined />} onClick={handleThemeSwitchClick} />
+          <Button
+            shape="circle"
+            icon={<UserOutlined />}
+            onClick={handleThemeSwitchClick}
+          />
         </Space>
       </Flex>
     </Layout.Header>
