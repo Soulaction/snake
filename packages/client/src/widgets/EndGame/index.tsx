@@ -4,11 +4,10 @@ import styles from './EndGame.module.css'
 import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { useAppSelector } from '@/shared/hooks'
-import { LeaderboardController } from '@/shared/controllers/leaderboard-controller'
+import { leaderboardController } from '@/shared/controllers/leaderboard-controller'
 
 type IEndGame = {
   score: number
-  rating: number
   startNewGame: () => void
 }
 
@@ -23,7 +22,7 @@ function plural(n: number, text: string[]): string {
   return text[key]
 }
 
-export const EndGame: FC<IEndGame> = ({ score, rating, startNewGame }) => {
+export const EndGame: FC<IEndGame> = ({ score, startNewGame }) => {
   const { Title } = Typography
 
   const navigate = useNavigate()
@@ -31,14 +30,15 @@ export const EndGame: FC<IEndGame> = ({ score, rating, startNewGame }) => {
     navigate(RouterPaths.MAIN)
   }
 
-  const { first_name } = useAppSelector(state => state.user.user)
+  const first_name = useAppSelector(state => state.user.user?.first_name)
+  console.log(first_name)
 
   useEffect(() => {
-    const leadersRequest = new LeaderboardController()
-    leadersRequest.createLeader({
-      name: first_name,
-      score,
-    })
+    const data = {
+      name: first_name as string,
+      score_ypgang: score,
+    }
+    leaderboardController.createLeader(data)
   }, [])
 
   return (
@@ -52,10 +52,6 @@ export const EndGame: FC<IEndGame> = ({ score, rating, startNewGame }) => {
       <Title level={3}>
         Ваш результат: <span className={styles['red']}>{score}</span>{' '}
         {plural(score, ['яблоко', 'яблока', 'яблок'])}
-      </Title>
-      <Title level={3}>
-        Вы сейчас на <span className={styles['green']}>{rating}</span> месте в
-        общем зачете
       </Title>
       <Flex gap="middle" className={styles['margins-48']}>
         <Button type="primary" onClick={startNewGame}>

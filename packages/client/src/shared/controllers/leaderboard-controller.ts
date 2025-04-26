@@ -1,31 +1,34 @@
 import { AxiosError } from 'axios'
-import { getAxiosInstance } from '../api/axios-transport'
+import { axiosInstance } from '../api/axios-transport'
 import { Notification } from '../lib'
 import { IData } from './sign-controller'
 
 export interface INewLeader {
   name: string
-  score: number
+  score_ypgang: number
 }
 
 const TEAM_NAME = 'ypgang'
-const RATING_FIELD_NAME = 'score'
+const RATING_FIELD_NAME = 'score_ypgang'
 
 const transformData = (data: INewLeader) => {
   return {
     data,
-    ratingFiledName: RATING_FIELD_NAME,
+    ratingFieldName: RATING_FIELD_NAME,
     teamName: TEAM_NAME,
   }
 }
 
-const { axios } = getAxiosInstance('/leaderboard')
+class LeaderboardController {
+  private readonly contextPath: string
 
-export class LeaderboardController {
+  constructor() {
+    this.contextPath = 'leaderboard'
+  }
   public async createLeader(data: INewLeader) {
     try {
       console.log(transformData(data))
-      await axios.post('', transformData(data)).then(data => console.log(data))
+      await axiosInstance.post(this.contextPath, transformData(data))
     } catch (error) {
       const { response } = error as AxiosError
       const { reason } = response?.data as IData
@@ -35,7 +38,7 @@ export class LeaderboardController {
 
   public async getLeaders(currentPage = 0) {
     try {
-      return await axios.post(`/${TEAM_NAME}`, {
+      return await axiosInstance.post(`${this.contextPath}/all`, {
         ratingFieldName: RATING_FIELD_NAME,
         cursor: currentPage,
         limit: 10,
@@ -47,3 +50,5 @@ export class LeaderboardController {
     }
   }
 }
+
+export const leaderboardController = new LeaderboardController()

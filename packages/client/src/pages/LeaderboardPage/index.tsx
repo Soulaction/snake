@@ -1,15 +1,21 @@
-import { Avatar, Flex, Table, Typography } from 'antd'
+import { Flex, Table, Typography } from 'antd'
 import type { TableProps } from 'antd'
-import { FC } from 'react'
-import { mockData } from './model/leadersConstant'
+import { FC, useEffect, useState } from 'react'
 import styles from '../ForumPage/ForumPage.module.css'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import {
+  INewLeader,
+  leaderboardController,
+} from '@/shared/controllers/leaderboard-controller'
 
 const { Title, Text } = Typography
 
+interface IResponseLeaders {
+  data: INewLeader
+}
+
 export interface DataType {
   key: string
-  avatar: string
   name: string
   score: number
 }
@@ -27,7 +33,6 @@ export const columns: TableProps<DataType>['columns'] = [
     key: 'name',
     render: (_, record) => (
       <Flex align="center" gap={20}>
-        <Avatar size={'large'} src={record.avatar} />
         <Text>{record.name}</Text>
       </Flex>
     ),
@@ -42,23 +47,34 @@ export const columns: TableProps<DataType>['columns'] = [
 
 export const LeaderboardPage: FC = () => {
   useInitStatePage({ initPage: initLeaderboardPage })
+  const [leadersList, setLeadersList] = useState<DataType[]>([])
+
+  useEffect(() => {
+    leaderboardController.getLeaders().then(response => {
+      const data = response?.data
+      setLeadersList(
+        data.map((item: IResponseLeaders, index: number) => {
+          return {
+            key: index + 1,
+            name: item.data.name,
+            score: item.data.score_ypgang,
+          }
+        })
+      )
+    })
+  }, [])
+
   return (
     <div className={styles.wrap}>
-      <Flex justify="space-between" align="center">
-        <Title>Таблица лидеров</Title>
-        <Flex align="center" gap={8}>
-          <Text type="secondary">Ваша позиция:</Text>
-          <Text>100</Text>
-        </Flex>
-      </Flex>
+      <Title>Таблица лидеров</Title>
 
       <Table<DataType>
         columns={columns}
-        dataSource={mockData}
-        pagination={{ position: ['bottomCenter'] }}
+        dataSource={leadersList}
+        pagination={{ position: ['bottomCenter'], hideOnSinglePage: true }}
       />
     </div>
   )
 }
-        
+
 export const initLeaderboardPage = () => Promise.resolve()
