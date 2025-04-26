@@ -10,9 +10,10 @@ import { swaggerSpec, swaggerUi } from './config/swagger'
 const port = process.env.SERVER_PORT || 3001
 
 const app = express()
-// @ts-ignore
+
 app.use(
   '/api-docs',
+  // @ts-ignore
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
     swaggerOptions: {

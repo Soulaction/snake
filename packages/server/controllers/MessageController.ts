@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from 'express'
 import { MessageEntity } from '../entity/MessageEntity'
 import { TopicEntity } from '../entity/TopicEntity'
+import { UserEntity } from '../entity/UserEntity'
 
 class MessageController {
   async getMessageByIdTopic(req: Request, res: Response, next: NextFunction) {
@@ -9,6 +10,16 @@ class MessageController {
       const topics = await MessageEntity.findAll({
         where: {
           topicId: idTopic,
+        },
+        include: {
+          model: UserEntity,
+          attributes: [
+            'id',
+            'first_name',
+            'second_name',
+            'display_name',
+            'avatar',
+          ],
         },
       })
       res.status(200).json(topics)

@@ -18,35 +18,40 @@ class TopicController {
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {
-    const { limit = 10, page = 1 } = req.query
-    const offset = +page * +limit - +limit
-    const chatsWithMessageCountAndCreator = await TopicEntity.findAll({
-      attributes: {
-        include: [
-          [
-            Sequelize.fn('COUNT', Sequelize.col('MessageEntity.id')),
-            'messageCount',
-          ],
-        ],
-      },
-      include: [
-        {
-          model: MessageEntity,
-          attributes: [],
-        },
-        {
-          model: UserEntity,
-          attributes: ['id', 'firstName', 'lastName', 'email'],
-        },
-      ],
-      group: ['TopicEntity.id', 'UserEntity.id', 'MessageEntity.id'],
-      limit: +limit,
-      offset,
-      subQuery: false,
-    })
-    console.log(chatsWithMessageCountAndCreator)
     try {
-      res.status(200).json()
+      const { limit = 10, page = 1 } = req.query
+      const offset = +page * +limit - +limit
+      const chatsWithMessageCountAndCreator = await TopicEntity.findAll({
+        attributes: {
+          include: [
+            [
+              Sequelize.fn('COUNT', Sequelize.col('message.id')),
+              'messageCount',
+            ],
+          ],
+        },
+        include: [
+          {
+            model: MessageEntity,
+            attributes: [],
+          },
+          {
+            model: UserEntity,
+            attributes: [
+              'id',
+              'first_name',
+              'second_name',
+              'display_name',
+              'avatar',
+            ],
+          },
+        ],
+        group: ['TopicEntity.id', 'userEntity.id'],
+        limit: +limit,
+        offset,
+        subQuery: false,
+      })
+      res.status(200).json(chatsWithMessageCountAndCreator)
     } catch (e) {
       next(e)
     }
