@@ -14,6 +14,8 @@ import { useCallback, useMemo } from 'react'
 import { RouterPaths } from '@/shared/router'
 import { useAppDispatch } from '@/shared/hooks'
 import { logout } from '@/entities/User/service'
+import { toggleTheme } from '@/entities/User/slice'
+import { store } from '@/app/store'
 
 export const Header = () => {
   const navigate = useNavigate()
@@ -26,6 +28,8 @@ export const Header = () => {
 
   const handleThemeSwitchClick = useCallback(() => {
     console.log('handleThemeSwitchClick')
+    dispatch(toggleTheme());
+    console.log(store.getState().user.theme)
   }, [])
 
 
