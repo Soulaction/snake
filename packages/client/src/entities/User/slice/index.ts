@@ -32,7 +32,6 @@ export const UserSlice = createSlice({
   initialState,
   reducers: {
     toggleTheme(state) {
-      console.log('toggleTheme')
       if (state.theme === 'light') state.theme = 'dark'
       else state.theme = 'light'
     },

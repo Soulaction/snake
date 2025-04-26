@@ -30,10 +30,8 @@ export const Header = () => {
   }, [signController.logout])
 
   const handleThemeSwitchClick = useCallback(() => {
-    console.log('handleThemeSwitchClick')
     dispatch(toggleTheme())
     localStorage.setItem('theme', store.getState().user.theme)
-    console.log(store.getState().user.theme)
   }, [])
 
   const items: MenuProps['items'] = useMemo(
