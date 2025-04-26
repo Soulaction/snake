@@ -63,8 +63,8 @@ routerUser.post('/auth', userController.auth)
 routerUser.post('/', authMiddleware, userController.create)
 /**
  * @swagger
- * /put:
- *   post:
+ * /user:
+ *   put:
  *    summary: Обновить информацию о пользователе
  *    tags:
  *       - Авторизация

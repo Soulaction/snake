@@ -6,6 +6,6 @@ import authMiddleware from '../middleware/AuthMiddleware'
 
 export const router = Router()
 
-router.use('/topic', routerTopic)
+router.use('/topic', authMiddleware, routerTopic)
 router.use('/message', authMiddleware, routerMessage)
 router.use('/user', routerUser)

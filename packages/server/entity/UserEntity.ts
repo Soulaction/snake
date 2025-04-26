@@ -22,23 +22,20 @@ export class UserEntity extends Model<UserEntity> {
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
-    field: 'first_name',
   })
-  firstName!: string
+  first_name!: string
 
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
-    field: 'second_name',
   })
-  secondName!: string
+  second_name!: string
 
   @AllowNull(false)
   @Column({
     type: DataType.STRING,
-    field: 'display_name',
   })
-  displayName!: string
+  display_name!: string
 
   @AllowNull(false)
   @Column({

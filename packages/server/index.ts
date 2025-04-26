@@ -11,7 +11,15 @@ const port = process.env.SERVER_PORT || 3001
 
 const app = express()
 // @ts-ignore
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+app.use(
+  '/api-docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerSpec, {
+    swaggerOptions: {
+      withCredentials: true,
+    },
+  })
+)
 app.use(express.json())
 app.use('/api/v2', router)
 

@@ -15,6 +15,7 @@ export default async function (
 
   if (res.ok) {
     next()
+    return
   }
   next(ApiError.unauthorized('Пользователь не авторизован'))
 }

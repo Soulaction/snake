@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from 'express'
+import { UserEntity } from '../entity/UserEntity'
 
 class UserController {
   async auth(req: Request, res: Response) {
@@ -9,26 +10,68 @@ class UserController {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userAuth),
+      credentials: 'include',
     })
-    res.setHeader('set-cookie', resAuth.headers.get('set-cookie') || '')
-    res.status(200).json()
+
+    const cookies: string[] = []
+    for (const header of (resAuth.headers as any).entries()) {
+      if (header[0] === 'set-cookie') {
+        const cookie = header[1].replace(/Domain=.+?;/g, '')
+        cookies.push(cookie)
+      }
+    }
+    res.setHeader('Set-Cookie', cookies)
+    res.status(200).send('OK')
   }
 
-  create(req: Request, res: Response, next: NextFunction) {
-    const user = req.body
-    console.log(user)
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
-      res.status(200).json()
+      const {
+        id,
+        first_name,
+        second_name,
+        display_name = '',
+        phone,
+        avatar = '',
+        email,
+      } = req.body
+      const user = await UserEntity.findByPk(id)
+      if (user) {
+        throw new Error('Такой пользователь уже существует')
+      }
+
+      const newUser = {
+        id,
+        first_name,
+        second_name,
+        display_name,
+        phone,
+        avatar,
+        email,
+      }
+
+      await UserEntity.create(newUser as UserEntity)
+      res.status(201).send('Полльзователь создан')
     } catch (e) {
       next(e)
     }
   }
 
-  update(req: Request, res: Response, next: NextFunction) {
-    const user = req.body
-    console.log(user)
+  async update(req: Request, res: Response, next: NextFunction) {
     try {
-      res.status(200).json()
+      const newUser = req.body
+      const user = await UserEntity.findByPk(newUser.id)
+      if (!user) {
+        throw new Error('Пользователь не найден')
+      }
+      user.first_name = newUser.first_name ?? ''
+      user.second_name = newUser.second_name ?? ''
+      user.display_name = newUser.display_name ?? ''
+      user.phone = newUser.phone ?? ''
+      user.avatar = newUser.avatar ?? ''
+      user.email = newUser.email ?? ''
+      await user.save()
+      res.status(200).json('Информация о пользователе обновлена')
     } catch (e) {
       next(e)
     }
