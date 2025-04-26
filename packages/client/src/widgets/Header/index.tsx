@@ -1,4 +1,4 @@
-import { Avatar, Dropdown, Flex, Layout, MenuProps } from 'antd'
+import { Avatar, Button, Dropdown, Flex, Layout, MenuProps, Space } from 'antd'
 import { Navbar } from '@/shared/ui/Navbar'
 
 import { Link, useNavigate } from 'react-router-dom'
@@ -24,6 +24,11 @@ export const Header = () => {
     navigate(RouterPaths.LOGIN)
   }, [signController.logout])
 
+  const handleThemeSwitchClick = useCallback(() => {
+    console.log('handleThemeSwitchClick')
+  }, [])
+
+
   const items: MenuProps['items'] = useMemo(
     () => [
       {
@@ -45,12 +50,15 @@ export const Header = () => {
     <Layout.Header>
       <Flex align="center" justify="center">
         <Navbar items={navbarItems} />
-        <Dropdown
-          menu={{ items }}
-          placement="bottomRight"
-          arrow={{ pointAtCenter: true }}>
-          <Avatar size="large" icon={<UserOutlined />} />
-        </Dropdown>
+        <Space>
+          <Dropdown
+            menu={{ items }}
+            placement="bottomRight"
+            arrow={{ pointAtCenter: true }}>
+            <Avatar size="large" icon={<UserOutlined />} />
+          </Dropdown>
+          <Button shape="circle" icon={<UserOutlined />} onClick={handleThemeSwitchClick} />
+        </Space>
       </Flex>
     </Layout.Header>
   )
