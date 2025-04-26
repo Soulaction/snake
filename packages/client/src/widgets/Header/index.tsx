@@ -4,7 +4,9 @@ import { Navbar } from '@/shared/ui/Navbar'
 import { Link, useNavigate } from 'react-router-dom'
 import {
   LogoutOutlined,
+  MoonOutlined,
   SettingOutlined,
+  SunOutlined,
   UserOutlined,
 } from '@ant-design/icons'
 import { navbarItems } from './model/navbar-items'
@@ -12,7 +14,7 @@ import { navbarItems } from './model/navbar-items'
 import { signController } from '@/shared/controllers/sign-controller'
 import { useCallback, useMemo } from 'react'
 import { RouterPaths } from '@/shared/router'
-import { useAppDispatch } from '@/shared/hooks'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { logout } from '@/entities/User/service'
 import { toggleTheme } from '@/entities/User/slice'
 import { store } from '@/app/store'
@@ -20,6 +22,7 @@ import { store } from '@/app/store'
 export const Header = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
+  const currentTheme = useAppSelector(state => state.user.theme)
 
   const handleLogoutClick = useCallback(() => {
     dispatch(logout())
@@ -54,7 +57,7 @@ export const Header = () => {
     <Layout.Header>
       <Flex align="center" justify="center">
         <Navbar items={navbarItems} />
-        <Space style={{textAlign: 'center'}}>
+        <Space style={{ textAlign: 'center' }}>
           <Dropdown
             menu={{ items }}
             placement="bottomRight"
@@ -63,7 +66,7 @@ export const Header = () => {
           </Dropdown>
           <Button
             shape="circle"
-            icon={<UserOutlined />}
+            icon={currentTheme === 'light' ? <MoonOutlined /> : <SunOutlined />}
             onClick={handleThemeSwitchClick}
           />
         </Space>
