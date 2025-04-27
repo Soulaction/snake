@@ -31,7 +31,6 @@ export const EndGame: FC<IEndGame> = ({ score, startNewGame }) => {
   }
 
   const first_name = useAppSelector(state => state.user.user?.first_name)
-  console.log(first_name)
 
   useEffect(() => {
     const data = {
