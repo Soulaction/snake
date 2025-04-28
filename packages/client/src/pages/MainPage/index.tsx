@@ -30,7 +30,6 @@ export const MainPage: FC = () => {
   useEffect(() => {
     const params = new URLSearchParams(location.search)
     const code = params.get('code')
-    console.log({ location, params })
     if (code) {
       const oauthData = {
         code,
