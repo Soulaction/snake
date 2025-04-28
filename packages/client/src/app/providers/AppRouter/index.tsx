@@ -1,10 +1,13 @@
-import { FC, useMemo } from 'react'
-import { RouterProvider } from 'react-router-dom'
-import { getRouter } from '@/shared/router'
-import { App, ConfigProvider, theme } from 'antd'
+import { FC, ReactNode, useMemo } from 'react'
+import { App as AppAnt, ConfigProvider, theme } from 'antd'
 import { useAppSelector } from '@/shared/hooks'
+import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
 
-export const AppRouter: FC = () => {
+interface AppRouterProps {
+  children: ReactNode
+}
+
+export const App: FC<AppRouterProps> = ({ children }: AppRouterProps) => {
   const currentTheme = useAppSelector(state => state.user.theme)
 
   const config = useMemo(() => {
@@ -16,9 +19,9 @@ export const AppRouter: FC = () => {
 
   return (
     <ConfigProvider theme={config}>
-      <App>
-        <RouterProvider router={getRouter()} />
-      </App>
+      <ErrorBoundary>
+        <AppAnt>{children}</AppAnt>
+      </ErrorBoundary>
     </ConfigProvider>
   )
 }

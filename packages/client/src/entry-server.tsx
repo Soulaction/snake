@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/server'
 import './index.css'
 import { Request as ExpressRequest, Response as ExpressResponse } from 'express'
 import { Provider } from 'react-redux'
-import { ErrorBoundary } from '@/shared/lib/ErrorBoudary'
 import { createFetchRequest, createUrl } from '@/entry-server.utils'
 import {
   createStaticHandler,
@@ -21,6 +20,7 @@ import { getUserData } from '@/entities/User/service'
 import { publicRouters } from '@/shared/router/router'
 import { axiosInstance } from '@/shared/api/axios-transport'
 import { setPageHasBeenInitializedOnServer } from '@/entities/Application/slice'
+import { App } from '@/app/providers/AppRouter'
 
 export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   const { query, dataRoutes } = createStaticHandler(routs)
@@ -78,11 +78,16 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   return {
     html: ReactDOM.renderToString(
       <Provider store={store}>
-        <ErrorBoundary>
-          <StaticRouterProvider router={router} context={context} />
-        </ErrorBoundary>
+        <App>
+          <StaticRouterProvider
+            router={router}
+            context={context}
+            hydrate={false}
+          />
+        </App>
       </Provider>
     ),
     initialState: store.getState(),
+    context,
   }
 }

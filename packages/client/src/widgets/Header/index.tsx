@@ -31,7 +31,6 @@ export const Header = () => {
 
   const handleThemeSwitchClick = useCallback(() => {
     dispatch(toggleTheme())
-    localStorage.setItem('theme', store.getState().user.theme)
   }, [])
 
   const items: MenuProps['items'] = useMemo(
