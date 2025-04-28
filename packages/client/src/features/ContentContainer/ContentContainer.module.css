@@ -9,7 +9,7 @@
   align-items: center;
   overflow-y: auto;
   padding: 30px;
-  background: #fff;
+  background: var(--ant-color-bg-base);
   border-radius: 20px;
   height: 100%;
 }
