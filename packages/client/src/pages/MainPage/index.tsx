@@ -1,4 +1,4 @@
-import type { FC } from 'react'
+import { useEffect, type FC } from 'react'
 import {
   Feature,
   Gameplay,
@@ -8,19 +8,41 @@ import {
   Reviews,
 } from './sections'
 import { Button, Col, Layout, Row } from 'antd'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { Navbar } from '@/shared/ui'
 import { anchorItems } from './model/anchor-items'
 import styles from './MainPage.module.css'
-import { useAppSelector } from '@/shared/hooks'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import { signController } from '@/shared/controllers/sign-controller'
+import { REDIRECT_URI } from '@/shared/constants/api'
+import { getUserData } from '@/entities/User/service'
 
 const { Content, Header } = Layout
 
 export const MainPage: FC = () => {
   useInitStatePage({ initPage: initMainPage })
   const navigate = useNavigate()
+  const location = useLocation()
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const code = params.get('code')
+    console.log({ location, params })
+    if (code) {
+      const oauthData = {
+        code,
+        redirect_uri: REDIRECT_URI,
+      }
+      signController.loginOAuth(oauthData, () => {
+        dispatch(getUserData())
+        navigate(RouterPaths.GAME)
+      })
+    }
+  }, [location.search])
+
   const { isAuth } = useAppSelector(state => state.user)
   const handlePlayClick = () => {
     navigate(RouterPaths.LOGIN)
