@@ -22,7 +22,7 @@ startServiceWorker()
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <Provider store={store}>
-    <ErrorBoundary>   
+    <ErrorBoundary>
       <AppRouter />
     </ErrorBoundary>
   </Provider>

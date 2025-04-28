@@ -25,8 +25,8 @@ interface IServiceDTO {
 }
 
 interface IOauthSignInRequest {
-  code: string;
-  redirect_uri: string;
+  code: string
+  redirect_uri: string
 }
 
 export class SignController {
@@ -34,8 +34,7 @@ export class SignController {
   private readonly contextOAuth: string
 
   constructor() {
-    this.contextPath = 'auth',
-    this.contextOAuth = 'oauth/yandex'
+    ;(this.contextPath = 'auth'), (this.contextOAuth = 'oauth/yandex')
   }
 
   public async login(data: ISigninDTO, callBack?: () => void) {
@@ -75,9 +74,15 @@ export class SignController {
     }
   }
 
-  public async getServiceId(data: IServiceDTO, callBack?: (service_id: string) => void) {
-    try { 
-      const response = await axiosInstance.get(this.contextOAuth + '/service-id', { params: data })
+  public async getServiceId(
+    data: IServiceDTO,
+    callBack?: (service_id: string) => void
+  ) {
+    try {
+      const response = await axiosInstance.get(
+        this.contextOAuth + '/service-id',
+        { params: data }
+      )
       const { service_id } = response.data
       callBack?.(service_id)
     } catch (error) {
@@ -88,7 +93,7 @@ export class SignController {
   }
 
   public async loginOAuth(data: IOauthSignInRequest, callBack?: () => void) {
-    try { 
+    try {
       const response = await axiosInstance.post(this.contextOAuth, data)
       console.log({ response })
       callBack?.()
