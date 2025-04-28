@@ -79,7 +79,6 @@ export class SignController {
     try { 
       const response = await axiosInstance.get(this.contextOAuth + '/service-id', { params: data })
       const { service_id } = response.data
-      console.log({ response })
       callBack?.(service_id)
     } catch (error) {
       const { response } = error as AxiosError
