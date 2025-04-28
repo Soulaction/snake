@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Typography } from 'antd'
 import {
@@ -10,6 +10,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { getUserData } from '@/entities/User/service'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import { REDIRECT_URI } from '@/shared/constants/api'
 
 const { Title } = Typography
 
@@ -18,6 +19,19 @@ export const LoginPage: FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
+  const [urlOAuth, setUrlOAuth] = useState('')
+
+  useEffect(() => {
+    if (!urlOAuth) {
+      signController.getServiceId({ redirect_uri: REDIRECT_URI }, service_id =>
+        setUrlOAuth(
+          `https://oauth.yandex.ru/authorize?response_type=code&client_id=${service_id}&redirect_uri=${encodeURIComponent(
+            REDIRECT_URI
+          )}`
+        )
+      )
+    }
+  }, [])
 
   const onFinish = async (values: ISigninDTO) => {
     const path = location.state?.from || RouterPaths.MAIN
@@ -51,11 +65,21 @@ export const LoginPage: FC = () => {
           />
         </Form.Item>
         <Form.Item>
-          <Button block type="primary" htmlType="submit">
+          <Button
+            block
+            type="primary"
+            htmlType="submit"
+            icon={<LockOutlined />}>
             Войти
           </Button>
           или{' '}
           <NavLink to={RouterPaths.REGISTRATION}>Зарегистрироваться</NavLink>
+          {urlOAuth && (
+            <>
+              {' '}
+              <a href={urlOAuth}>Войти через яндекс</a>
+            </>
+          )}
         </Form.Item>
       </Form>
     </Flex>
