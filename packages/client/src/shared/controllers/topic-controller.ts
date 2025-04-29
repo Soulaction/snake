@@ -30,7 +30,7 @@ export class TopicController {
 
   public async getComments(id: number): Promise<IComment[]> {
     const [arComments] = Object.entries(topicMock)
-      .filter(([key, value]) => parseInt(key as unknown as string) === id)
+      .filter(([key, _]) => parseInt(key as unknown as string) === id)
       .map(element => element[1])
     return await new Promise(resolve => {
       setTimeout(() => {
@@ -42,8 +42,7 @@ export class TopicController {
   public async addComment(comment: IComment): Promise<IComment[]> {
     const [arComments] = Object.entries(topicMock)
       .filter(
-        ([key, value]) =>
-          parseInt(key as unknown as string) === comment.parent_id
+        ([key, _]) => parseInt(key as unknown as string) === comment.parent_id
       )
       .map(element => element[1])
     comment.id = Math.round(Math.random() * 1000)

@@ -37,6 +37,7 @@ export const ForumPage: FC = () => {
   }
 
   const onSubmit = async () => {
+    setIsSending(true)
     const { topic_name, topic_description } = form.getFieldsValue([
       ['topic_name'],
       ['topic_description'],

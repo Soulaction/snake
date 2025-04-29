@@ -1,6 +1,6 @@
 import { SmileOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Popover, Input } from 'antd'
-import { FC, useState, ChangeEvent, useRef } from 'react'
+import { FC, useState } from 'react'
 import { EmojiPicker } from '../EmojiPicker'
 import styles from './ReplyForm.module.css'
 import { IComment } from '../../model/IComment'
@@ -15,8 +15,6 @@ export const ReplyForm: FC = () => {
 
   const dispatch = useAppDispatch()
 
-  const inputRef = useRef<HTMLTextAreaElement | null>(null)
-
   const [cursorPosition, setCursorPosition] = useState(0)
 
   const [value, setValue] = useState<string>('')
@@ -25,19 +23,6 @@ export const ReplyForm: FC = () => {
     const lValue = value.slice(0, cursorPosition)
     const rValue = value.slice(cursorPosition)
     setValue(lValue + emoji + rValue)
-  }
-
-  const watchCursor = () => {
-    if (inputRef.current) {
-      const position = inputRef.current.selectionStart
-      setCursorPosition(position)
-    }
-  }
-
-  const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    const target = e.target
-    setValue(target?.value)
-    watchCursor()
   }
 
   const addNewComment = async () => {

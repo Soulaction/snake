@@ -41,6 +41,7 @@ export const TopicPage: FC = () => {
   })
 
   const goToForumPage = () => {
+    setLoading(true)
     navigate(RouterPaths.FORUM)
   }
 
