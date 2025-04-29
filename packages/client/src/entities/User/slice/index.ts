@@ -15,6 +15,7 @@ export type UserState = Readonly<{
   avatarLoading: boolean
   passwordChanging: boolean
   isAuth: boolean
+  theme: 'light' | 'dark'
 }>
 
 const initialState: UserState = {
@@ -23,12 +24,18 @@ const initialState: UserState = {
   avatarLoading: false,
   passwordChanging: false,
   isAuth: false,
+  theme: 'light',
 }
 
 export const UserSlice = createSlice({
   name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    toggleTheme(state) {
+      if (state.theme === 'light') state.theme = 'dark'
+      else state.theme = 'light'
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(changeUser.pending, state => {
@@ -89,4 +96,5 @@ export const UserSlice = createSlice({
   },
 })
 
+export const { toggleTheme } = UserSlice.actions
 export default UserSlice.reducer

@@ -15,9 +15,13 @@ COPY . .
 RUN yarn lerna bootstrap
 RUN rm -rf /app/packages/server/dist/ && yarn build --scope=server
 
-
 FROM node:$NODE_VERSION-buster-slim as production
+
 WORKDIR /app
+RUN apt-get update && apt-get install -y netcat-traditional && rm -rf /var/lib/apt/lists/*
+
+COPY utils/wait-for.sh wait-for.sh
+RUN chmod +x wait-for.sh
 
 COPY --from=builder /app/packages/server/dist/ /app/
 COPY --from=builder /app/packages/server/package.json /app/package.json
