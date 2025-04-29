@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit'
 import userReducer from '@/entities/User/slice'
 import { topicReducer } from '@/entities/Topic/slice'
+import { commentReducer } from '@/entities/Comment/slice'
 import { gameReducer } from '@/widgets/Game/model/gemeSlice'
 import { applicationReducer } from '@/entities/Application/slice'
 
@@ -13,6 +14,7 @@ export type RootState = {
   user: ReturnType<typeof userReducer>
   game: ReturnType<typeof gameReducer>
   topic: ReturnType<typeof topicReducer>
+  comment: ReturnType<typeof commentReducer>
 }
 
 const reducer = combineReducers({
@@ -20,6 +22,7 @@ const reducer = combineReducers({
   user: userReducer,
   game: gameReducer,
   topic: topicReducer,
+  comment: commentReducer,
 })
 
 type RootAction = PayloadAction<unknown> | { type: 'reset' }

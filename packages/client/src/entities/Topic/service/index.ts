@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { topicController } from '@/shared/controllers/topic-controller'
+import { ITopic } from '@/pages/ForumPage/model/ITopic'
 
 export const getTopics = createAsyncThunk(
-  'forum/topic/list',
+  'forum/get_topic_list',
   async (_, { rejectWithValue }) => {
     try {
       return topicController.getTopics()
@@ -13,31 +14,10 @@ export const getTopics = createAsyncThunk(
 )
 
 export const addTopic = createAsyncThunk(
-  'forum/topic/add',
-  async (_, { rejectWithValue }) => {
+  'forum/add_topic',
+  async (newTopic: ITopic, { rejectWithValue }) => {
     try {
-      return topicController.addTopic()
-    } catch (e) {
-      return rejectWithValue(e)
-    }
-  }
-)
-export const getComments = createAsyncThunk(
-  'forum/comment/list',
-  async (_, { rejectWithValue }) => {
-    try {
-      return topicController.getComments()
-    } catch (e) {
-      return rejectWithValue(e)
-    }
-  }
-)
-
-export const addComment = createAsyncThunk(
-  'forum/comment/add',
-  async (_, { rejectWithValue }) => {
-    try {
-      return topicController.addComment()
+      return topicController.addTopic(newTopic)
     } catch (e) {
       return rejectWithValue(e)
     }

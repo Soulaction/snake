@@ -11,10 +11,10 @@ import {
 } from 'antd'
 import { TopicCard } from './ui/TopicCard'
 import { ForumPagination } from './ui/ForumPagination'
-import { FC, useState } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react'
 import styles from './ForumPage.module.css'
 import { ITopic } from '@/pages/ForumPage/model/ITopic'
-import { useAppSelector } from '@/shared/hooks'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { PageInitArgs, useInitStatePage } from '@/shared/hooks/useInitStatePage'
 import { getTopics, addTopic } from '@/entities/Topic/service'
 
@@ -27,22 +27,36 @@ export const ForumPage: FC = () => {
   const { topics, isLoading } = useAppSelector(state => state.topic)
   const [currentPage, setCurrentPage] = useState(1)
   const pageSize = 3
+  const [form] = Form.useForm()
+  const user = useAppSelector(state => state.user.user)
+
+  const dispatch = useAppDispatch()
 
   const toggleModal = (isOpen: boolean) => {
     setIsModalOpen(isOpen)
   }
 
-  const onSubmit = () => {
-    setIsSending(true)
-    setTimeout(() => {
-      console.log('здесь могло быть ваше API на post топика')
-      addTopic()
-      toggleModal(false)
-      setIsSending(false)
-    }, 2000)
+  const onSubmit = async () => {
+    const { topic_name, topic_description } = form.getFieldsValue([
+      ['topic_name'],
+      ['topic_description'],
+    ])
+    const newTopic: ITopic = {
+      id: 0,
+      title: topic_name,
+      author: {
+        name: user?.display_name ?? 'Guest',
+        avatar:
+          user?.avatar ?? 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
+      },
+      date: new Date().toDateString(),
+      commentsCount: 0,
+      viewsCount: 0,
+      content: topic_description,
+    }
+    await dispatch(addTopic(newTopic)).then(() => toggleModal(false))
   }
 
-  const totalPages = Math.ceil(topics.length / pageSize)
   const topicsList = topics
     .slice(pageSize * (currentPage - 1), pageSize * currentPage)
     .map((topic: ITopic) => {
@@ -71,7 +85,6 @@ export const ForumPage: FC = () => {
 
   const goToPage = (num: number): void => {
     setCurrentPage(num)
-    console.log('goToPage', num)
   }
 
   return (
@@ -88,13 +101,13 @@ export const ForumPage: FC = () => {
         </Button>
       </Flex>
 
-      <Flex>
+      <Flex className={styles.w100}>
         <Space direction="vertical" size="middle" className={styles.space}>
           {topicsList ? topicsList : skeleton}
         </Space>
       </Flex>
 
-      {totalPages > 1 && (
+      {topics.length / pageSize > 1 && (
         <ForumPagination
           current={1}
           total={topics.length}
@@ -113,7 +126,11 @@ export const ForumPage: FC = () => {
         confirmLoading={isSending}
         destroyOnClose={true}>
         <Title level={4}>Создать топик</Title>
-        <Form name="create_topic" className={styles.form} preserve={false}>
+        <Form
+          name="create_topic"
+          className={styles.form}
+          preserve={false}
+          form={form}>
           <Form.Item
             name="topic_name"
             label="Название топика"

@@ -1,10 +1,20 @@
 import { SmileOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Popover } from 'antd'
+import { Button, Flex, Form, Popover, Input } from 'antd'
 import { FC, useState, ChangeEvent, useRef } from 'react'
 import { EmojiPicker } from '../EmojiPicker'
 import styles from './ReplyForm.module.css'
+import { IComment } from '../../model/IComment'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
+import { getComments, addComment } from '@/entities/Comment/service'
 
 export const ReplyForm: FC = () => {
+  const currentTopic = useAppSelector(state => state.topic.currentTopic)
+  const user = useAppSelector(state => state.user.user)
+  const [form] = Form.useForm()
+  const { TextArea } = Input
+
+  const dispatch = useAppDispatch()
+
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
 
   const [cursorPosition, setCursorPosition] = useState(0)
@@ -30,22 +40,34 @@ export const ReplyForm: FC = () => {
     watchCursor()
   }
 
-  const addComment = () => {
-    console.log('New comment')
+  const addNewComment = async () => {
+    const { comment } = form.getFieldsValue([['comment']])
+    console.log(form.getFieldsValue(), comment)
+    const newComment: IComment = {
+      id: 0,
+      parent_id: currentTopic,
+      author: {
+        name: user?.display_name ?? 'Guest',
+        avatar:
+          user?.avatar ?? 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
+      },
+      date: new Date().toLocaleDateString(),
+      topic: currentTopic,
+      content: comment,
+    }
+    await dispatch(addComment(newComment)).then(() => {
+      // dispatch(getComments(currentTopic))
+      form.setFieldValue('comment', '')
+    })
   }
 
   return (
-    <Form name="comment_form">
+    <Form name="comment_form" form={form}>
       <Flex vertical gap={20}>
         <Flex gap={20}>
-          <textarea
-            className={styles.textarea}
-            name="comment"
-            value={value}
-            ref={inputRef}
-            onClick={watchCursor}
-            onChange={onChange}
-          />
+          <Form.Item name="comment" className={styles.w100}>
+            <TextArea rows={4} name="comment" />
+          </Form.Item>
           <Popover
             content={<EmojiPicker onChooseEmoji={onChooseEmoji} />}
             trigger="click">
@@ -56,7 +78,7 @@ export const ReplyForm: FC = () => {
         </Flex>
 
         <Flex>
-          <Button type="default" shape="round" onClick={() => addComment()}>
+          <Button type="default" shape="round" onClick={() => addNewComment()}>
             Отправить
           </Button>
         </Flex>
