@@ -4,7 +4,7 @@
 
 .divider {
   margin: 5px 0;
-  border-color: #7cb305;
+  border-color: var(--ant-color-border);
 }
 
 .w100 {

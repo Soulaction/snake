@@ -24,7 +24,7 @@ export const GamePage: FC = () => {
       {statusGame === StatusGame.Start && <StartGame playGame={playGame} />}
       {[StatusGame.Process, StatusGame.Pause].includes(statusGame) && <Game />}
       {statusGame === StatusGame.End && (
-        <EndGame score={score} rating={14} startNewGame={startNewGame} />
+        <EndGame score={score} startNewGame={startNewGame} />
       )}
     </ErrorBoundary>
   )
