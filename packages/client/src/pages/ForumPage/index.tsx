@@ -11,7 +11,7 @@ import {
 } from 'antd'
 import { TopicCard } from './ui/TopicCard'
 import { ForumPagination } from './ui/ForumPagination'
-import { FC, ReactNode, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import styles from './ForumPage.module.css'
 import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
@@ -88,7 +88,7 @@ export const ForumPage: FC = () => {
   }
 
   return (
-    <>
+    <div className={styles.wrap}>
       <Flex justify="flex-start" align="center" className={styles.w100}>
         <Title className={styles.h1forum}>Форум</Title>
         <Button
@@ -145,7 +145,7 @@ export const ForumPage: FC = () => {
           </Form.Item>
         </Form>
       </Modal>
-    </>
+    </div>
   )
 }
 

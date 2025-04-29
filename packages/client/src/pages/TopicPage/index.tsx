@@ -12,19 +12,15 @@ import { Comment } from './ui/Comment'
 import { ReplyForm } from './ui/ReplyForm'
 import styles from './TopicPage.module.css'
 import { IComment } from '@/pages/TopicPage/model/IComment'
-// import { mockData } from '@/pages/TopicPage/model/topicConstant'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
 import { useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
-import { getComments, addComment } from '@/entities/Comment/service'
 import { useAppSelector } from '@/shared/hooks'
-// import { store } from '@/app/store'
 
 const { Text, Title } = Typography
 
 export const TopicPage: FC = () => {
   useInitStatePage({ initPage: initTopicPage })
-  // const [comments, setComments] = useState<IComment[] | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
   const topics = useAppSelector(state => state.topic)

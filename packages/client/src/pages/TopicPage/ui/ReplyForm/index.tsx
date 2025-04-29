@@ -5,7 +5,7 @@ import { EmojiPicker } from '../EmojiPicker'
 import styles from './ReplyForm.module.css'
 import { IComment } from '../../model/IComment'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
-import { getComments, addComment } from '@/entities/Comment/service'
+import { addComment } from '@/entities/Comment/service'
 
 export const ReplyForm: FC = () => {
   const currentTopic = useAppSelector(state => state.topic.currentTopic)

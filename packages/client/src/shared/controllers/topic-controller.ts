@@ -2,7 +2,6 @@ import { mockData } from '@/pages/ForumPage/model/forumConstant'
 import { mockData as topicMock } from '@/pages/TopicPage/model/topicConstant'
 import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import { IComment } from '@/pages/TopicPage/model/IComment'
-import { store } from '@/app/store'
 
 export class TopicController {
   private readonly contextPath: string
