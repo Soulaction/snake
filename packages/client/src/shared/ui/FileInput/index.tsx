@@ -7,14 +7,12 @@ import { FileType } from './libs/getBase64'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { resourcesYandex } from '@/shared/constants/api'
 import { changeAvatar } from '@/entities/User/service'
-import { useDispatch } from 'react-redux'
 
 interface IFileInputProps {
   imgUrl?: string
 }
 
 export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
-  const user = useAppSelector(state => state.user.user)
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [file, setFile] = useState<UploadFile[]>(

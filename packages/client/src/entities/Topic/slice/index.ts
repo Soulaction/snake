@@ -1,22 +1,28 @@
 import { Notification } from '@/shared/lib'
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { ITopic } from '@/pages/ForumPage/model/ITopic'
-import { getTopics } from '@/entities/Topic/service'
+import { addTopic, getTopics } from '@/entities/Topic/service'
 
-export type TopicState = Readonly<{
+export type TopicState = {
   topics: ITopic[]
+  currentTopic: number
   isLoading: boolean
-}>
+}
 
 const initialState: TopicState = {
   topics: [],
+  currentTopic: 0,
   isLoading: false,
 }
 
 export const topicSlice = createSlice({
   name: 'topic',
   initialState,
-  reducers: {},
+  reducers: {
+    setCurrentTopic: (state: TopicState, action: PayloadAction<number>) => {
+      state.currentTopic = action.payload
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(getTopics.pending, state => {
@@ -32,7 +38,22 @@ export const topicSlice = createSlice({
           action.error?.message || 'Не удалось загрузить комментарии'
         Notification.error(errorMessage)
       })
+      .addCase(addTopic.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(addTopic.fulfilled, (state, action) => {
+        state.topics = action.payload
+        state.isLoading = false
+      })
+      .addCase(addTopic.rejected, (state, action) => {
+        state.isLoading = false
+        const errorMessage =
+          action.error?.message || 'Не удалось добавить топик'
+        Notification.error(errorMessage)
+      })
   },
 })
 
 export const topicReducer = topicSlice.reducer
+
+export const { setCurrentTopic } = topicSlice.actions

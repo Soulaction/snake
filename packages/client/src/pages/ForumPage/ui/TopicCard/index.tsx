@@ -7,17 +7,27 @@ import {
 import { Card, Avatar, Flex, Typography } from 'antd'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { ITopics } from '../..'
+import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import styles from './TopicCard.module.css'
+import { useAppDispatch } from '@/shared/hooks'
+import { setCurrentTopic } from '@/entities/Topic/slice'
+import { getComments } from '@/entities/Comment/service'
 
 const { Meta } = Card
 const { Text } = Typography
 
-export const TopicCard: FC<ITopics> = props => {
+export const TopicCard: FC<ITopic> = props => {
   const { id, title, author, date, commentsCount, viewsCount, content } = props
 
+  const dispatch = useAppDispatch()
+
+  const setCurrent = (id: number) => {
+    dispatch(setCurrentTopic(id))
+    dispatch(getComments(id))
+  }
+
   return (
-    <Link to={`/topic/${id}`}>
+    <Link to={`/topic/${id}`} onClick={() => setCurrent(id)}>
       <Card hoverable={true}>
         <Meta
           avatar={<Avatar size={'large'} src={author.avatar} />}
