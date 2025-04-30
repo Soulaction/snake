@@ -1,7 +1,4 @@
 import dotenv from 'dotenv'
-
-dotenv.config()
-
 import express, {
   Request as ExpressRequest,
   Response as ExpressResponse,
@@ -11,6 +8,9 @@ import fs from 'fs/promises'
 import { createServer as createViteServer, ViteDevServer } from 'vite'
 import serialize from 'serialize-javascript'
 import { createProxyMiddleware } from 'http-proxy-middleware'
+import type { StaticHandlerContext } from 'react-router-dom/server'
+
+dotenv.config()
 
 const port = process.env.PORT || 3000
 const clientPath = path.join(__dirname, '..')
@@ -51,7 +51,11 @@ async function createServer() {
       let render: (
         req: ExpressRequest,
         res: ExpressResponse
-      ) => Promise<{ html: string; initialState: unknown }>
+      ) => Promise<{
+        html: string
+        initialState: unknown
+        context: StaticHandlerContext
+      }>
       let template: string
       if (vite) {
         template = await fs.readFile(
@@ -79,13 +83,21 @@ async function createServer() {
         render = (await import(pathToServer)).render
       }
 
-      const { html: appHtml, initialState } = await render(req, res)
-      const html = template.replace(`<!--ssr-outlet-->`, appHtml).replace(
-        `<!--ssr-initial-state-->`,
-        `<script>window.APP_INITIAL_STATE = ${serialize(initialState, {
-          isJSON: true,
-        })}</script>`
-      )
+      const { html: appHtml, initialState, context } = await render(req, res)
+      const html = template
+        .replace(`<!--ssr-outlet-->`, appHtml)
+        .replace(
+          `<!--ssr-initial-state-->`,
+          `<script>window.APP_INITIAL_STATE = ${serialize(initialState, {
+            isJSON: true,
+          })}</script>`
+        )
+        .replace(
+          `<!--static-router-hydration-data-->`,
+          `<script>window.__staticRouterHydrationData = ${serialize(context, {
+            isJSON: true,
+          })}</script>`
+        )
 
       // Завершаем запрос и отдаём HTML-страницу
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
