@@ -60,7 +60,7 @@ export const Emoji: FC<IEmoji> = props => {
     <span
       style={{ cursor: 'pointer' }}
       onClick={() => {
-        onClick(emoji)
+        onClick(name)
       }}>
       {emoji}
     </span>
