@@ -1,26 +1,33 @@
-import { Avatar, Divider, Flex, Skeleton, Space, Typography } from 'antd'
-import { FC, useEffect, useState } from 'react'
+import {
+  Avatar,
+  Divider,
+  Flex,
+  Skeleton,
+  Space,
+  Button,
+  Typography,
+} from 'antd'
+import { FC, useState } from 'react'
 import { Comment } from './ui/Comment'
 import { ReplyForm } from './ui/ReplyForm'
 import styles from './TopicPage.module.css'
 import { IComment } from '@/pages/TopicPage/model/IComment'
-import { mockData } from '@/pages/TopicPage/model/topicConstant'
 import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import { useNavigate } from 'react-router-dom'
+import { RouterPaths } from '@/shared/router'
+import { useAppSelector } from '@/shared/hooks'
 
 const { Text, Title } = Typography
 
 export const TopicPage: FC = () => {
   useInitStatePage({ initPage: initTopicPage })
-  const [comments, setComments] = useState<IComment[] | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
-
-  useEffect(() => {
-    setTimeout(() => {
-      console.log('здесь могло быть ваше API на get комментов')
-      setLoading(false)
-      setComments(mockData)
-    }, 1000)
-  }, [comments])
+  const navigate = useNavigate()
+  const topics = useAppSelector(state => state.topic)
+  const { comments } = useAppSelector(state => state.comment)
+  const [thisTopic] = topics.topics.filter(
+    topic => topic.id === topics.currentTopic
+  )
 
   const commentsList = comments?.map((comment: IComment, index) => {
     return (
@@ -32,6 +39,11 @@ export const TopicPage: FC = () => {
       />
     )
   })
+
+  const goToForumPage = () => {
+    setLoading(true)
+    navigate(RouterPaths.FORUM)
+  }
 
   const skeleton = (
     <>
@@ -45,34 +57,28 @@ export const TopicPage: FC = () => {
 
   return (
     <>
-      <Space direction="vertical" size="small">
+      <Space direction="vertical" size="small" className={styles.w100}>
         <Flex gap={30} align="center" wrap justify="space-between">
+          <Flex gap={5} vertical align="flex-start">
+            <Text type="secondary">
+              Автор:{' '}
+              <Avatar size={'small'} src={thisTopic.author.avatar}></Avatar>{' '}
+              {thisTopic.author.name}
+            </Text>
+            <Text type="secondary">Опубликовано: {thisTopic.date}</Text>
+          </Flex>
+
           <Flex gap={30} align="center">
             <Title level={3} className={styles.title}>
-              Some Topics Title
+              {thisTopic.title}
             </Title>
           </Flex>
 
-          <Flex gap={15} align="center">
-            <Text type="secondary">
-              Автор:{' '}
-              <Avatar
-                size={'small'}
-                src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"></Avatar>{' '}
-              Kolya
-            </Text>
-            <Text type="secondary">Опубликовано: 05.03.25</Text>
-          </Flex>
+          <Button type="default" shape="round" onClick={() => goToForumPage()}>
+            К топикам
+          </Button>
         </Flex>
-        <Text>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </Text>
+        <Text>{thisTopic.content}</Text>
         <Divider variant="solid" className={styles.divider} />
 
         <Title level={4}>Комментарии</Title>
