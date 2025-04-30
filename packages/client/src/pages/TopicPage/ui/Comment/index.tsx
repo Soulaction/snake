@@ -30,8 +30,6 @@ export const Comment: FC<IComment> = props => {
     })
   }, [])
 
-  console.log(reactions)
-
   const onReaction = (reaction: string) => {
     const newReaction = {
       id: 111,
@@ -42,7 +40,6 @@ export const Comment: FC<IComment> = props => {
     reactionController.addReaction(newReaction).then(data => {
       setReactions(data)
     })
-    // setReactions([...reactions, {id:213124, userId:user?.id as number, commentId:id, reaction}])
   }
 
   const transformReactions = useCallback(
