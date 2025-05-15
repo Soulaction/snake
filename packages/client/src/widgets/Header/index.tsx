@@ -17,7 +17,6 @@ import { RouterPaths } from '@/shared/router'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { logout } from '@/entities/User/service'
 import { toggleTheme } from '@/entities/User/slice'
-import { store } from '@/app/store'
 
 export const Header = () => {
   const navigate = useNavigate()

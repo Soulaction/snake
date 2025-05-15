@@ -5,21 +5,20 @@ import './index.css'
 import { RouterProvider } from 'react-router-dom'
 import { getRouter } from '@/shared/router'
 import { App } from '@/app/providers/AppRouter'
-import { FC, ReactNode, useEffect } from 'react'
 
-const startServiceWorker = () => {
-  if ('serviceWorker' in navigator && import.meta.env.PROD) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('service-worker.js')
-        .catch((error: string) => {
-          console.error('ServiceWorker registration failed: ', error)
-        })
-    })
-  }
-}
+// const startServiceWorker = () => {
+//   if ('serviceWorker' in navigator && import.meta.env.PROD) {
+//     window.addEventListener('load', () => {
+//       navigator.serviceWorker
+//         .register('service-worker.js')
+//         .catch((error: string) => {
+//           console.error('ServiceWorker registration failed: ', error)
+//         })
+//     })
+//   }
+// }
 
-startServiceWorker()
+// startServiceWorker()
 
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,

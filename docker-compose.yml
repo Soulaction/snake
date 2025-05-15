@@ -1,74 +1,79 @@
 version: '3.9'
 
 services:
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - './nginx.conf:/etc/nginx/nginx.conf'
+    depends_on:
+      - client
+#      - server
+    networks:
+      - snake_network
   client:
     container_name: prakticum-client
     image: prakticum-client
     build:
       context: .
       dockerfile: Dockerfile.client
-      args:
-        CLIENT_PORT: ${CLIENT_PORT}
     restart: always
     ports:
       - '${CLIENT_PORT}:${CLIENT_PORT}'
     env_file: .env
     environment:
-      - CLIENT_PORT=${CLIENT_PORT}
-      - SERVER_PORT=${SERVER_PORT}
-    depends_on:
-      - server
+      NODE_ENV: ${NODE_ENV}
     networks:
       - snake_network
-  server:
-    container_name: prakticum-server
-    image: prakticum-server
-    build:
-      context: .
-      dockerfile: Dockerfile.server
-      args:
-        SERVER_PORT: ${SERVER_PORT}
-    restart: always
-    ports:
-      - '${SERVER_PORT}:${SERVER_PORT}'
-    env_file: .env
-    environment:
-      SERVER_PORT: ${SERVER_PORT}
-    depends_on:
-      - postgres
-    networks:
-      - snake_network
-    command: ./wait-for.sh postgres:5432 -- node index.js
-  postgres:
-    image: postgres:14
-    ports:
-      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - ./tmp/pgdata:/var/lib/postgresql/data
-    networks:
-      - snake_network
-  pgadmin:
-    container_name: pgadmin
-    image: dpage/pgadmin4:4.18
-    restart: always
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
-      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
-    ports:
-      - '8000:8000'
-    volumes:
-      - pgadmin-data:/var/lib/pgadmin
-    depends_on:
-      - postgres
-    networks:
-      - snake_network
-volumes:
-  pgadmin-data:
+#  server:
+#    container_name: prakticum-server
+#    image: prakticum-server
+#    build:
+#      context: .
+#      dockerfile: Dockerfile.server
+#    restart: always
+#    ports:
+#      - '${SERVER_PORT}:${SERVER_PORT}'
+#    env_file: .env
+#    environment:
+#      NODE_ENV: ${NODE_ENV}
+#    depends_on:
+#      - postgres
+#    networks:
+#      - snake_network
+#  postgres:
+#    container_name: pg_db
+#    image: postgres:14
+#    ports:
+#      - '${POSTGRES_PORT}:${POSTGRES_PORT}'
+#    environment:
+#      POSTGRES_USER: ${POSTGRES_USER}
+#      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+#      POSTGRES_DB: ${POSTGRES_DB}
+#    volumes:
+#      - ./tmp/pgdata:/var/lib/postgresql/data
+#    networks:
+#      - snake_network
+#  pgadmin:
+#    container_name: pgadmin
+#    image: dpage/pgadmin4:4.18
+#    restart: always
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+#      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+#      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT}
+#    ports:
+#      - '${PGADMIN_LISTEN_PORT}:${PGADMIN_LISTEN_PORT}'
+#    volumes:
+#      - pgadmin-data:/var/lib/pgadmin
+#    depends_on:
+#      - postgres
+#    networks:
+#      - snake_network
+#volumes:
+#  pgadmin-data:
 networks:
   snake_network:
     driver: bridge

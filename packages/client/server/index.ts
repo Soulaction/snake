@@ -14,7 +14,7 @@ dotenv.config()
 
 const port = process.env.PORT || 3000
 const clientPath = path.join(__dirname, '..')
-const isDev = process.env.NODE_ENV === 'development'
+const isDev = process.env.NODE_ENV === 'dev'
 
 async function createServer() {
   const app = express()

@@ -21,6 +21,8 @@ import { publicRouters } from '@/shared/router/router'
 import { axiosInstance } from '@/shared/api/axios-transport'
 import { setPageHasBeenInitializedOnServer } from '@/entities/Application/slice'
 import { App } from '@/app/providers/AppRouter'
+import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs'
+import './index.css'
 
 export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   const { query, dataRoutes } = createStaticHandler(routs)
@@ -38,18 +40,28 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
     await store.dispatch(getUserData()).unwrap()
     isAuth = true
   } catch (e) {
+    console.log('43+++++++++++++++++++++++++++', e)
     isAuth = false
   }
 
   const url = createUrl(req)
+  console.log('48+++++++++++++++++++++++++++', req.url, url)
   const foundRoutes = [
     ...publicRouters,
     ...publicRoutersWithAuth,
     ...(isAuth ? privateRouters : []),
   ].find(el => el.path === url.pathname)
+  console.log('54+++++++++++++++++++++++++++', [
+    ...publicRouters,
+    ...publicRoutersWithAuth,
+    ...(isAuth ? privateRouters : []),
+  ])
+
+  console.log('60+++++++++++++++++++++++++++', foundRoutes)
+  console.log('61+++++++++++++++++++++++++++', isAuth)
 
   if (!foundRoutes && !isAuth) {
-    return res.redirect(RouterPaths.LOGIN)
+    return res.redirect('http://localhost' + RouterPaths.LOGIN)
   } else if (!foundRoutes && isAuth) {
     return res.redirect(RouterPaths.NOTFOUND)
   } else if (
@@ -74,17 +86,22 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   store.dispatch(setPageHasBeenInitializedOnServer(true))
 
   const router = createStaticRouter(dataRoutes, context)
+  const cache = createCache()
+  const _ = extractStyle(cache)
+  console.log('86+++++++++++++++++++++++++++')
 
   return {
     html: ReactDOM.renderToString(
       <Provider store={store}>
-        <App>
-          <StaticRouterProvider
-            router={router}
-            context={context}
-            hydrate={false}
-          />
-        </App>
+        <StyleProvider cache={cache}>
+          <App>
+            <StaticRouterProvider
+              router={router}
+              context={context}
+              hydrate={false}
+            />
+          </App>
+        </StyleProvider>
       </Provider>
     ),
     initialState: store.getState(),

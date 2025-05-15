@@ -10,9 +10,10 @@ import { swaggerSpec, swaggerUi } from './config/swagger'
 const port = process.env.SERVER_PORT || 3001
 
 const app = express()
+const contextPath = '/snake-api/v2'
 
 app.use(
-  '/api-docs',
+  contextPath + '/api-docs',
   // @ts-ignore
   swaggerUi.serve,
   swaggerUi.setup(swaggerSpec, {
@@ -22,7 +23,7 @@ app.use(
   })
 )
 app.use(express.json())
-app.use('/api/v2', router)
+app.use(contextPath, router)
 
 app.use(errorHandlerMiddleware)
 

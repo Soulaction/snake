@@ -5,6 +5,8 @@ import swaggerUi from 'swagger-ui-express'
 import type { OpenAPIV3 } from 'openapi-types'
 import * as path from 'path'
 
+const isDev = process.env.NODE_ENV === 'dev'
+
 const options: {
   definition: OpenAPIV3.Document
   apis: string[]
@@ -18,11 +20,11 @@ const options: {
     },
     servers: [
       {
-        url: `http://localhost:${process.env.SERVER_PORT}/api/v2`,
+        url: process.env.INTERNAL_SERVER_URL + '/snake-api/v2',
       },
     ],
   },
-  apis: [path.resolve(__dirname, '../routes/*.ts')],
+  apis: [path.resolve(__dirname, `../routes/*.${isDev ? 'ts' : 'js'}`)],
 }
 
 const swaggerSpec = swaggerJSDoc(options)
