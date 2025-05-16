@@ -51,17 +51,9 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
     ...publicRoutersWithAuth,
     ...(isAuth ? privateRouters : []),
   ].find(el => el.path === url.pathname)
-  console.log('54+++++++++++++++++++++++++++', [
-    ...publicRouters,
-    ...publicRoutersWithAuth,
-    ...(isAuth ? privateRouters : []),
-  ])
-
-  console.log('60+++++++++++++++++++++++++++', foundRoutes)
-  console.log('61+++++++++++++++++++++++++++', isAuth)
 
   if (!foundRoutes && !isAuth) {
-    return res.redirect('http://localhost' + RouterPaths.LOGIN)
+    return res.redirect(RouterPaths.LOGIN)
   } else if (!foundRoutes && isAuth) {
     return res.redirect(RouterPaths.NOTFOUND)
   } else if (
@@ -87,24 +79,26 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
 
   const router = createStaticRouter(dataRoutes, context)
   const cache = createCache()
-  const _ = extractStyle(cache)
-  console.log('86+++++++++++++++++++++++++++')
+
+  const html = ReactDOM.renderToString(
+    <Provider store={store}>
+      <StyleProvider cache={cache}>
+        <App>
+          <StaticRouterProvider
+            router={router}
+            context={context}
+            hydrate={false}
+          />
+        </App>
+      </StyleProvider>
+    </Provider>
+  )
+  const antdStyles = extractStyle(cache)
 
   return {
-    html: ReactDOM.renderToString(
-      <Provider store={store}>
-        <StyleProvider cache={cache}>
-          <App>
-            <StaticRouterProvider
-              router={router}
-              context={context}
-              hydrate={false}
-            />
-          </App>
-        </StyleProvider>
-      </Provider>
-    ),
+    html,
     initialState: store.getState(),
     context,
+    antdStyles,
   }
 }
