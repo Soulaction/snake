@@ -2,7 +2,7 @@ export const mockData = {
   123123: [
     {
       parent_id: 123123,
-      id: 1,
+      id: 111,
       author: {
         name: 'Vasya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -12,7 +12,7 @@ export const mockData = {
     },
     {
       parent_id: 123123,
-      id: 2,
+      id: 222,
       author: {
         name: 'Petya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -22,7 +22,7 @@ export const mockData = {
     },
     {
       parent_id: 123123,
-      id: 3,
+      id: 333,
       author: {
         name: 'Kolya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -34,7 +34,7 @@ export const mockData = {
   321321: [
     {
       parent_id: 321321,
-      id: 4,
+      id: 444,
       author: {
         name: 'Petya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -44,7 +44,7 @@ export const mockData = {
     },
     {
       parent_id: 321321,
-      id: 5,
+      id: 555,
       author: {
         name: 'Kolya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -54,7 +54,7 @@ export const mockData = {
     },
     {
       parent_id: 321321,
-      id: 6,
+      id: 666,
       author: {
         name: 'Vasya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -66,7 +66,7 @@ export const mockData = {
   231132: [
     {
       parent_id: 231132,
-      id: 7,
+      id: 777,
       author: {
         name: 'Vasya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -76,7 +76,7 @@ export const mockData = {
     },
     {
       parent_id: 231132,
-      id: 8,
+      id: 888,
       author: {
         name: 'Kolya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -86,7 +86,7 @@ export const mockData = {
     },
     {
       parent_id: 231132,
-      id: 9,
+      id: 999,
       author: {
         name: 'Petya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
@@ -98,7 +98,7 @@ export const mockData = {
   231133: [
     {
       parent_id: 231133,
-      id: 10,
+      id: 1010,
       author: {
         name: 'Petya',
         avatar: 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',

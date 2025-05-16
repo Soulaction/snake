@@ -1,3 +1,7 @@
 .footer {
   margin-top: 0;
 }
+.reacted {
+  border-radius: 4px;
+  background-color: #c1c1c1;
+}

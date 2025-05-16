@@ -33,6 +33,7 @@ export const TopicPage: FC = () => {
     return (
       <Comment
         key={index}
+        id={comment.id}
         author={comment.author}
         content={comment.content}
         date={comment.date}
