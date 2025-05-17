@@ -35,6 +35,7 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
 
   let isAuth: boolean
   axiosInstance.defaults.headers.common['cookie'] = req.headers.cookie
+  console.log(req.headers.cookie)
 
   try {
     await store.dispatch(getUserData()).unwrap()
@@ -45,7 +46,6 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   }
 
   const url = createUrl(req)
-  console.log('48+++++++++++++++++++++++++++', req.url, url)
   const foundRoutes = [
     ...publicRouters,
     ...publicRoutersWithAuth,

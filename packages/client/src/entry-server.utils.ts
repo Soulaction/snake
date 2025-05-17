@@ -2,7 +2,6 @@ import { Request as ExpressRequest } from 'express'
 
 export const createUrl = (req: ExpressRequest) => {
   const isDev = process.env.NODE_ENV === 'dev'
-  console.log(process.env.NODE_ENV)
 
   const origin = `${req.protocol}://${isDev ? req.get('host') : 'localhost'}`
 

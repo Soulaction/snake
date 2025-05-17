@@ -95,7 +95,6 @@ export class SignController {
   public async loginOAuth(data: IOauthSignInRequest, callBack?: () => void) {
     try {
       const response = await axiosInstance.post(this.contextOAuth, data)
-      console.log({ response })
       callBack?.()
     } catch (error) {
       const { response } = error as AxiosError

@@ -27,7 +27,6 @@ class LeaderboardController {
   }
   public async createLeader(data: INewLeader) {
     try {
-      console.log(transformData(data))
       await axiosInstance.post(this.contextPath, transformData(data))
     } catch (error) {
       const { response } = error as AxiosError

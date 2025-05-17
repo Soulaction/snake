@@ -9,6 +9,7 @@ import {
 import { axiosInstance } from '@/shared/api/axios-transport'
 import { UserModel } from '@/shared/types/model'
 import { signController } from '@/shared/controllers/sign-controller'
+import { apiYandex } from '@/shared/constants/api'
 
 const contextPathAuth = '/auth'
 const contextPathUser = '/user'
@@ -31,6 +32,7 @@ export const changeUser = createAsyncThunk(
 
 export const getUserData = createAsyncThunk('user/get_user_data', async () => {
   const requestUrl = contextPathAuth + '/user'
+  console.log('35+++++++++++++++++++++++++++', apiYandex)
   return axiosInstance.get<UserModel>(requestUrl)
 })
 
