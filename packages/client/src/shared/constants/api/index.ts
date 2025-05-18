@@ -1,6 +1,5 @@
 const isDev = process.env.NODE_ENV === 'dev'
-console.log('++++++++++++++++++++++++++++')
-console.log(import.meta.env)
+
 export const apiYandex = `${
   isDev
     ? import.meta.env.VITE_INTERNAL_SSR_SERVER_URL

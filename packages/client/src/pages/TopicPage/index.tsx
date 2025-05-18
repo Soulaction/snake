@@ -1,10 +1,10 @@
 import {
   Avatar,
+  Button,
   Divider,
   Flex,
   Skeleton,
   Space,
-  Button,
   Typography,
 } from 'antd'
 import { FC, useState } from 'react'
@@ -63,10 +63,10 @@ export const TopicPage: FC = () => {
           <Flex gap={5} vertical align="flex-start">
             <Text type="secondary">
               Автор:{' '}
-              <Avatar size={'small'} src={thisTopic.author.avatar}></Avatar>{' '}
-              {thisTopic.author.name}
+              <Avatar size={'small'} src={thisTopic.userEntity.avatar}></Avatar>{' '}
+              {thisTopic.userEntity.first_name}
             </Text>
-            <Text type="secondary">Опубликовано: {thisTopic.date}</Text>
+            <Text type="secondary">Опубликовано: {thisTopic.createdAt}</Text>
           </Flex>
 
           <Flex gap={30} align="center">
@@ -79,7 +79,7 @@ export const TopicPage: FC = () => {
             К топикам
           </Button>
         </Flex>
-        <Text>{thisTopic.content}</Text>
+        <Text>{thisTopic.description}</Text>
         <Divider variant="solid" className={styles.divider} />
 
         <Title level={4}>Комментарии</Title>

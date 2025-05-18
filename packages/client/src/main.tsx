@@ -18,8 +18,6 @@ import { App } from '@/app/providers/AppRouter'
 //   }
 // }
 
-// startServiceWorker()
-
 ReactDOM.hydrateRoot(
   document.getElementById('root') as HTMLElement,
   <Provider store={store}>

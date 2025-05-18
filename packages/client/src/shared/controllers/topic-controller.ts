@@ -1,31 +1,24 @@
-import { mockData } from '@/pages/ForumPage/model/forumConstant'
 import { mockData as topicMock } from '@/pages/TopicPage/model/topicConstant'
-import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import { IComment } from '@/pages/TopicPage/model/IComment'
+import { Topic } from '@/entities/types/Topic'
+import { Pageable } from '@/entities/types/Pageable'
+import { AxiosResponse } from 'axios'
+import { AddTopic } from '@/entities/types/AddTopic'
+import { axiosSnakeInstance } from '@/shared/api/axios-transport'
 
 export class TopicController {
   private readonly contextPath: string
 
   constructor() {
-    this.contextPath = 'topic'
+    this.contextPath = '/topic'
   }
 
-  public async getTopics(): Promise<ITopic[]> {
-    return await new Promise(resolve => {
-      setTimeout(() => {
-        resolve(mockData)
-      }, 1000)
-    })
+  public async getTopics(pageable: Pageable): Promise<AxiosResponse<Topic[]>> {
+    return axiosSnakeInstance.get(this.contextPath, { params: pageable })
   }
 
-  public async addTopic(newTopic: ITopic): Promise<ITopic[]> {
-    newTopic.id = Math.round(Math.random() * 1000)
-    const newMock = [newTopic, ...mockData]
-    return await new Promise(resolve => {
-      setTimeout(() => {
-        resolve(newMock)
-      }, 250)
-    })
+  public async addTopic(newTopic: AddTopic): Promise<AxiosResponse<void>> {
+    return axiosSnakeInstance.post(this.contextPath, newTopic)
   }
 
   public async getComments(id: number): Promise<IComment[]> {

@@ -31,7 +31,7 @@ import { LayoutWithHeader } from '@/widgets/layouts/LayoutWithHeader'
 import { LayoutWithoutHeader } from '@/widgets/layouts/LayoutWithoutHeader'
 
 type RouterInfo = {
-  path: typeof RouterPaths[keyof typeof RouterPaths]
+  path: (typeof RouterPaths)[keyof typeof RouterPaths]
   element: ReactNode
   initFunc: PageInitFunc
 }
@@ -91,7 +91,7 @@ export const privateRouters: RouterInfo[] = [
   {
     path: RouterPaths.FORUM,
     element: <ForumPage />,
-    initFunc: initForumPage,
+    initFunc: initForumPage({ page: 1, limit: 10 }),
   },
   {
     path: RouterPaths.TOPIC,

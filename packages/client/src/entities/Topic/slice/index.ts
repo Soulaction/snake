@@ -1,10 +1,10 @@
 import { Notification } from '@/shared/lib'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import { addTopic, getTopics } from '@/entities/Topic/service'
+import { Topic } from '@/entities/types/Topic'
 
 export type TopicState = {
-  topics: ITopic[]
+  topics: Topic[]
   currentTopic: number
   isLoading: boolean
 }
@@ -41,8 +41,7 @@ export const topicSlice = createSlice({
       .addCase(addTopic.pending, state => {
         state.isLoading = true
       })
-      .addCase(addTopic.fulfilled, (state, action) => {
-        state.topics = action.payload
+      .addCase(addTopic.fulfilled, state => {
         state.isLoading = false
       })
       .addCase(addTopic.rejected, (state, action) => {

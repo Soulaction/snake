@@ -32,7 +32,6 @@ export const changeUser = createAsyncThunk(
 
 export const getUserData = createAsyncThunk('user/get_user_data', async () => {
   const requestUrl = contextPathAuth + '/user'
-  console.log('35+++++++++++++++++++++++++++', apiYandex)
   return axiosInstance.get<UserModel>(requestUrl)
 })
 

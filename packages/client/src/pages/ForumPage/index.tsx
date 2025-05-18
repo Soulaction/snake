@@ -13,15 +13,16 @@ import { TopicCard } from './ui/TopicCard'
 import { ForumPagination } from './ui/ForumPagination'
 import { FC, useState } from 'react'
 import styles from './ForumPage.module.css'
-import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { PageInitArgs, useInitStatePage } from '@/shared/hooks/useInitStatePage'
-import { getTopics, addTopic } from '@/entities/Topic/service'
+import { addTopic, getTopics } from '@/entities/Topic/service'
+import { Pageable } from '@/entities/types/Pageable'
+import { AddTopic } from '@/entities/types/AddTopic'
 
 const { Title } = Typography
 
 export const ForumPage: FC = () => {
-  useInitStatePage({ initPage: initForumPage })
+  useInitStatePage({ initPage: initForumPage({ page: 1, limit: 10 }) })
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isSending, setIsSending] = useState<boolean>(false)
   const { topics, isLoading } = useAppSelector(state => state.topic)
@@ -42,37 +43,17 @@ export const ForumPage: FC = () => {
       ['topic_name'],
       ['topic_description'],
     ])
-    const newTopic: ITopic = {
-      id: 0,
+    const newTopic: AddTopic = {
       title: topic_name,
-      author: {
-        name: user?.display_name ?? 'Guest',
-        avatar:
-          user?.avatar ?? 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-      },
-      date: new Date().toDateString(),
-      commentsCount: 0,
-      viewsCount: 0,
-      content: topic_description,
+      description: topic_description,
+      ownerId: 0,
     }
     await dispatch(addTopic(newTopic)).then(() => toggleModal(false))
   }
 
-  const topicsList = topics
-    .slice(pageSize * (currentPage - 1), pageSize * currentPage)
-    .map((topic: ITopic) => {
-      return (
-        <TopicCard
-          id={topic.id}
-          key={topic.id}
-          title={topic.title}
-          author={topic.author}
-          date={topic.date}
-          commentsCount={topic.commentsCount}
-          viewsCount={topic.viewsCount}
-          content={topic.content}></TopicCard>
-      )
-    })
+  const topicsList = topics.map(topic => {
+    return <TopicCard topic={topic}></TopicCard>
+  })
 
   const skeleton = (
     <>
@@ -150,6 +131,8 @@ export const ForumPage: FC = () => {
   )
 }
 
-export const initForumPage = async ({ dispatch }: PageInitArgs) => {
-  return dispatch(getTopics())
+export const initForumPage = (pageable: Pageable) => {
+  return async ({ dispatch }: PageInitArgs) => {
+    return dispatch(getTopics(pageable))
+  }
 }

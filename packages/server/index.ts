@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
+import cors from 'cors'
 import { router } from './routes'
 import { sequelize } from './config/db'
 import errorHandlerMiddleware from './middleware/ErrorHandlerMiddleware'
@@ -12,6 +13,14 @@ const port = process.env.SERVER_PORT || 3001
 const app = express()
 const contextPath = '/snake-api/v2'
 
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      callback(null, origin || '*')
+    },
+    credentials: true,
+  })
+)
 app.use(
   contextPath + '/api-docs',
   // @ts-ignore

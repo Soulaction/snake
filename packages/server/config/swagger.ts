@@ -20,7 +20,10 @@ const options: {
     },
     servers: [
       {
-        url: process.env.INTERNAL_SERVER_URL + '/snake-api/v2',
+        url:
+          (isDev
+            ? process.env.VITE_INTERNAL_SNAKE_SERVER_URL
+            : process.env.INTERNAL_SERVER_URL) + '/snake-api/v2',
       },
     ],
   },

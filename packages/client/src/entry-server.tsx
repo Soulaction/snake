@@ -18,11 +18,10 @@ import {
 import { store } from '@/app/store'
 import { getUserData } from '@/entities/User/service'
 import { publicRouters } from '@/shared/router/router'
-import { axiosInstance } from '@/shared/api/axios-transport'
+import { axiosInstance, axiosSnakeInstance } from '@/shared/api/axios-transport'
 import { setPageHasBeenInitializedOnServer } from '@/entities/Application/slice'
 import { App } from '@/app/providers/AppRouter'
-import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs'
-import './index.css'
+import { createCache, extractStyle } from '@ant-design/cssinjs'
 
 export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   const { query, dataRoutes } = createStaticHandler(routs)
@@ -35,7 +34,7 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
 
   let isAuth: boolean
   axiosInstance.defaults.headers.common['cookie'] = req.headers.cookie
-  console.log(req.headers.cookie)
+  axiosSnakeInstance.defaults.headers.common['cookie'] = req.headers.cookie
 
   try {
     await store.dispatch(getUserData()).unwrap()
@@ -82,15 +81,13 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
 
   const html = ReactDOM.renderToString(
     <Provider store={store}>
-      <StyleProvider cache={cache}>
-        <App>
-          <StaticRouterProvider
-            router={router}
-            context={context}
-            hydrate={false}
-          />
-        </App>
-      </StyleProvider>
+      <App>
+        <StaticRouterProvider
+          router={router}
+          context={context}
+          hydrate={false}
+        />
+      </App>
     </Provider>
   )
   const antdStyles = extractStyle(cache)

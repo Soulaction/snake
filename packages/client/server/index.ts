@@ -90,6 +90,7 @@ async function createServer() {
         context,
         antdStyles,
       } = await render(req, res)
+
       const html = template
         .replace(`<!--ssr-antd-styles-->`, antdStyles)
         .replace(`<!--ssr-outlet-->`, appHtml)

@@ -1,23 +1,22 @@
 import {
   CalendarOutlined,
-  EyeOutlined,
   MessageOutlined,
   UserOutlined,
 } from '@ant-design/icons'
-import { Card, Avatar, Flex, Typography } from 'antd'
+import { Avatar, Card, Flex, Typography } from 'antd'
 import { FC } from 'react'
 import { Link } from 'react-router-dom'
-import { ITopic } from '@/pages/ForumPage/model/ITopic'
 import styles from './TopicCard.module.css'
 import { useAppDispatch } from '@/shared/hooks'
 import { setCurrentTopic } from '@/entities/Topic/slice'
 import { getComments } from '@/entities/Comment/service'
+import { Topic } from '@/entities/types/Topic'
 
 const { Meta } = Card
 const { Text } = Typography
 
-export const TopicCard: FC<ITopic> = props => {
-  const { id, title, author, date, commentsCount, viewsCount, content } = props
+export const TopicCard: FC<{ topic: Topic }> = ({ topic }) => {
+  const { id, title, userEntity, createdAt, messageCount, description } = topic
 
   const dispatch = useAppDispatch()
 
@@ -30,23 +29,20 @@ export const TopicCard: FC<ITopic> = props => {
     <Link to={`/topic/${id}`} onClick={() => setCurrent(id)}>
       <Card hoverable={true}>
         <Meta
-          avatar={<Avatar size={'large'} src={author.avatar} />}
+          avatar={<Avatar size={'large'} src={userEntity.avatar} />}
           title={title}
-          description={content}
+          description={description}
         />
 
         <Flex justify="flex-end" className={styles.footer} wrap gap={20}>
           <Text type="secondary">
-            <UserOutlined /> {author.name}
+            <UserOutlined /> {userEntity.first_name}
           </Text>
           <Text type="secondary">
-            <CalendarOutlined /> {date}
+            <CalendarOutlined /> {createdAt}
           </Text>
           <Text type="secondary">
-            <MessageOutlined /> {commentsCount}
-          </Text>
-          <Text type="secondary">
-            <EyeOutlined /> {viewsCount}
+            <MessageOutlined /> {messageCount}
           </Text>
         </Flex>
       </Card>
