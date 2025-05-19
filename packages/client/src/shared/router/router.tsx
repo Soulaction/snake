@@ -34,6 +34,7 @@ type RouterInfo = {
   path: (typeof RouterPaths)[keyof typeof RouterPaths]
   element: ReactNode
   initFunc: PageInitFunc
+  data?: unknown
 }
 
 export const publicRouters: RouterInfo[] = [
@@ -91,7 +92,8 @@ export const privateRouters: RouterInfo[] = [
   {
     path: RouterPaths.FORUM,
     element: <ForumPage />,
-    initFunc: initForumPage({ page: 1, limit: 10 }),
+    data: { page: 1, limit: 10 },
+    initFunc: initForumPage,
   },
   {
     path: RouterPaths.TOPIC,

@@ -1,17 +1,18 @@
 import { Notification } from '@/shared/lib'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { addTopic, getTopics } from '@/entities/Topic/service'
-import { Topic } from '@/entities/types/Topic'
+import { PageableTopic } from '@/entities/Topic/types/PageableTopic'
+import { Topic } from '@/entities/Topic/types/Topic'
 
 export type TopicState = {
-  topics: Topic[]
-  currentTopic: number
+  topics: PageableTopic | null
+  currentTopic: Topic | null
   isLoading: boolean
 }
 
 const initialState: TopicState = {
-  topics: [],
-  currentTopic: 0,
+  topics: null,
+  currentTopic: null,
   isLoading: false,
 }
 
@@ -19,7 +20,7 @@ export const topicSlice = createSlice({
   name: 'topic',
   initialState,
   reducers: {
-    setCurrentTopic: (state: TopicState, action: PayloadAction<number>) => {
+    setCurrentTopic: (state: TopicState, action: PayloadAction<Topic>) => {
       state.currentTopic = action.payload
     },
   },
@@ -41,7 +42,8 @@ export const topicSlice = createSlice({
       .addCase(addTopic.pending, state => {
         state.isLoading = true
       })
-      .addCase(addTopic.fulfilled, state => {
+      .addCase(addTopic.fulfilled, (state, action) => {
+        state.topics = action.payload
         state.isLoading = false
       })
       .addCase(addTopic.rejected, (state, action) => {

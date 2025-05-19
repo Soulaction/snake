@@ -1,6 +1,6 @@
-import type { AxiosError } from 'axios'
+import type { AxiosError, AxiosResponse } from 'axios'
 import { Notification } from '@/shared/lib'
-import { axiosInstance } from '../api/axios-transport'
+import { axiosInstance, axiosSnakeInstance } from '../api/axios-transport'
 
 export interface ISigninDTO {
   login: string
@@ -8,12 +8,14 @@ export interface ISigninDTO {
 }
 
 export interface ISignupDTO {
+  id?: number
   email: string
   first_name: string
   login: string
   password: string
   phone: string
   second_name: string
+  avatar?: string
 }
 
 export interface IData {
@@ -63,10 +65,25 @@ export class SignController {
     }
   }
 
-  public async createAccount(data: ISignupDTO, callBack?: () => void) {
+  public async createAccount(
+    newUser: ISignupDTO
+  ): Promise<{ id: number } | undefined> {
     try {
-      await axiosInstance.post(this.contextPath + '/signup', data)
-      callBack?.()
+      const { data } = await axiosInstance.post(
+        this.contextPath + '/signup',
+        newUser
+      )
+      return data
+    } catch (error) {
+      const { response } = error as AxiosError
+      const { reason } = response?.data as IData
+      Notification.error(reason)
+    }
+  }
+
+  public async createAccountInSnakeService(data: ISignupDTO) {
+    try {
+      await axiosSnakeInstance.post('/user', data)
     } catch (error) {
       const { response } = error as AxiosError
       const { reason } = response?.data as IData
@@ -94,7 +111,7 @@ export class SignController {
 
   public async loginOAuth(data: IOauthSignInRequest, callBack?: () => void) {
     try {
-      const response = await axiosInstance.post(this.contextOAuth, data)
+      await axiosInstance.post(this.contextOAuth, data)
       callBack?.()
     } catch (error) {
       const { response } = error as AxiosError

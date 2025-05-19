@@ -1,13 +1,14 @@
 import { CalendarOutlined, SmileOutlined } from '@ant-design/icons'
 import { Avatar, Button, Card, Flex, Popover, Typography } from 'antd'
 import { FC, useCallback, useEffect, useState } from 'react'
-import { IComment } from '@/pages/TopicPage/model/IComment'
 import styles from './Comment.module.css'
 import { EmojiPicker } from '../EmojiPicker'
 import { IReaction } from '../../model/IReaction'
 import { Emoji } from '../Emoji'
 import { useAppSelector } from '@/shared/hooks'
 import { reactionController } from '@/shared/controllers/reaction-controller'
+import { Comment as CommentType } from '@/entities/Topic/types/Comment'
+import { dateFormater } from '@/shared/lib/utils'
 
 interface TransformedReaction {
   reaction: string
@@ -18,8 +19,8 @@ interface TransformedReaction {
 const { Text } = Typography
 const { Meta } = Card
 
-export const Comment: FC<IComment> = props => {
-  const { id, author, content, date } = props
+export const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
+  const { id, updatedAt, message, userEntity } = comment
   const [reactions, setReactions] = useState<IReaction[]>([])
 
   const user = useAppSelector(state => state.user.user)
@@ -50,7 +51,7 @@ export const Comment: FC<IComment> = props => {
             if (!acc[reaction]) {
               acc[reaction] = { reaction, count: 0, isReacted: false }
             }
-            acc[reaction].isReacted = userId === user?.id ? true : false
+            acc[reaction].isReacted = userId === user?.id
             acc[reaction].count += 1
             return acc
           },
@@ -82,9 +83,9 @@ export const Comment: FC<IComment> = props => {
   return (
     <Card size="small">
       <Meta
-        avatar={<Avatar size={'large'} src={author.avatar} />}
-        title={author.name}
-        description={content}
+        avatar={<Avatar size={'large'} src={userEntity.avatar} />}
+        title={userEntity.first_name}
+        description={message}
       />
       <Flex
         justify="flex-end"
@@ -102,7 +103,7 @@ export const Comment: FC<IComment> = props => {
           </Popover>
         </Flex>
         <Text type="secondary">
-          <CalendarOutlined /> {date}
+          <CalendarOutlined /> {dateFormater(updatedAt)}
         </Text>
       </Flex>
     </Card>

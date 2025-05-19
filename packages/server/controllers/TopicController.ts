@@ -21,7 +21,7 @@ class TopicController {
     try {
       const { limit = 10, page = 1 } = req.query
       const offset = +page * +limit - +limit
-      const chatsWithMessageCountAndCreator = await TopicEntity.findAll({
+      const { count, rows } = await TopicEntity.findAndCountAll({
         attributes: {
           include: [
             [
@@ -48,10 +48,16 @@ class TopicController {
         ],
         group: ['TopicEntity.id', 'userEntity.id'],
         limit: +limit,
+        order: [['createdAt', 'DESC']],
         offset,
         subQuery: false,
       })
-      res.status(200).json(chatsWithMessageCountAndCreator)
+
+      const result = {
+        data: rows,
+        total: count.length,
+      }
+      res.status(200).json(result)
     } catch (e) {
       next(e)
     }

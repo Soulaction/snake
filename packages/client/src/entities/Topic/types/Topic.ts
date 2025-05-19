@@ -1,4 +1,4 @@
-import { UserTopic } from '@/entities/types/UserTopic'
+import { UserTopic } from '@/entities/Topic/types/UserTopic'
 
 export type Topic = {
   id: number

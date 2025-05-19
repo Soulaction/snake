@@ -1,15 +1,14 @@
 import { SmileOutlined } from '@ant-design/icons'
-import { Button, Flex, Form, Popover, Input } from 'antd'
+import { Button, Flex, Form, Input, Popover } from 'antd'
 import { FC, useState } from 'react'
 import { EmojiPicker } from '../EmojiPicker'
 import styles from './ReplyForm.module.css'
-import { IComment } from '../../model/IComment'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { addComment } from '@/entities/Comment/service'
+import { AddComment } from '@/entities/Topic/types/AddComment'
 
 export const ReplyForm: FC = () => {
   const currentTopic = useAppSelector(state => state.topic.currentTopic)
-  const user = useAppSelector(state => state.user.user)
   const [form] = Form.useForm()
   const { TextArea } = Input
 
@@ -27,21 +26,12 @@ export const ReplyForm: FC = () => {
 
   const addNewComment = async () => {
     const { comment } = form.getFieldsValue([['comment']])
-    console.log(form.getFieldsValue(), comment)
-    const newComment: IComment = {
-      id: 0,
-      parent_id: currentTopic,
-      author: {
-        name: user?.display_name ?? 'Guest',
-        avatar:
-          user?.avatar ?? 'https://api.dicebear.com/7.x/miniavs/svg?seed=1',
-      },
-      date: new Date().toLocaleDateString(),
-      topic: currentTopic,
-      content: comment,
+    const newComment: AddComment = {
+      topicId: currentTopic?.id ?? -1,
+      ownerId: -1,
+      message: comment,
     }
     await dispatch(addComment(newComment)).then(() => {
-      // dispatch(getComments(currentTopic))
       form.setFieldValue('comment', '')
     })
   }

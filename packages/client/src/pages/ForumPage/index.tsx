@@ -16,20 +16,17 @@ import styles from './ForumPage.module.css'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { PageInitArgs, useInitStatePage } from '@/shared/hooks/useInitStatePage'
 import { addTopic, getTopics } from '@/entities/Topic/service'
-import { Pageable } from '@/entities/types/Pageable'
-import { AddTopic } from '@/entities/types/AddTopic'
+import { Pageable } from '@/entities/Topic/types/Pageable'
+import { AddTopic } from '@/entities/Topic/types/AddTopic'
 
 const { Title } = Typography
 
 export const ForumPage: FC = () => {
-  useInitStatePage({ initPage: initForumPage({ page: 1, limit: 10 }) })
+  useInitStatePage<Pageable>({ initPage: initForumPage }, { page: 1, limit: 5 })
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [isSending, setIsSending] = useState<boolean>(false)
   const { topics, isLoading } = useAppSelector(state => state.topic)
-  const [currentPage, setCurrentPage] = useState(1)
-  const pageSize = 3
   const [form] = Form.useForm()
-  const user = useAppSelector(state => state.user.user)
 
   const dispatch = useAppDispatch()
 
@@ -46,13 +43,13 @@ export const ForumPage: FC = () => {
     const newTopic: AddTopic = {
       title: topic_name,
       description: topic_description,
-      ownerId: 0,
+      ownerId: -1,
     }
     await dispatch(addTopic(newTopic)).then(() => toggleModal(false))
   }
 
-  const topicsList = topics.map(topic => {
-    return <TopicCard topic={topic}></TopicCard>
+  const topicsList = topics?.data.map(topic => {
+    return <TopicCard key={topic.id} topic={topic}></TopicCard>
   })
 
   const skeleton = (
@@ -66,7 +63,7 @@ export const ForumPage: FC = () => {
   )
 
   const goToPage = (num: number): void => {
-    setCurrentPage(num)
+    dispatch(getTopics({ page: num, limit: 5 }))
   }
 
   return (
@@ -89,11 +86,11 @@ export const ForumPage: FC = () => {
         </Space>
       </Flex>
 
-      {topics.length / pageSize > 1 && (
+      {topics && topics.total / 5 > 1 && (
         <ForumPagination
           current={1}
-          total={topics.length}
-          defaultPageSize={pageSize}
+          total={topics.total}
+          defaultPageSize={5}
           changePage={goToPage}></ForumPagination>
       )}
 
@@ -106,7 +103,7 @@ export const ForumPage: FC = () => {
           toggleModal(false)
         }}
         confirmLoading={isSending}
-        destroyOnClose={true}>
+        destroyOnHidden={true}>
         <Title level={4}>Создать топик</Title>
         <Form
           name="create_topic"
@@ -131,8 +128,13 @@ export const ForumPage: FC = () => {
   )
 }
 
-export const initForumPage = (pageable: Pageable) => {
-  return async ({ dispatch }: PageInitArgs) => {
-    return dispatch(getTopics(pageable))
+export const initForumPage = async ({
+  data,
+  dispatch,
+}: PageInitArgs<Pageable>) => {
+  if (data) {
+    return dispatch(getTopics(data))
+  } else {
+    return Promise.resolve()
   }
 }

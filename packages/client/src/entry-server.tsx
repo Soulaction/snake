@@ -21,7 +21,7 @@ import { publicRouters } from '@/shared/router/router'
 import { axiosInstance, axiosSnakeInstance } from '@/shared/api/axios-transport'
 import { setPageHasBeenInitializedOnServer } from '@/entities/Application/slice'
 import { App } from '@/app/providers/AppRouter'
-import { createCache, extractStyle } from '@ant-design/cssinjs'
+import { StyleProvider, createCache, extractStyle } from '@ant-design/cssinjs'
 
 export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   const { query, dataRoutes } = createStaticHandler(routs)
@@ -45,6 +45,12 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
   }
 
   const url = createUrl(req)
+  let initData
+  if (new RegExp('\\/topic\\/\\d+$').test(url.pathname)) {
+    initData = url.pathname.replace('/topic/', '')
+    url.pathname = RouterPaths.TOPIC
+  }
+  console.log(url.pathname, initData)
   const foundRoutes = [
     ...publicRouters,
     ...publicRoutersWithAuth,
@@ -66,11 +72,19 @@ export const render = async (req: ExpressRequest, res: ExpressResponse) => {
     throw new Error('Страница не найдена!')
   }
 
-  const { initFunc } = foundRoutes
+  const { initFunc, data } = foundRoutes
   try {
-    await initFunc({
-      dispatch: store.dispatch,
-    })
+    if (initData) {
+      await initFunc({
+        dispatch: store.dispatch,
+        data: initData,
+      })
+    } else {
+      await initFunc({
+        dispatch: store.dispatch,
+        data,
+      })
+    }
   } catch (e) {
     console.log('Инициализация страницы произошла с ошибкой', e)
   }

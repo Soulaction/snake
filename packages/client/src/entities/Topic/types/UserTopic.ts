@@ -1,5 +1,5 @@
 export type UserTopic = {
-  id: 1
+  id: number
   first_name: string
   second_name: string
   display_name: string

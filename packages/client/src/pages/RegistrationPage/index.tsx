@@ -16,11 +16,14 @@ export const RegistrationPage: FC = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
-  const onFinish = (values: ISignupDTO) => {
-    signController.createAccount(values, () => {
+  const onFinish = async (values: ISignupDTO) => {
+    const data = await signController.createAccount(values)
+    if (data) {
+      values.id = data.id
+      await signController.createAccountInSnakeService(values)
       dispatch(getUserData())
       navigate(RouterPaths.MAIN)
-    })
+    }
   }
 
   return (

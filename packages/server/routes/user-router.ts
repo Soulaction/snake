@@ -44,11 +44,11 @@ routerUser.post('/auth', userController.auth)
  *             properties:
  *               id:
  *                 type: number
- *               firstName:
+ *               first_name:
  *                 type: string
  *               secondName:
  *                 type: string
- *               displayName:
+ *               display_name:
  *                  type: string
  *               phone:
  *                  type: string

@@ -9,8 +9,8 @@ import { Link } from 'react-router-dom'
 import styles from './TopicCard.module.css'
 import { useAppDispatch } from '@/shared/hooks'
 import { setCurrentTopic } from '@/entities/Topic/slice'
-import { getComments } from '@/entities/Comment/service'
-import { Topic } from '@/entities/types/Topic'
+import { Topic } from '@/entities/Topic/types/Topic'
+import { dateFormater } from '@/shared/lib/utils'
 
 const { Meta } = Card
 const { Text } = Typography
@@ -20,13 +20,12 @@ export const TopicCard: FC<{ topic: Topic }> = ({ topic }) => {
 
   const dispatch = useAppDispatch()
 
-  const setCurrent = (id: number) => {
-    dispatch(setCurrentTopic(id))
-    dispatch(getComments(id))
+  const setCurrent = (topic: Topic) => {
+    dispatch(setCurrentTopic(topic))
   }
 
   return (
-    <Link to={`/topic/${id}`} onClick={() => setCurrent(id)}>
+    <Link to={`/topic/${id}`} onClick={() => setCurrent(topic)}>
       <Card hoverable={true}>
         <Meta
           avatar={<Avatar size={'large'} src={userEntity.avatar} />}
@@ -39,7 +38,7 @@ export const TopicCard: FC<{ topic: Topic }> = ({ topic }) => {
             <UserOutlined /> {userEntity.first_name}
           </Text>
           <Text type="secondary">
-            <CalendarOutlined /> {createdAt}
+            <CalendarOutlined /> {dateFormater(createdAt)}
           </Text>
           <Text type="secondary">
             <MessageOutlined /> {messageCount}

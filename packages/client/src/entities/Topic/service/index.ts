@@ -1,11 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { topicController } from '@/shared/controllers/topic-controller'
-import { Pageable } from '@/entities/types/Pageable'
-import { Topic } from '@/entities/types/Topic'
-import { AddTopic } from '@/entities/types/AddTopic'
+import { Pageable } from '@/entities/Topic/types/Pageable'
+import { AddTopic } from '@/entities/Topic/types/AddTopic'
+import { PageableTopic } from '@/entities/Topic/types/PageableTopic'
+import { RootState } from '@/app/store'
 
 export const getTopics = createAsyncThunk<
-  Topic[],
+  PageableTopic,
   Pageable,
   {
     rejectValue: string
@@ -20,14 +21,18 @@ export const getTopics = createAsyncThunk<
 })
 
 export const addTopic = createAsyncThunk<
-  void,
+  PageableTopic,
   AddTopic,
   {
+    state: RootState
     rejectValue: string
   }
->('forum/add_topic', async (newTopic, { rejectWithValue }) => {
+>('forum/add_topic', async (newTopic, { getState, rejectWithValue }) => {
   try {
-    topicController.addTopic(newTopic)
+    newTopic.ownerId = getState().user.user?.id ?? -1
+    await topicController.addTopic(newTopic)
+    const { data } = await topicController.getTopics({ page: 1, limit: 5 })
+    return data
   } catch (e) {
     return rejectWithValue(e as string)
   }

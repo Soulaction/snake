@@ -8,18 +8,22 @@ export type CtxContext = {
   cooke: string
 }
 
-export type PageInitArgs = {
+export type PageInitArgs<T> = {
   dispatch: AppDispatch
+  data?: T
   ctx?: CtxContext
 }
 
-export type PageInitFunc = (data: PageInitArgs) => Promise<unknown>
+export type PageInitFunc<T = any> = (data: PageInitArgs<T>) => Promise<unknown>
 
-type PageProps = {
-  initPage: PageInitFunc
+type PageProps<T> = {
+  initPage: PageInitFunc<T>
 }
 
-export const useInitStatePage = ({ initPage }: PageProps) => {
+export const useInitStatePage = <T = object>(
+  { initPage }: PageProps<T>,
+  data?: T
+) => {
   const { pageHasBeenInitializedOnServer } = useAppSelector(
     state => state.application
   )
@@ -31,6 +35,6 @@ export const useInitStatePage = ({ initPage }: PageProps) => {
       return
     }
 
-    void initPage({ dispatch })
+    void initPage({ dispatch, data })
   }, [])
 }

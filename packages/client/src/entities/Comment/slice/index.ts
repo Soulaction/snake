@@ -1,10 +1,10 @@
 import { Notification } from '@/shared/lib'
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { IComment } from '@/pages/TopicPage/model/IComment'
+import { createSlice } from '@reduxjs/toolkit'
 import { addComment, getComments } from '@/entities/Comment/service'
+import { Comment } from '@/entities/Topic/types/Comment'
 
 export type CommentState = {
-  comments: IComment[]
+  comments: Comment[]
   isLoading: boolean
 }
 

@@ -1,5 +1,5 @@
 export type AddTopic = {
   title: string
   description: string
-  ownerId: 0
+  ownerId: number
 }

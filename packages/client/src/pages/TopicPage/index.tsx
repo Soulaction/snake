@@ -11,34 +11,25 @@ import { FC, useState } from 'react'
 import { Comment } from './ui/Comment'
 import { ReplyForm } from './ui/ReplyForm'
 import styles from './TopicPage.module.css'
-import { IComment } from '@/pages/TopicPage/model/IComment'
-import { useInitStatePage } from '@/shared/hooks/useInitStatePage'
-import { useNavigate } from 'react-router-dom'
+import { PageInitArgs, useInitStatePage } from '@/shared/hooks/useInitStatePage'
+import { useNavigate, useParams } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { useAppSelector } from '@/shared/hooks'
+import { dateFormater } from '@/shared/lib/utils'
+import { getComments } from '@/entities/Comment/service'
 
 const { Text, Title } = Typography
 
 export const TopicPage: FC = () => {
-  useInitStatePage({ initPage: initTopicPage })
+  const { topicId } = useParams()
+  useInitStatePage({ initPage: initTopicPage }, topicId)
   const [loading, setLoading] = useState<boolean>(true)
   const navigate = useNavigate()
-  const topics = useAppSelector(state => state.topic)
+  const topic = useAppSelector(state => state.topic.currentTopic)
   const { comments } = useAppSelector(state => state.comment)
-  const [thisTopic] = topics.topics.filter(
-    topic => topic.id === topics.currentTopic
-  )
 
-  const commentsList = comments?.map((comment: IComment, index) => {
-    return (
-      <Comment
-        key={index}
-        id={comment.id}
-        author={comment.author}
-        content={comment.content}
-        date={comment.date}
-      />
-    )
+  const commentsList = comments.map((comment, index) => {
+    return <Comment key={index} comment={comment} />
   })
 
   const goToForumPage = () => {
@@ -63,15 +54,17 @@ export const TopicPage: FC = () => {
           <Flex gap={5} vertical align="flex-start">
             <Text type="secondary">
               Автор:{' '}
-              <Avatar size={'small'} src={thisTopic.userEntity.avatar}></Avatar>{' '}
-              {thisTopic.userEntity.first_name}
+              <Avatar size={'small'} src={topic?.userEntity.avatar}></Avatar>{' '}
+              {topic?.userEntity.first_name}
             </Text>
-            <Text type="secondary">Опубликовано: {thisTopic.createdAt}</Text>
+            <Text type="secondary">
+              Опубликовано: {dateFormater(topic?.createdAt ?? '')}
+            </Text>
           </Flex>
 
           <Flex gap={30} align="center">
             <Title level={3} className={styles.title}>
-              {thisTopic.title}
+              {topic?.title}
             </Title>
           </Flex>
 
@@ -79,7 +72,7 @@ export const TopicPage: FC = () => {
             К топикам
           </Button>
         </Flex>
-        <Text>{thisTopic.description}</Text>
+        <Text>{topic?.description}</Text>
         <Divider variant="solid" className={styles.divider} />
 
         <Title level={4}>Комментарии</Title>
@@ -96,4 +89,13 @@ export const TopicPage: FC = () => {
   )
 }
 
-export const initTopicPage = () => Promise.resolve()
+export const initTopicPage = async ({
+  dispatch,
+  data,
+}: PageInitArgs<string>) => {
+  if (data) {
+    return dispatch(getComments(data))
+  } else {
+    return Promise.resolve()
+  }
+}
