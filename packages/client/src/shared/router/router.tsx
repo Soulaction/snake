@@ -92,7 +92,7 @@ export const privateRouters: RouterInfo[] = [
   {
     path: RouterPaths.FORUM,
     element: <ForumPage />,
-    data: { page: 1, limit: 10 },
+    data: { page: 1, limit: 5 },
     initFunc: initForumPage,
   },
   {

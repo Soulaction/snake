@@ -56,3 +56,21 @@ routerTopic.get('/', topicController.getAll)
  *         description: Топик создан
  */
 routerTopic.post('/', topicController.create)
+
+/**
+ * @swagger
+ * /topic/{idTopic}:
+ *   get:
+ *     summary: Получить топик
+ *     tags:
+ *       - Топики
+ *     parameters:
+ *       - in: path
+ *         name: idTopic
+ *         required: true
+
+ *     responses:
+ *       201:
+ *         description: Топик получен
+ */
+routerTopic.get('/:idTopic', topicController.getById)

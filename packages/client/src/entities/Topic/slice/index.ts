@@ -1,6 +1,6 @@
 import { Notification } from '@/shared/lib'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { addTopic, getTopics } from '@/entities/Topic/service'
+import { addTopic, getTopic, getTopics } from '@/entities/Topic/service'
 import { PageableTopic } from '@/entities/Topic/types/PageableTopic'
 import { Topic } from '@/entities/Topic/types/Topic'
 
@@ -19,11 +19,7 @@ const initialState: TopicState = {
 export const topicSlice = createSlice({
   name: 'topic',
   initialState,
-  reducers: {
-    setCurrentTopic: (state: TopicState, action: PayloadAction<Topic>) => {
-      state.currentTopic = action.payload
-    },
-  },
+  reducers: {},
   extraReducers(builder) {
     builder
       .addCase(getTopics.pending, state => {
@@ -52,9 +48,20 @@ export const topicSlice = createSlice({
           action.error?.message || 'Не удалось добавить топик'
         Notification.error(errorMessage)
       })
+      .addCase(getTopic.pending, state => {
+        state.isLoading = true
+      })
+      .addCase(getTopic.fulfilled, (state, action) => {
+        state.currentTopic = action.payload
+        state.isLoading = false
+      })
+      .addCase(getTopic.rejected, (state, action) => {
+        state.isLoading = false
+        const errorMessage =
+          action.error?.message || 'Не удалось добавить топик'
+        Notification.error(errorMessage)
+      })
   },
 })
 
 export const topicReducer = topicSlice.reducer
-
-export const { setCurrentTopic } = topicSlice.actions

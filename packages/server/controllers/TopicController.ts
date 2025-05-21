@@ -17,6 +17,32 @@ class TopicController {
     }
   }
 
+  async getById(req: Request, res: Response, next: NextFunction) {
+    const { idTopic } = req.params
+    try {
+      const topic = await TopicEntity.findByPk(idTopic, {
+        include: [
+          {
+            model: UserEntity,
+            attributes: [
+              'id',
+              'first_name',
+              'second_name',
+              'display_name',
+              'avatar',
+            ],
+          },
+        ],
+      })
+      if (!topic) {
+        throw new Error('По данному id топик не был найден')
+      }
+      res.status(200).json(topic.dataValues)
+    } catch (e) {
+      next(e)
+    }
+  }
+
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const { limit = 10, page = 1 } = req.query

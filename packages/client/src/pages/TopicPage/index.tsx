@@ -17,6 +17,7 @@ import { RouterPaths } from '@/shared/router'
 import { useAppSelector } from '@/shared/hooks'
 import { dateFormater } from '@/shared/lib/utils'
 import { getComments } from '@/entities/Comment/service'
+import { getTopic } from '@/entities/Topic/service'
 
 const { Text, Title } = Typography
 
@@ -94,7 +95,7 @@ export const initTopicPage = async ({
   data,
 }: PageInitArgs<string>) => {
   if (data) {
-    return dispatch(getComments(data))
+    return Promise.all([dispatch(getComments(data)), dispatch(getTopic(data))])
   } else {
     return Promise.resolve()
   }

@@ -5,6 +5,7 @@ import { axiosSnakeInstance } from '@/shared/api/axios-transport'
 import { PageableTopic } from '@/entities/Topic/types/PageableTopic'
 import { AddComment } from '@/entities/Topic/types/AddComment'
 import { Comment } from '@/entities/Topic/types/Comment'
+import { Topic } from '@/entities/Topic/types/Topic'
 
 export class TopicController {
   private readonly contextPathTopic: string
@@ -19,6 +20,10 @@ export class TopicController {
     pageable: Pageable
   ): Promise<AxiosResponse<PageableTopic>> {
     return axiosSnakeInstance.get(this.contextPathTopic, { params: pageable })
+  }
+
+  public async getTopicsById(id: string): Promise<AxiosResponse<Topic>> {
+    return axiosSnakeInstance.get(this.contextPathTopic + '/' + id)
   }
 
   public async addTopic(newTopic: AddTopic): Promise<AxiosResponse<void>> {

@@ -22,7 +22,7 @@ routerMessage.get('/:idTopic', messageController.getMessageByIdTopic)
 /**
  * @swagger
  * /message:
- *   post:
+ *   get:
  *     summary: Добавить сообщение к топику
  *     tags:
  *         - Сообщения
