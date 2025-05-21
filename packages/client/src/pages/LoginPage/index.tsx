@@ -1,11 +1,11 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import { Button, Flex, Form, Input, Typography } from 'antd'
 import {
   ISigninDTO,
   signController,
 } from '@/shared/controllers/sign-controller'
-import { useAppDispatch } from '@/shared/hooks'
+import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { RouterPaths } from '@/shared/router'
 import { getUserData } from '@/entities/User/service'
@@ -19,6 +19,8 @@ export const LoginPage: FC = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const dispatch = useAppDispatch()
+  const user = useAppSelector(state => state.user.user)
+  const userWasFetchedRef = useRef(false)
   const [urlOAuth, setUrlOAuth] = useState('')
 
   useEffect(() => {
@@ -34,12 +36,20 @@ export const LoginPage: FC = () => {
   }, [])
 
   const onFinish = async (values: ISigninDTO) => {
-    const path = location.state?.from || RouterPaths.MAIN
+    const path = location.state?.from || RouterPaths.GAME
     await signController.login(values, () => {
       dispatch(getUserData())
       navigate(path)
+      userWasFetchedRef.current = true
     })
   }
+
+  useEffect(() => {
+    if (userWasFetchedRef.current && user) {
+      userWasFetchedRef.current = false
+      signController.createAccountInSnakeService(user)
+    }
+  }, [user])
 
   return (
     <Flex justify="center" align="center" style={{ height: '100%' }} vertical>
