@@ -17,6 +17,7 @@ import { RouterPaths } from '@/shared/router'
 import { useAppSelector } from '@/shared/hooks'
 import { dateFormater } from '@/shared/lib/utils'
 import { getComments } from '@/entities/Comment/service'
+import { resourcesYandex } from '@/shared/constants/api'
 
 const { Text, Title } = Typography
 
@@ -54,7 +55,9 @@ export const TopicPage: FC = () => {
           <Flex gap={5} vertical align="flex-start">
             <Text type="secondary">
               Автор:{' '}
-              <Avatar size={'small'} src={topic?.userEntity.avatar}></Avatar>{' '}
+              <Avatar
+                size={'small'}
+                src={`${resourcesYandex}${topic?.userEntity.avatar}`}></Avatar>{' '}
               {topic?.userEntity.first_name}
             </Text>
             <Text type="secondary">

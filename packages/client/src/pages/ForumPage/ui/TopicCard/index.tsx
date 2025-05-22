@@ -11,6 +11,7 @@ import { useAppDispatch } from '@/shared/hooks'
 import { setCurrentTopic } from '@/entities/Topic/slice'
 import { Topic } from '@/entities/Topic/types/Topic'
 import { dateFormater } from '@/shared/lib/utils'
+import { resourcesYandex } from '@/shared/constants/api'
 
 const { Meta } = Card
 const { Text } = Typography
@@ -28,7 +29,12 @@ export const TopicCard: FC<{ topic: Topic }> = ({ topic }) => {
     <Link to={`/topic/${id}`} onClick={() => setCurrent(topic)}>
       <Card hoverable={true}>
         <Meta
-          avatar={<Avatar size={'large'} src={userEntity.avatar} />}
+          avatar={
+            <Avatar
+              size={'large'}
+              src={`${resourcesYandex}${userEntity.avatar}`}
+            />
+          }
           title={title}
           description={description}
         />

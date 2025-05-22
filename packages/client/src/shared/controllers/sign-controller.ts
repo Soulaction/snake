@@ -1,4 +1,4 @@
-import type { AxiosError, AxiosResponse } from 'axios'
+import type { AxiosError } from 'axios'
 import { Notification } from '@/shared/lib'
 import { axiosInstance, axiosSnakeInstance } from '../api/axios-transport'
 
@@ -81,7 +81,7 @@ export class SignController {
     }
   }
 
-  public async createAccountInSnakeService(data: ISignupDTO) {
+  public async createAccountInSnakeService(data: Omit<ISignupDTO, 'password'>) {
     try {
       await axiosSnakeInstance.post('/user', data)
     } catch (error) {

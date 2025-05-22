@@ -9,6 +9,7 @@ import { useAppSelector } from '@/shared/hooks'
 import { reactionController } from '@/shared/controllers/reaction-controller'
 import { Comment as CommentType } from '@/entities/Topic/types/Comment'
 import { dateFormater } from '@/shared/lib/utils'
+import { resourcesYandex } from '@/shared/constants/api'
 
 interface TransformedReaction {
   reaction: string
@@ -83,7 +84,12 @@ export const Comment: FC<{ comment: CommentType }> = ({ comment }) => {
   return (
     <Card size="small">
       <Meta
-        avatar={<Avatar size={'large'} src={userEntity.avatar} />}
+        avatar={
+          <Avatar
+            size={'large'}
+            src={`${resourcesYandex}${userEntity.avatar}`}
+          />
+        }
         title={userEntity.first_name}
         description={message}
       />

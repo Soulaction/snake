@@ -6,10 +6,9 @@ import {
   ChangeUserResponse,
   IChangePasswordDTO,
 } from '@/shared/types/api'
-import { axiosInstance } from '@/shared/api/axios-transport'
+import { axiosInstance, axiosSnakeInstance } from '@/shared/api/axios-transport'
 import { UserModel } from '@/shared/types/model'
 import { signController } from '@/shared/controllers/sign-controller'
-import { apiYandex } from '@/shared/constants/api'
 
 const contextPathAuth = '/auth'
 const contextPathUser = '/user'
@@ -27,6 +26,14 @@ export const changeUser = createAsyncThunk(
   async (body: ChangeUserRequest) => {
     const requestUrl = contextPathUser + '/profile'
     return axiosInstance.put<ChangeUserResponse>(requestUrl, body)
+  }
+)
+
+export const changeUserSnakeServer = createAsyncThunk(
+  'user/change_user_snake_server',
+  async (body: UserModel) => {
+    const requestUrl = contextPathUser
+    return axiosSnakeInstance.put<ChangeUserResponse>(requestUrl, body)
   }
 )
 

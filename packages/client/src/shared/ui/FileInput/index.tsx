@@ -4,15 +4,14 @@ import { Image, Upload } from 'antd'
 import type { UploadFile, UploadProps } from 'antd'
 import { getBase64 } from './libs'
 import { FileType } from './libs/getBase64'
-import { useAppDispatch, useAppSelector } from '@/shared/hooks'
 import { resourcesYandex } from '@/shared/constants/api'
-import { changeAvatar } from '@/entities/User/service'
 
 interface IFileInputProps {
   imgUrl?: string
+  onChange?: (value: FormData) => void
 }
 
-export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
+export const FileInput: FC<IFileInputProps> = ({ imgUrl, onChange }) => {
   const [previewOpen, setPreviewOpen] = useState(false)
   const [previewImage, setPreviewImage] = useState('')
   const [file, setFile] = useState<UploadFile[]>(
@@ -28,8 +27,6 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
       : []
   )
 
-  const dispatch = useAppDispatch()
-
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as FileType)
@@ -39,12 +36,13 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
   }
 
   const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    if (newFileList[0]) {
-      const formData = new FormData()
-      formData.append('avatar', newFileList[0].originFileObj as File)
-      dispatch(changeAvatar(formData))
-    }
     setFile(newFileList)
+    const lastFile = newFileList[newFileList.length - 1]
+    if (lastFile && lastFile.originFileObj) {
+      const formData = new FormData()
+      formData.append('avatar', lastFile.originFileObj as File)
+      onChange?.(formData)
+    }
   }
 
   const uploadButton = (
@@ -68,6 +66,7 @@ export const FileInput: FC<IFileInputProps> = ({ imgUrl }) => {
         />
       )}
       <Upload
+        beforeUpload={() => false}
         style={{ width: '300px', height: '300px' }}
         listType="picture-card"
         fileList={file}

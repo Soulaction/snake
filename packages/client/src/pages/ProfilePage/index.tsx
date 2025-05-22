@@ -3,7 +3,11 @@ import { Button, Flex, Form, FormProps, Input, Space } from 'antd'
 import { UserModel } from '@/shared/types/model'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@/shared/hooks'
-import { changeUser } from '@/entities/User/service'
+import {
+  changeAvatar,
+  changeUser,
+  changeUserSnakeServer,
+} from '@/entities/User/service'
 import { FileInput } from '@/shared/ui'
 import styles from './ProfilePage.module.css'
 import { RouterPaths } from '@/shared/router'
@@ -15,15 +19,42 @@ export const ProfilePage: FC = () => {
   const navigate = useNavigate()
   const user = useAppSelector(state => state.user.user)
   const isLoading = useAppSelector(state => state.user.userLoading)
-
   const dispatch = useAppDispatch()
 
   const goToPassReset = () => {
     navigate(RouterPaths.PASSWORD)
   }
 
-  const onFinish: FormProps<UserModel>['onFinish'] = values => {
-    dispatch(changeUser(values))
+  const handleAvatarChange = async (value: FormData) => {
+    try {
+      await dispatch(changeAvatar(value))
+      if (user) {
+        await dispatch(changeUserSnakeServer(user))
+      }
+      console.log('Аватар успешно сохранены')
+    } catch (error) {
+      console.error('Ошибка при сохранении аватара:', error)
+    }
+  }
+
+  const onFinish: FormProps<UserModel>['onFinish'] = async values => {
+    try {
+      if (user?.id) {
+        await Promise.all([
+          dispatch(changeUser(values)),
+          dispatch(
+            changeUserSnakeServer({
+              ...values,
+              id: user?.id,
+              avatar: user?.avatar || '',
+            })
+          ),
+        ])
+      }
+      console.log('Все данные успешно сохранены')
+    } catch (error) {
+      console.error('Ошибка при сохранении всех данных:', error)
+    }
   }
 
   const onFinishFailed: FormProps<UserModel>['onFinishFailed'] = errorInfo => {
@@ -41,8 +72,9 @@ export const ProfilePage: FC = () => {
       onFinishFailed={onFinishFailed}
       validateTrigger={['onBlur']}>
       <Flex className={styles.avatar} align="center" justify="center">
-        <FileInput imgUrl={user?.avatar} />
+        <FileInput imgUrl={user?.avatar} onChange={handleAvatarChange} />
       </Flex>
+
       <Form.Item
         name="first_name"
         label="Имя"
