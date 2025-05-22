@@ -58,7 +58,7 @@ export const topicSlice = createSlice({
       .addCase(getTopic.rejected, (state, action) => {
         state.isLoading = false
         const errorMessage =
-          action.error?.message || 'Не удалось добавить топик'
+          action.error?.message || 'Не удалось получить топик'
         Notification.error(errorMessage)
       })
   },
