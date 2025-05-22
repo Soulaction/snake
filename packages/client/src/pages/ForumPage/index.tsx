@@ -48,7 +48,7 @@ export const ForumPage: FC = () => {
     await dispatch(addTopic(newTopic)).then(() => toggleModal(false))
   }
 
-  const topicsList = topics?.data.map(topic => {
+  const topicsList = topics?.data?.map(topic => {
     return <TopicCard key={topic.id} topic={topic}></TopicCard>
   })
 

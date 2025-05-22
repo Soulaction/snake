@@ -20,7 +20,7 @@ export type UserState = Readonly<{
 
 const initialState: UserState = {
   user: null,
-  userLoading: true,
+  userLoading: false,
   avatarLoading: false,
   passwordChanging: false,
   isAuth: false,
